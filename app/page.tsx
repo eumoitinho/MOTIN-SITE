@@ -18,6 +18,7 @@ import { CustomVideoPlayer } from "@/components/custom-video-player"
 import { PortfolioVideoModal } from "@/components/portfolio-video-modal"
 import { BeamsBackground } from "@/components/beams-background"
 import { RDStationButton } from "@/components/rd-station-button"
+import Footer from "@/components/footer"
 
 export default function MotinFilms() {
   const [activeSection, setActiveSection] = useState("inicio")
@@ -449,7 +450,7 @@ export default function MotinFilms() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <><div className="min-h-screen bg-black text-white">
       {/* Header */}
       <header className="fixed w-full z-50 bg-black/90 border-b border-gray-800 backdrop-blur-sm">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -468,41 +469,31 @@ export default function MotinFilms() {
           >
             <Link
               href="#inicio"
-              className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${
-                activeSection === "inicio" ? "text-[#00B2B2]" : ""
-              }`}
+              className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${activeSection === "inicio" ? "text-[#00B2B2]" : ""}`}
             >
               Início
             </Link>
             <Link
               href="#portfolio"
-              className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${
-                activeSection === "portfolio" ? "text-[#00B2B2]" : ""
-              }`}
+              className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${activeSection === "portfolio" ? "text-[#00B2B2]" : ""}`}
             >
               Portfólio
             </Link>
             <Link
               href="#servicos"
-              className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${
-                activeSection === "servicos" ? "text-[#00B2B2]" : ""
-              }`}
+              className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${activeSection === "servicos" ? "text-[#00B2B2]" : ""}`}
             >
               Serviços
             </Link>
             <Link
               href="#sobre"
-              className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${
-                activeSection === "sobre" ? "text-[#00B2B2]" : ""
-              }`}
+              className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${activeSection === "sobre" ? "text-[#00B2B2]" : ""}`}
             >
               Sobre
             </Link>
             <Link
               href="#contato"
-              className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${
-                activeSection === "contato" ? "text-[#00B2B2]" : ""
-              }`}
+              className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${activeSection === "contato" ? "text-[#00B2B2]" : ""}`}
             >
               Contato
             </Link>
@@ -564,45 +555,35 @@ export default function MotinFilms() {
             <nav className="container mx-auto px-4 py-4 flex flex-col space-y-4">
               <Link
                 href="#inicio"
-                className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${
-                  activeSection === "inicio" ? "text-[#00B2B2]" : ""
-                }`}
+                className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${activeSection === "inicio" ? "text-[#00B2B2]" : ""}`}
                 onClick={() => scrollToSection("inicio")}
               >
                 Início
               </Link>
               <Link
                 href="#portfolio"
-                className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${
-                  activeSection === "portfolio" ? "text-[#00B2B2]" : ""
-                }`}
+                className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${activeSection === "portfolio" ? "text-[#00B2B2]" : ""}`}
                 onClick={() => scrollToSection("portfolio")}
               >
                 Portfólio
               </Link>
               <Link
                 href="#servicos"
-                className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${
-                  activeSection === "servicos" ? "text-[#00B2B2]" : ""
-                }`}
+                className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${activeSection === "servicos" ? "text-[#00B2B2]" : ""}`}
                 onClick={() => scrollToSection("servicos")}
               >
                 Serviços
               </Link>
               <Link
                 href="#sobre"
-                className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${
-                  activeSection === "sobre" ? "text-[#00B2B2]" : ""
-                }`}
+                className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${activeSection === "sobre" ? "text-[#00B2B2]" : ""}`}
                 onClick={() => scrollToSection("sobre")}
               >
                 Sobre
               </Link>
               <Link
                 href="#contato"
-                className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${
-                  activeSection === "contato" ? "text-[#00B2B2]" : ""
-                }`}
+                className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${activeSection === "contato" ? "text-[#00B2B2]" : ""}`}
                 onClick={() => scrollToSection("contato")}
               >
                 Contato
@@ -677,8 +658,7 @@ export default function MotinFilms() {
                 { src: "/brands/naport-logo.png", alt: "Naport", width: 120 },
                 { src: "/brands/ssc-blueprism-logo.png", alt: "SS&C Blue Prism", width: 160 },
                 { src: "/brands/santos-logo.png", alt: "Santos", width: 140 },
-              ]}
-            />
+              ]} />
           </AnimatedSection>
         </div>
       </section>
@@ -800,8 +780,7 @@ export default function MotinFilms() {
                       alt={item.title}
                       width={400}
                       height={225}
-                      className="w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
+                      className="w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-105" />
                     <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                       <Button
                         className="bg-[#00B2B2]/80 hover:bg-[#00B2B2] h-12 w-12 rounded-full flex items-center justify-center"
@@ -809,7 +788,7 @@ export default function MotinFilms() {
                           e.preventDefault()
                           e.stopPropagation()
                           openVideoModal(item.videoId)
-                        }}
+                        } }
                       >
                         <Play size={20} fill="white" />
                       </Button>
@@ -842,8 +821,7 @@ export default function MotinFilms() {
                         alt={item.title}
                         width={400}
                         height={225}
-                        className="w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
+                        className="w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-105" />
                       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                         <Button
                           className="bg-[#00B2B2]/80 hover:bg-[#00B2B2] h-12 w-12 rounded-full flex items-center justify-center"
@@ -851,7 +829,7 @@ export default function MotinFilms() {
                             e.preventDefault()
                             e.stopPropagation()
                             openVideoModal(item.videoId)
-                          }}
+                          } }
                         >
                           <Play size={20} fill="white" />
                         </Button>
@@ -884,8 +862,7 @@ export default function MotinFilms() {
                         alt={item.title}
                         width={400}
                         height={225}
-                        className="w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
+                        className="w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-105" />
                       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                         <Button
                           className="bg-[#00B2B2]/80 hover:bg-[#00B2B2] h-12 w-12 rounded-full flex items-center justify-center"
@@ -893,7 +870,7 @@ export default function MotinFilms() {
                             e.preventDefault()
                             e.stopPropagation()
                             openVideoModal(item.videoId)
-                          }}
+                          } }
                         >
                           <Play size={20} fill="white" />
                         </Button>
@@ -926,8 +903,7 @@ export default function MotinFilms() {
                         alt={item.title}
                         width={400}
                         height={225}
-                        className="w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
+                        className="w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-105" />
                       <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                         <Button
                           className="bg-[#00B2B2]/80 hover:bg-[#00B2B2] h-12 w-12 rounded-full flex items-center justify-center"
@@ -935,7 +911,7 @@ export default function MotinFilms() {
                             e.preventDefault()
                             e.stopPropagation()
                             openVideoModal(item.videoId)
-                          }}
+                          } }
                         >
                           <Play size={20} fill="white" />
                         </Button>
@@ -1030,8 +1006,7 @@ export default function MotinFilms() {
                         alt={testimonial.author}
                         width={48}
                         height={48}
-                        className="w-full h-full object-cover"
-                      />
+                        className="w-full h-full object-cover" />
                     </div>
                     <div>
                       <p className="font-bold">- {testimonial.author}</p>
@@ -1082,8 +1057,7 @@ export default function MotinFilms() {
                   alt="Grupo Catalisti"
                   width={300}
                   height={150}
-                  className="mb-4"
-                />
+                  className="mb-4" />
               </motion.div>
               <p className="text-gray-400 text-sm mt-2">Uma empresa Catalisti Holding</p>
             </AnimatedSection>
@@ -1114,29 +1088,25 @@ export default function MotinFilms() {
                       <label className="block text-sm mb-1">Seu Nome*:</label>
                       <input
                         type="text"
-                        className="w-full p-2 bg-black/50 border border-gray-700 rounded-md focus:border-[#00B2B2] focus:outline-none transition-colors"
-                      />
+                        className="w-full p-2 bg-black/50 border border-gray-700 rounded-md focus:border-[#00B2B2] focus:outline-none transition-colors" />
                     </div>
                     <div>
                       <label className="block text-sm mb-1">Email Corporativo*:</label>
                       <input
                         type="email"
-                        className="w-full p-2 bg-black/50 border border-gray-700 rounded-md focus:border-[#00B2B2] focus:outline-none transition-colors"
-                      />
+                        className="w-full p-2 bg-black/50 border border-gray-700 rounded-md focus:border-[#00B2B2] focus:outline-none transition-colors" />
                     </div>
                     <div>
                       <label className="block text-sm mb-1">Telefone com DDD*:</label>
                       <input
                         type="tel"
-                        className="w-full p-2 bg-black/50 border border-gray-700 rounded-md focus:border-[#00B2B2] focus:outline-none transition-colors"
-                      />
+                        className="w-full p-2 bg-black/50 border border-gray-700 rounded-md focus:border-[#00B2B2] focus:outline-none transition-colors" />
                     </div>
                     <div>
                       <label className="block text-sm mb-1">Nome da Empresa:</label>
                       <input
                         type="text"
-                        className="w-full p-2 bg-black/50 border border-gray-700 rounded-md focus:border-[#00B2B2] focus:outline-none transition-colors"
-                      />
+                        className="w-full p-2 bg-black/50 border border-gray-700 rounded-md focus:border-[#00B2B2] focus:outline-none transition-colors" />
                     </div>
                     <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.3 }}>
                       <Button className="bg-[#00B2B2] hover:bg-[#009999] text-white rounded-md px-6 py-3 w-full">
@@ -1151,30 +1121,7 @@ export default function MotinFilms() {
         </BeamsBackground>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-black py-8 border-t border-gray-800">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <motion.div
-              className="mb-4 md:mb-0"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Image src="/motin-logo-white.webp" alt="Motin Films" width={120} height={36} />
-            </motion.div>
-            <motion.div
-              className="text-gray-400 text-sm text-center md:text-right"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <p>© {new Date().getFullYear()} Motin Films. Todos os direitos reservados.</p>
-              <p>Criado por M2Z Comunicação</p>
-            </motion.div>
-          </div>
-        </div>
-      </footer>
+
 
       {/* RD Station Button (replacing WhatsApp Button) */}
       <RDStationButton />
@@ -1183,8 +1130,7 @@ export default function MotinFilms() {
       <PortfolioVideoModal
         isOpen={isVideoModalOpen}
         onClose={() => setIsVideoModalOpen(false)}
-        videoId={currentVideoId}
-      />
-    </div>
+        videoId={currentVideoId} />
+    </div><Footer /></>
   )
 }

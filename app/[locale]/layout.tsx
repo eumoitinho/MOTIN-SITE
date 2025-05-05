@@ -5,7 +5,7 @@ import { ScrollToTop } from "@/components/scroll-to-top"
 import { RDStationButton } from "@/components/rd-station-button"
 import { CookieConsent } from "@/components/cookie-consent"
 import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
+import Footer from "@/components/footer"
 import { getDictionary } from "@/i18n/dictionaries"
 import type { Locale } from "@/i18n/config"
 
@@ -30,7 +30,6 @@ export default async function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <Header dictionary={dict} locale={params.locale} />
           {children}
-          <Footer dictionary={dict} />
           <ScrollToTop />
           <RDStationButton />
           <CookieConsent />
