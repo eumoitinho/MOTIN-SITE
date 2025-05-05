@@ -1,0 +1,134 @@
+{
+  "navigation": {
+    "home": "Início",
+    "portfolio": "Portfólio",
+    "services": "Serviços",
+    "about": "Sobre",
+    "contact": "Contato",
+    "careers": "Trabalhe Conosco"
+  },
+  "hero": {
+    "title": "Filmes de alto impacto com qualidade cinematográfica",
+    "subtitle": "Somos uma produtora audiovisual especializada em criar conteúdos que conectam marcas e pessoas através de histórias memoráveis.",
+    "cta": "CONHEÇA NOSSAS SOLUÇÕES"
+  },
+  "brands": {
+    "title": "Marcas que confiam:"
+  },
+  "promo": {
+    "title": "Crie seu filme com a produtora das grandes marcas",
+    "benefits": {
+      "sales": "Gere mais contatos interessados e mais vendas",
+      "connection": "Crie conexão com sua audiência",
+      "product": "Exponha seu produto de maneira única no mercado",
+      "brand": "Reforce a lembrança da sua marca"
+    },
+    "cta": "FALE COM UM CONSULTOR"
+  },
+  "licensed": {
+    "title": "Produtora Licenciada"
+  },
+  "portfolio": {
+    "title": "Nosso portfólio",
+    "subtitle": "Veja alguns dos nossos trabalhos mais recentes",
+    "categories": {
+      "all": "TODOS",
+      "institutional": "INSTITUCIONAL",
+      "events": "EVENTOS",
+      "products": "PRODUTOS"
+    },
+    "loadMore": "VER MAIS PROJETOS",
+    "loading": "CARREGANDO...",
+    "allLoaded": "Todos os projetos foram carregados"
+  },
+  "whyChooseUs": {
+    "title": "Por que escolher a Motin Films?",
+    "subtitle": "Nossa abordagem única e nossa equipe especializada garantem resultados excepcionais para o seu projeto."
+  },
+  "services": {
+    "title": "Conheça nossas soluções personalizadas",
+    "subtitle": "Oferecemos uma ampla gama de serviços audiovisuais para atender às necessidades específicas da sua empresa."
+  },
+  "stats": {
+    "title": "Nossos números",
+    "years": "anos de mercado",
+    "clients": "clientes satisfeitos",
+    "films": "filmes realizados",
+    "projects": "projetos desenvolvidos"
+  },
+  "methodology": {
+    "title": "Compartilhe sua ideia e deixe o resto conosco!",
+    "subtitle": "Nossa abordagem estruturada garante resultados excepcionais em cada etapa do processo de produção audiovisual.",
+    "cta": "COMECE SEU PROJETO AGORA"
+  },
+  "testimonials": {
+    "title": "Resultados comprovados por quem mais entende"
+  },
+  "about": {
+    "title": "Conheça a Motin Films",
+    "content": {
+      "p1": "Somos a Motin Films, uma produtora especializada em produções audiovisuais de alto impacto e certificada pela Ancine. Com mais de 10 anos de atuação no mercado, produzimos filmes com a missão de criar conexões entre marcas e consumidores.",
+      "p2": "Com técnicas inovadoras de edição e captação dinâmica, nossos projetos são personalizados e planejados de acordo com as necessidades específicas de cada cliente. Com qualidade excepcional de imagem e som, produzimos filmes para produtos, eventos corporativos, institucionais, promocionais, entre outros.",
+      "p3": "Acreditamos que o audiovisual é uma ferramenta poderosa para a construção de imagem da sua empresa. Através de técnicas de storytelling, contamos histórias que inspiram e agregam valor à sua marca e seus produtos."
+    },
+    "cta": "FALE CONOSCO AGORA!",
+    "company": "Uma empresa Catalisti Holding"
+  },
+  "contact": {
+    "title": "Transforme sua comunicação!",
+    "subtitle": "Preencha seus dados agora e nosso time entrará em contato para entender melhor seus desafios!",
+    "form": {
+      "name": "Seu Nome*:",
+      "email": "Email Corporativo*:",
+      "phone": "Telefone com DDD*:",
+      "company": "Nome da Empresa:",
+      "submit": "Enviar"
+    }
+  },
+  "footer": {
+    "rights": "Todos os direitos reservados.",
+    "createdBy": "Desenvolvido por M2Z Creative"
+  },
+  "whatsapp": {
+    "title": "Fale conosco pelo WhatsApp",
+    "subtitle": "Preencha o formulário abaixo para iniciar uma conversa com nossa equipe.",
+    "form": {
+      "name": "Nome completo *",
+      "email": "E-mail *",
+      "phone": "Telefone *",
+      "company": "Empresa",
+      "message": "Mensagem",
+      "submit": "Iniciar conversa",
+      "sending": "Enviando...",
+      "privacy": "Ao clicar em \"Iniciar conversa\", você concorda com nossa Política de Privacidade."
+    }
+  },
+  "cookies": {
+    "message": "Utilizamos cookies para melhorar sua experiência em nosso site. Ao continuar navegando, você concorda com nossa Política de Privacidade e Termos de Uso.",
+    "accept": "Aceitar"
+  },
+  "careers": {
+    "title": "Trabalhe Conosco",
+    "subtitle": "Junte-se à nossa equipe de talentos",
+    "description": "Estamos sempre em busca de profissionais talentosos e apaixonados por audiovisual para fazer parte da nossa equipe.",
+    "positions": {
+      "title": "Vagas Abertas",
+      "noPositions": "No momento não temos vagas abertas, mas você pode enviar seu currículo para nosso banco de talentos."
+    },
+    "talent": {
+      "title": "Banco de Talentos",
+      "description": "Envie seu currículo para nosso banco de talentos e entraremos em contato quando surgir uma oportunidade compatível com seu perfil.",
+      "form": {
+        "name": "Nome completo *",
+        "email": "E-mail *",
+        "phone": "Telefone *",
+        "area": "Área de interesse *",
+        "resume": "Currículo (PDF) *",
+        "portfolio": "Link para portfólio",
+        "message": "Mensagem",
+        "submit": "Enviar currículo",
+        "sending": "Enviando..."
+      }
+    }
+  }
+}

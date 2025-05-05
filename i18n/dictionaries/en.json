@@ -1,0 +1,134 @@
+{
+  "navigation": {
+    "home": "Home",
+    "portfolio": "Portfolio",
+    "services": "Services",
+    "about": "About",
+    "contact": "Contact",
+    "careers": "Careers"
+  },
+  "hero": {
+    "title": "High-impact films with cinematic quality",
+    "subtitle": "We are an audiovisual production company specialized in creating content that connects brands and people through memorable stories.",
+    "cta": "DISCOVER OUR SOLUTIONS"
+  },
+  "brands": {
+    "title": "Trusted by:"
+  },
+  "promo": {
+    "title": "Create your film with the production company of major brands",
+    "benefits": {
+      "sales": "Generate more interested contacts and more sales",
+      "connection": "Create connection with your audience",
+      "product": "Showcase your product in a unique way in the market",
+      "brand": "Reinforce your brand recall"
+    },
+    "cta": "TALK TO A CONSULTANT"
+  },
+  "licensed": {
+    "title": "Licensed Production Company"
+  },
+  "portfolio": {
+    "title": "Our portfolio",
+    "subtitle": "See some of our most recent work",
+    "categories": {
+      "all": "ALL",
+      "institutional": "INSTITUTIONAL",
+      "events": "EVENTS",
+      "products": "PRODUCTS"
+    },
+    "loadMore": "SEE MORE PROJECTS",
+    "loading": "LOADING...",
+    "allLoaded": "All projects have been loaded"
+  },
+  "whyChooseUs": {
+    "title": "Why choose Motin Films?",
+    "subtitle": "Our unique approach and specialized team ensure exceptional results for your project."
+  },
+  "services": {
+    "title": "Discover our customized solutions",
+    "subtitle": "We offer a wide range of audiovisual services to meet the specific needs of your company."
+  },
+  "stats": {
+    "title": "Our numbers",
+    "years": "years in the market",
+    "clients": "satisfied clients",
+    "films": "films produced",
+    "projects": "projects developed"
+  },
+  "methodology": {
+    "title": "Share your idea and leave the rest to us!",
+    "subtitle": "Our structured approach ensures exceptional results at every stage of the audiovisual production process.",
+    "cta": "START YOUR PROJECT NOW"
+  },
+  "testimonials": {
+    "title": "Results proven by those who know best"
+  },
+  "about": {
+    "title": "Meet Motin Films",
+    "content": {
+      "p1": "We are Motin Films, a production company specialized in high-impact audiovisual productions and certified by Ancine. With over 10 years in the market, we produce films with the mission of creating connections between brands and consumers.",
+      "p2": "With innovative editing techniques and dynamic capture, our projects are customized and planned according to the specific needs of each client. With exceptional image and sound quality, we produce films for products, corporate events, institutional, promotional, among others.",
+      "p3": "We believe that audiovisual is a powerful tool for building your company's image. Through storytelling techniques, we tell stories that inspire and add value to your brand and products."
+    },
+    "cta": "CONTACT US NOW!",
+    "company": "A Catalisti Holding company"
+  },
+  "contact": {
+    "title": "Transform your communication!",
+    "subtitle": "Fill in your details now and our team will contact you to better understand your challenges!",
+    "form": {
+      "name": "Your Name*:",
+      "email": "Corporate Email*:",
+      "phone": "Phone Number*:",
+      "company": "Company Name:",
+      "submit": "Submit"
+    }
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "createdBy": "Developed by M2Z Creative"
+  },
+  "whatsapp": {
+    "title": "Contact us via WhatsApp",
+    "subtitle": "Fill out the form below to start a conversation with our team.",
+    "form": {
+      "name": "Full name *",
+      "email": "Email *",
+      "phone": "Phone *",
+      "company": "Company",
+      "message": "Message",
+      "submit": "Start conversation",
+      "sending": "Sending...",
+      "privacy": "By clicking \"Start conversation\", you agree to our Privacy Policy."
+    }
+  },
+  "cookies": {
+    "message": "We use cookies to improve your experience on our site. By continuing to browse, you agree to our Privacy Policy and Terms of Use.",
+    "accept": "Accept"
+  },
+  "careers": {
+    "title": "Careers",
+    "subtitle": "Join our talented team",
+    "description": "We are always looking for talented professionals passionate about audiovisual to be part of our team.",
+    "positions": {
+      "title": "Open Positions",
+      "noPositions": "We currently have no open positions, but you can send your resume to our talent pool."
+    },
+    "talent": {
+      "title": "Talent Pool",
+      "description": "Send your resume to our talent pool and we will contact you when an opportunity compatible with your profile arises.",
+      "form": {
+        "name": "Full name *",
+        "email": "Email *",
+        "phone": "Phone *",
+        "area": "Area of interest *",
+        "resume": "Resume (PDF) *",
+        "portfolio": "Portfolio link",
+        "message": "Message",
+        "submit": "Send resume",
+        "sending": "Sending..."
+      }
+    }
+  }
+}
