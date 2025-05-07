@@ -27,6 +27,7 @@ export default async function RootLayout({
   return (
     <html lang={params.locale} suppressHydrationWarning>
       <body>
+      <script type="text/javascript" async src="https://d335luupugsy2.cloudfront.net/js/loader-scripts/11c7dc74-1a5c-4f2e-a40a-b5824fed51b0-loader.js" ></script>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <Header dictionary={dict} locale={params.locale} />
           {children}
