@@ -18,7 +18,8 @@ export default function Footer() {
               </div>
             </Link>
             <p className="text-gray-400">
-              Produtora audiovisual especializada em vídeos institucionais, motion graphics, cobertura de eventos e edição de vídeo.
+              Produtora audiovisual especializada em vídeos institucionais, motion graphics, cobertura de eventos e
+              edição de vídeo.
             </p>
             <div className="flex space-x-4">
               <Link
@@ -136,9 +137,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-800 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-400 text-sm">
-            &copy; {currentYear} Motin Films. Todos os direitos reservados.
-          </p>
+          <p className="text-gray-400 text-sm">&copy; {currentYear} Motin Films. Todos os direitos reservados.</p>
           <p className="text-gray-400 text-sm mt-2 md:mt-0">Desenvolvido com ❤️ no Brasil</p>
         </div>
       </div>

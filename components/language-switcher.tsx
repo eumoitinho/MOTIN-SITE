@@ -18,13 +18,13 @@ export function LanguageSwitcher({ currentLocale }: LanguageSwitcherProps) {
   const handleLanguageChange = (locale: Locale) => {
     // Get the current path
     const path = window.location.pathname
-  
+
     // Remove the current locale from the path if it exists
     const pathWithoutLocale = path.replace(/^\/(pt|en|es)/, "")
-  
+
     // Construct the new path with the selected locale
     const newPath = locale === "pt" ? pathWithoutLocale || "/" : `/${locale}${pathWithoutLocale}`
-  
+
     // Navigate to the new path
     router.push(newPath)
     setIsOpen(false)

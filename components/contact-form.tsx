@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -11,7 +11,7 @@ import { Loader2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 
 interface ContactFormProps {
-  dictionary: any
+  dictionary?: any
 }
 
 export function ContactForm({ dictionary }: ContactFormProps) {
@@ -23,7 +23,16 @@ export function ContactForm({ dictionary }: ContactFormProps) {
     company: "",
     message: "",
   })
+  const [utmParams, setUtmParams] = useState<Record<string, string>>({})
   const { toast } = useToast()
+
+  // Extract UTM parameters from localStorage
+  useEffect(() => {
+    const storedUtmParams = localStorage.getItem("utmParams")
+    if (storedUtmParams) {
+      setUtmParams(JSON.parse(storedUtmParams))
+    }
+  }, [])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -35,24 +44,28 @@ export function ContactForm({ dictionary }: ContactFormProps) {
     setIsSubmitting(true)
 
     try {
-      // Enviar dados para o RDStation
+      // Prepare data for RD Station
+      const rdStationData = {
+        ...formData,
+        ...utmParams,
+        identificador: "contato-pagina",
+        token_rdstation: process.env.NEXT_PUBLIC_RD_STATION_TOKEN || "",
+      }
+
+      // Send to RD Station
       const response = await fetch("/api/rd-station", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          ...formData,
-          conversion_identifier: "contact-form",
-          source: "contact-page",
-        }),
+        body: JSON.stringify(rdStationData),
       })
 
       if (!response.ok) {
         throw new Error("Falha ao enviar formulário")
       }
 
-      // Resetar o formulário
+      // Reset form
       setFormData({
         name: "",
         email: "",
@@ -77,12 +90,22 @@ export function ContactForm({ dictionary }: ContactFormProps) {
     }
   }
 
+  const labels = dictionary?.contact?.form || {
+    name: "Seu Nome*:",
+    email: "Email Corporativo*:",
+    phone: "Telefone com DDD*:",
+    company: "Nome da Empresa:",
+    message: "Mensagem:",
+    sending: "Enviando...",
+    submit: "Enviar",
+  }
+
   return (
     <div className="bg-[#001a1a] p-6 rounded-lg">
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="space-y-4" data-form-id="contato-pagina">
         <div>
           <Label htmlFor="name" className="block text-sm mb-1">
-            {dictionary.contact.form.name}
+            {labels.name}
           </Label>
           <Input
             id="name"
@@ -96,7 +119,7 @@ export function ContactForm({ dictionary }: ContactFormProps) {
 
         <div>
           <Label htmlFor="email" className="block text-sm mb-1">
-            {dictionary.contact.form.email}
+            {labels.email}
           </Label>
           <Input
             id="email"
@@ -111,7 +134,7 @@ export function ContactForm({ dictionary }: ContactFormProps) {
 
         <div>
           <Label htmlFor="phone" className="block text-sm mb-1">
-            {dictionary.contact.form.phone}
+            {labels.phone}
           </Label>
           <Input
             id="phone"
@@ -125,7 +148,7 @@ export function ContactForm({ dictionary }: ContactFormProps) {
 
         <div>
           <Label htmlFor="company" className="block text-sm mb-1">
-            {dictionary.contact.form.company}
+            {labels.company}
           </Label>
           <Input
             id="company"
@@ -138,7 +161,7 @@ export function ContactForm({ dictionary }: ContactFormProps) {
 
         <div>
           <Label htmlFor="message" className="block text-sm mb-1">
-            Mensagem:
+            {labels.message}
           </Label>
           <Textarea
             id="message"
@@ -150,6 +173,11 @@ export function ContactForm({ dictionary }: ContactFormProps) {
           />
         </div>
 
+        {/* Add hidden UTM fields */}
+        {Object.entries(utmParams).map(([key, value]) => (
+          <input key={key} type="hidden" name={key} value={value} />
+        ))}
+
         <Button
           type="submit"
           disabled={isSubmitting}
@@ -158,10 +186,10 @@ export function ContactForm({ dictionary }: ContactFormProps) {
           {isSubmitting ? (
             <>
               <Loader2 size={16} className="animate-spin mr-2" />
-              {dictionary.contact.form.sending}
+              {labels.sending}
             </>
           ) : (
-            dictionary.contact.form.submit
+            labels.submit
           )}
         </Button>
       </form>

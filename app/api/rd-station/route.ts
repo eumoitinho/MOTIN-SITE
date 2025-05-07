@@ -3,35 +3,66 @@ import { NextResponse } from "next/server"
 export async function POST(request: Request) {
   try {
     const data = await request.json()
+    console.log("Received form data:", data)
 
-    // Aqui você faria a integração real com o RD Station
-    // Este é apenas um exemplo de como seria a estrutura
-    const rdStationResponse = await fetch("https://api.rd.services/platform/conversions", {
+    // Make sure we have the required fields
+    if (!data.email) {
+      return NextResponse.json({ error: "Email is required" }, { status: 400 })
+    }
+
+    // Get the RD Station token
+    const token = process.env.RD_STATION_TOKEN
+
+    if (!token) {
+      console.error("RD Station token is missing")
+      return NextResponse.json({ error: "RD Station token is missing" }, { status: 500 })
+    }
+
+    // Prepare the payload for RD Station
+    const payload = {
+      event_type: "CONVERSION",
+      event_family: "CDP",
+      payload: {
+        conversion_identifier: data.identificador || "contato-site",
+        name: data.name,
+        email: data.email,
+        personal_phone: data.phone,
+        cf_message: data.message,
+        company_name: data.company || "",
+        traffic_source: data.traffic_source || "",
+        traffic_medium: data.traffic_medium || "",
+        traffic_campaign: data.traffic_campaign || "",
+        traffic_value: data.traffic_value || "",
+        client_tracking_id: "motin-films-website",
+      },
+    }
+
+    console.log("Sending to RD Station:", payload)
+
+    // Send the data to RD Station
+    const response = await fetch("https://api.rd.services/platform/conversions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.RD_STATION_TOKEN}`,
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({
-        event_type: "CONVERSION",
-        event_family: "CDP",
-        payload: {
-          conversion_identifier: data.conversion_identifier,
-          name: data.name,
-          email: data.email,
-          personal_phone: data.phone,
-          company_name: data.company,
-          cf_message: data.message,
-          traffic_source: data.source,
-          client_tracking_id: "motin-films-website",
-        },
-      }),
+      body: JSON.stringify(payload),
     })
 
-    // Para fins de demonstração, vamos simular uma resposta bem-sucedida
-    return NextResponse.json({ success: true })
+    const responseData = await response.json()
+
+    if (!response.ok) {
+      console.error("RD Station API error:", responseData)
+      return NextResponse.json(
+        { error: "Failed to submit to RD Station", details: responseData },
+        { status: response.status },
+      )
+    }
+
+    console.log("RD Station response:", responseData)
+    return NextResponse.json({ success: true, data: responseData })
   } catch (error) {
-    console.error("Erro ao processar solicitação RD Station:", error)
-    return NextResponse.json({ error: "Falha ao processar solicitação" }, { status: 500 })
+    console.error("Error in RD Station API route:", error)
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
   }
 }

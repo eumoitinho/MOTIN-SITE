@@ -28,7 +28,7 @@ interface Beam {
 const PROJECT_BEAM_COLORS = [
   { hue: 180, sat: 100, light: 35 }, // primary
   { hue: 190, sat: 100, light: 45 }, // variação azul/ciano
-  { hue: 45,  sat: 100, light: 50 }, // amarelo/dourado para brilho
+  { hue: 45, sat: 100, light: 50 }, // amarelo/dourado para brilho
   { hue: 160, sat: 100, light: 40 }, // verde água
 ]
 
@@ -100,28 +100,28 @@ export function BeamsBackground({ className, intensity = "strong", children }: A
       return beam
     }
 
- // Altere o drawBeam para usar sat e light:
-function drawBeam(ctx: CanvasRenderingContext2D, beam: Beam & { sat?: number; light?: number }) {
-  ctx.save()
-  ctx.translate(beam.x, beam.y)
-  ctx.rotate((beam.angle * Math.PI) / 180)
+    // Altere o drawBeam para usar sat e light:
+    function drawBeam(ctx: CanvasRenderingContext2D, beam: Beam & { sat?: number; light?: number }) {
+      ctx.save()
+      ctx.translate(beam.x, beam.y)
+      ctx.rotate((beam.angle * Math.PI) / 180)
 
-  const pulsingOpacity = beam.opacity * (0.8 + Math.sin(beam.pulse) * 0.2) * opacityMap[intensity]
-  const sat = beam.sat ?? 85
-  const light = beam.light ?? 65
+      const pulsingOpacity = beam.opacity * (0.8 + Math.sin(beam.pulse) * 0.2) * opacityMap[intensity]
+      const sat = beam.sat ?? 85
+      const light = beam.light ?? 65
 
-  const gradient = ctx.createLinearGradient(0, 0, 0, beam.length)
-  gradient.addColorStop(0,   `hsla(${beam.hue}, ${sat}%, ${light}%, 0)`)
-  gradient.addColorStop(0.1, `hsla(${beam.hue}, ${sat}%, ${light}%, ${pulsingOpacity * 0.5})`)
-  gradient.addColorStop(0.4, `hsla(${beam.hue}, ${sat}%, ${light}%, ${pulsingOpacity})`)
-  gradient.addColorStop(0.6, `hsla(${beam.hue}, ${sat}%, ${light}%, ${pulsingOpacity})`)
-  gradient.addColorStop(0.9, `hsla(${beam.hue}, ${sat}%, ${light}%, ${pulsingOpacity * 0.5})`)
-  gradient.addColorStop(1,   `hsla(${beam.hue}, ${sat}%, ${light}%, 0)`)
+      const gradient = ctx.createLinearGradient(0, 0, 0, beam.length)
+      gradient.addColorStop(0, `hsla(${beam.hue}, ${sat}%, ${light}%, 0)`)
+      gradient.addColorStop(0.1, `hsla(${beam.hue}, ${sat}%, ${light}%, ${pulsingOpacity * 0.5})`)
+      gradient.addColorStop(0.4, `hsla(${beam.hue}, ${sat}%, ${light}%, ${pulsingOpacity})`)
+      gradient.addColorStop(0.6, `hsla(${beam.hue}, ${sat}%, ${light}%, ${pulsingOpacity})`)
+      gradient.addColorStop(0.9, `hsla(${beam.hue}, ${sat}%, ${light}%, ${pulsingOpacity * 0.5})`)
+      gradient.addColorStop(1, `hsla(${beam.hue}, ${sat}%, ${light}%, 0)`)
 
-  ctx.fillStyle = gradient
-  ctx.fillRect(-beam.width / 2, 0, beam.width, beam.length)
-  ctx.restore()
-}
+      ctx.fillStyle = gradient
+      ctx.fillRect(-beam.width / 2, 0, beam.width, beam.length)
+      ctx.restore()
+    }
 
     function animate() {
       if (!canvas || !ctx) return
