@@ -273,18 +273,3 @@ export function RDStationButton() {
   )
 }
 
-// Add TypeScript declaration for gtag
-declare global {
-  interface Window {
-    gtag?: (
-      command: string,
-      action: string,
-      params: {
-        send_to?: string
-        event_category?: string
-        event_label?: string
-        value?: number
-      },
-    ) => void
-  }
-}
