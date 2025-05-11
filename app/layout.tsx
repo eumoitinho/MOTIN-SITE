@@ -3,6 +3,7 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { ScrollToTop } from "@/components/scroll-to-top"
 import { UtmCapture } from "@/components/utm-capture"
+import { Analytics } from "@vercel/analytics/next" 
 
 export const metadata = {
   title: "Motin Films - Produção Audiovisual de Alta Qualidade",
@@ -72,6 +73,7 @@ export default function RootLayout({
         </noscript>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <UtmCapture />
+          <Analytics />
           {children}
           <ScrollToTop />
         </ThemeProvider>
