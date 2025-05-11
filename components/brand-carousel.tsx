@@ -22,7 +22,7 @@ export function BrandCarousel({ brands }: BrandCarouselProps) {
     if (scrollWidth <= clientWidth) return
 
     let scrollPosition = 0
-    const scrollSpeed = 0.4
+    const scrollSpeed = 0.2
     const gap = 20
 
     const scroll = () => {
@@ -48,11 +48,11 @@ export function BrandCarousel({ brands }: BrandCarouselProps) {
     <div className="w-full overflow-hidden relative">
       <div
         ref={carouselRef}
-        className="flex items-center gap-16 py-6 overflow-x-auto scrollbar-hide"
+        className="flex items-center gap-20 py-8 overflow-x-auto scrollbar-hide"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {/* First set of brands */}
-        {brands.map((brand, index) => (
+          {brands.map((brand, index) => (
           <motion.div
             key={`brand-${index}`}
             className="flex-shrink-0"
@@ -63,8 +63,8 @@ export function BrandCarousel({ brands }: BrandCarouselProps) {
               src={brand.src || "/placeholder.svg"}
               alt={brand.alt}
               width={brand.width}
-              height={50}
-              className="h-10 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity filter brightness-100"
+              height={80} // <-- aumente aqui (antes era 50)
+              className="h-20 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity filter brightness-100" // h-20 = 80px
             />
           </motion.div>
         ))}
@@ -81,8 +81,8 @@ export function BrandCarousel({ brands }: BrandCarouselProps) {
               src={brand.src || "/placeholder.svg"}
               alt={brand.alt}
               width={brand.width}
-              height={50}
-              className="h-10 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity filter brightness-100"
+              height={80} // <-- aumente aqui também
+              className="h-20 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity filter brightness-100"
             />
           </motion.div>
         ))}

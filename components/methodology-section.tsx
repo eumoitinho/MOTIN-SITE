@@ -69,7 +69,7 @@ export function MethodologySection() {
   }
 
   return (
-    <section className="py-24 bg-[#00B2B2] relative overflow-hidden" id="metodologia">
+    <section className="py-24 bg-black relative overflow-hidden" id="metodologia">
       {/* Background Pattern */}
       <BackgroundPattern />
 
@@ -105,14 +105,14 @@ export function MethodologySection() {
                 boxShadow: "0 20px 30px -10px rgba(0, 0, 0, 0.2)",
                 scale: 1.02,
               }}
-              className="border border-[#007f7f] rounded-xl p-8 bg-[#007f7f]/50 backdrop-blur-sm flex flex-col items-center text-center transition-all duration-300"
+              className="border border-gray-800 rounded-xl p-8 bg-gray-900/50 backdrop-blur-sm flex flex-col items-center text-center transition-all duration-300"
             >
               <div className="relative mb-6">
                 <div className="absolute inset-0 bg-white/20 rounded-full blur-md"></div>
-                <div className="relative w-20 h-20 rounded-full bg-white flex items-center justify-center text-[#00B2B2] mb-2">
+                <div className="relative w-20 h-20 rounded-full bg-gray-800 flex items-center justify-center text-white mb-2">
                   {step.icon}
                 </div>
-                <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-white text-[#00B2B2] flex items-center justify-center font-bold text-lg">
+                <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-gray-800 text-white flex items-center justify-center font-bold text-lg">
                   {step.number}
                 </div>
               </div>
@@ -121,7 +121,7 @@ export function MethodologySection() {
 
               {/* Connecting line for desktop */}
               {index < methodologySteps.length - 1 && (
-                <div className="hidden lg:block absolute right-0 top-1/2 w-1/2 h-0.5 bg-white/30 transform translate-y-[-50%]"></div>
+                <div className="hidden lg:block absolute right-0 top-1/2 w-1/2 h-0.5 bg-gray-700 transform translate-y-[-50%]"></div>
               )}
             </motion.div>
           ))}
@@ -136,7 +136,7 @@ export function MethodologySection() {
           viewport={{ once: true }}
         >
           <motion.div
-            className="bg-white text-[#00B2B2] px-8 py-4 rounded-full font-bold flex items-center gap-2"
+            className="bg-gray-800 text-white px-8 py-4 rounded-full font-bold flex items-center gap-2 hover:bg-gray-700"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >

@@ -6,7 +6,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Play, ChevronRight, Loader2 } from "lucide-react"
+import { Play, ChevronRight } from "lucide-react"
 import { motion } from "framer-motion"
 import { BrandCarousel } from "@/components/brand-carousel"
 import { AnimatedSection } from "@/components/animated-section"
@@ -84,7 +84,7 @@ export default function MotinFilms() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  // Lista inicial de itens do portfólio
+  // Lista de itens do portfólio em destaque
   const portfolioItems = [
     {
       title: "BLANC DE ROUGE",
@@ -140,217 +140,6 @@ export default function MotinFilms() {
       image: "/portfolio/lj-santos.jpeg",
       videoId: "RuZy13ZDmeQ",
     },
-    {
-      title: "ESCOLAR OFFICE BRASIL",
-      category: "INSTITUCIONAL",
-      image: "/portfolio/escolar-office-brasil-2.jpeg",
-      videoId: "hELpTXBl798",
-    },
-    {
-      title: "FAVRETTO MÍDIA EXTERIOR",
-      category: "PRODUTO",
-      image: "/portfolio/favretto-midia-1.jpeg",
-      videoId: "ijhaceaSY94",
-    },
-    {
-      title: "FAVRETTO MÍDIA EXTERIOR",
-      category: "PRODUTO",
-      image: "/portfolio/favretto-midia-2.jpeg",
-      videoId: "HyK3vy4dgaI",
-    },
-    // Novos vídeos adicionados com thumbnails do YouTube
-    {
-      title: "PRODUTO ESPECIAL",
-      category: "PRODUTO",
-      image: "https://i.ytimg.com/vi/cUatyp4eyhw/maxresdefault.jpg",
-      videoId: "cUatyp4eyhw",
-    },
-    {
-      title: "INSTITUCIONAL CORPORATIVO",
-      category: "INSTITUCIONAL",
-      image: "https://i.ytimg.com/vi/Qjciy6xLVsk/maxresdefault.jpg",
-      videoId: "Qjciy6xLVsk",
-    },
-    {
-      title: "APRESENTAÇÃO INSTITUCIONAL",
-      category: "INSTITUCIONAL",
-      image: "https://i.ytimg.com/vi/odE0fqvvWa8/maxresdefault.jpg",
-      videoId: "odE0fqvvWa8",
-    },
-    {
-      title: "EVENTO CORPORATIVO ANUAL",
-      category: "EVENTO CORPORATIVO",
-      image: "https://i.ytimg.com/vi/bv-cVU3opAI/maxresdefault.jpg",
-      videoId: "bv-cVU3opAI",
-    },
-    {
-      title: "CONFERÊNCIA EMPRESARIAL",
-      category: "EVENTO CORPORATIVO",
-      image: "https://i.ytimg.com/vi/zkT1PeQJ1oY/maxresdefault.jpg",
-      videoId: "zkT1PeQJ1oY",
-    },
-    {
-      title: "WORKSHOP CORPORATIVO",
-      category: "EVENTO CORPORATIVO",
-      image: "https://i.ytimg.com/vi/wskIIrvk6D4/maxresdefault.jpg",
-      videoId: "wskIIrvk6D4",
-    },
-    {
-      title: "LANÇAMENTO DE PRODUTO",
-      category: "EVENTO CORPORATIVO",
-      image: "https://i.ytimg.com/vi/TISLGrpQ74Y/maxresdefault.jpg",
-      videoId: "TISLGrpQ74Y",
-    },
-    {
-      title: "PERFIL EMPRESARIAL",
-      category: "EMPRESARIAL",
-      image: "https://i.ytimg.com/vi/eGiFbkpiH0Q/maxresdefault.jpg",
-      videoId: "eGiFbkpiH0Q",
-    },
-    {
-      title: "EVENTO ESPECIAL",
-      category: "EVENTO CORPORATIVO",
-      image: "https://i.ytimg.com/vi/foKTC-e29w8/maxresdefault.jpg",
-      videoId: "foKTC-e29w8",
-    },
-    {
-      title: "CONFERÊNCIA ANUAL",
-      category: "EVENTO CORPORATIVO",
-      image: "https://i.ytimg.com/vi/Dm7kuEJ-McY/maxresdefault.jpg",
-      videoId: "Dm7kuEJ-McY",
-    },
-    {
-      title: "REUNIÃO EXECUTIVA",
-      category: "EVENTO CORPORATIVO",
-      image: "https://i.ytimg.com/vi/1Wwb_SWsw7Y/maxresdefault.jpg",
-      videoId: "1Wwb_SWsw7Y",
-    },
-    {
-      title: "PALESTRA CORPORATIVA",
-      category: "EVENTO CORPORATIVO",
-      image: "https://i.ytimg.com/vi/Yziu0LkG_jU/maxresdefault.jpg",
-      videoId: "Yziu0LkG_jU",
-    },
-    {
-      title: "EVENTO TECNOLÓGICO",
-      category: "EVENTO CORPORATIVO",
-      image: "https://i.ytimg.com/vi/C54Sd59MybM/maxresdefault.jpg",
-      videoId: "C54Sd59MybM",
-    },
-    {
-      title: "VÍDEO INSTITUCIONAL",
-      category: "INSTITUCIONAL",
-      image: "https://i.ytimg.com/vi/zHZ1DFHkR5E/maxresdefault.jpg",
-      videoId: "zHZ1DFHkR5E",
-    },
-    {
-      title: "APRESENTAÇÃO CORPORATIVA",
-      category: "INSTITUCIONAL",
-      image: "https://i.ytimg.com/vi/Roo1OWxkCZM/maxresdefault.jpg",
-      videoId: "Roo1OWxkCZM",
-    },
-    {
-      title: "FESTIVAL DE MÚSICA",
-      category: "EVENTO DE ENTRETENIMENTO",
-      image: "https://i.ytimg.com/vi/7VhISXacg84/maxresdefault.jpg",
-      videoId: "7VhISXacg84",
-    },
-    {
-      title: "LANÇAMENTO DE PRODUTO PREMIUM",
-      category: "PRODUTO",
-      image: "https://i.ytimg.com/vi/KnghOm7hUM0/maxresdefault.jpg",
-      videoId: "KnghOm7hUM0",
-    },
-    {
-      title: "VÍDEO INSTITUCIONAL CORPORATIVO",
-      category: "INSTITUCIONAL",
-      image: "https://i.ytimg.com/vi/iVTp2jQn7S0/maxresdefault.jpg",
-      videoId: "iVTp2jQn7S0",
-    },
-    {
-      title: "CAMPANHA DE PRODUTO",
-      category: "PRODUTO",
-      image: "https://i.ytimg.com/vi/Cy0uQBKBCVc/maxresdefault.jpg",
-      videoId: "Cy0uQBKBCVc",
-    },
-    {
-      title: "CASE DE SUCESSO",
-      category: "CASE",
-      image: "https://i.ytimg.com/vi/8ge3hdMAa8s/maxresdefault.jpg",
-      videoId: "8ge3hdMAa8s",
-    },
-    {
-      title: "PERFIL EMPRESARIAL EXECUTIVO",
-      category: "EMPRESARIAL",
-      image: "https://i.ytimg.com/vi/zH3rERJkmRI/maxresdefault.jpg",
-      videoId: "zH3rERJkmRI",
-    },
-    {
-      title: "PRODUTO INOVADOR",
-      category: "PRODUTO",
-      image: "https://i.ytimg.com/vi/eBuo2rlB9mo/maxresdefault.jpg",
-      videoId: "eBuo2rlB9mo",
-    },
-    {
-      title: "LANÇAMENTO TECNOLÓGICO",
-      category: "PRODUTO",
-      image: "https://i.ytimg.com/vi/oD1ITLt8SP4/maxresdefault.jpg",
-      videoId: "oD1ITLt8SP4",
-    },
-    {
-      title: "PERFIL CORPORATIVO",
-      category: "EMPRESARIAL",
-      image: "https://i.ytimg.com/vi/Pr_IcGYSxBM/maxresdefault.jpg",
-      videoId: "Pr_IcGYSxBM",
-    },
-    {
-      title: "HISTÓRIA EMPRESARIAL",
-      category: "EMPRESARIAL",
-      image: "https://i.ytimg.com/vi/h6pFhFZzmsk/maxresdefault.jpg",
-      videoId: "h6pFhFZzmsk",
-    },
-    {
-      title: "CAMPANHA DE MARKETING",
-      category: "AÇÃO DE MARKETING",
-      image: "https://i.ytimg.com/vi/3VHmQY5Ak90/maxresdefault.jpg",
-      videoId: "3VHmQY5Ak90",
-    },
-    {
-      title: "PRODUTO EXCLUSIVO",
-      category: "PRODUTO",
-      image: "https://i.ytimg.com/vi/-afHOczVR38/maxresdefault.jpg",
-      videoId: "-afHOczVR38",
-    },
-    {
-      title: "HISTÓRIA DE MARCA",
-      category: "EMPRESARIAL",
-      image: "https://i.ytimg.com/vi/jaBbTGKz21k/maxresdefault.jpg",
-      videoId: "jaBbTGKz21k",
-    },
-    {
-      title: "PRODUTO PREMIUM",
-      category: "PRODUTO",
-      image: "https://i.ytimg.com/vi/WhoDsDLhxW0/maxresdefault.jpg",
-      videoId: "WhoDsDLhxW0",
-    },
-    {
-      title: "PERFIL DE EMPRESA",
-      category: "EMPRESARIAL",
-      image: "https://i.ytimg.com/vi/g_2LCHqdJWg/maxresdefault.jpg",
-      videoId: "g_2LCHqdJWg",
-    },
-    {
-      title: "LANÇAMENTO ESPECIAL",
-      category: "PRODUTO",
-      image: "https://i.ytimg.com/vi/pUB0spMZVZk/maxresdefault.jpg",
-      videoId: "pUB0spMZVZk",
-    },
-    {
-      title: "HISTÓRIA CORPORATIVA",
-      category: "EMPRESARIAL",
-      image: "https://i.ytimg.com/vi/4QJTpvUi6V0/maxresdefault.jpg",
-      videoId: "4QJTpvUi6V0",
-    },
   ]
 
   const methodology = [
@@ -398,70 +187,6 @@ export default function MotinFilms() {
     },
   ]
 
-  // Adicione este script para debug do RD Station
-  useEffect(() => {
-    // Function to extract and store UTM parameters
-    const storeUtmParams = () => {
-      const params = new URLSearchParams(window.location.search)
-      const utmFields = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content"]
-
-      const extractedParams: Record<string, string> = {}
-      utmFields.forEach((field) => {
-        const value = params.get(field)
-        if (value) {
-          extractedParams[field] = value
-        }
-      })
-
-      if (Object.keys(extractedParams).length) {
-        localStorage.setItem("utmParams", JSON.stringify(extractedParams))
-        console.log("UTM parameters stored:", extractedParams)
-      }
-    }
-
-    storeUtmParams()
-  }, [])
-
-  // Adicione este useEffect para debug do RD Station
-  useEffect(() => {
-    // Função para verificar e listar todos os botões do RD Station na página
-    const checkForRDButtons = () => {
-      console.log("Checking for RD Station buttons...")
-
-      // Lista de possíveis seletores para o botão do RD Station
-      const selectors = [
-        '[id^="rd-floating_button"]',
-        ".bricks--floating--button",
-        '[id^="bricks-component-"] button',
-        ".rdstation-popup-js-floating-button",
-      ]
-
-      selectors.forEach((selector) => {
-        const buttons = document.querySelectorAll(selector)
-        if (buttons.length > 0) {
-          console.log(`Found ${buttons.length} buttons with selector: ${selector}`)
-          buttons.forEach((button, index) => {
-            console.log(`Button ${index + 1} details:`, button)
-          })
-        } else {
-          console.log(`No buttons found with selector: ${selector}`)
-        }
-      })
-
-      // Verificar se o objeto RDStationForms existe
-      if (window.RDStationForms) {
-        console.log("RDStationForms object exists:", window.RDStationForms)
-      } else {
-        console.log("RDStationForms object does not exist")
-      }
-    }
-
-    // Executar a verificação após um tempo para garantir que tudo foi carregado
-    const timer = setTimeout(checkForRDButtons, 3000)
-
-    return () => clearTimeout(timer)
-  }, [])
-
   return (
     <>
       <div className="min-h-screen bg-black text-white">
@@ -470,7 +195,7 @@ export default function MotinFilms() {
           <div className="container mx-auto px-4 py-4 flex justify-between items-center">
             <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
               <Link href="/" className="text-2xl font-bold">
-                <Image src="/motin-logo-white.webp" alt="Motin Films" width={120} height={36} />
+                <Image src="/motin-logo-white.webp" alt="Motin Films" width={120} height={36} priority />
               </Link>
             </motion.div>
 
@@ -657,8 +382,8 @@ export default function MotinFilms() {
                   { src: "/brands/lumicenter-logo.png", alt: "Lumicenter", width: 150 },
                   { src: "/brands/dentaluni-logo.png", alt: "DentalUni", width: 180 },
                   { src: "/brands/escolar-office-brasil.jpeg", alt: "Escolar Office Brasil", width: 120 },
-                  { src: "/brands/paris-filmes-logo.png", alt: "Paris Filmes", width: 130 },
-                  { src: "/brands/sony-logo.png", alt: "Sony", width: 120 },
+                  { src: "/brands/paris-filmes-logo.png", alt: "Paris Filmes", width: 180 },
+                  { src: "/brands/sony-logo.png", alt: "Sony", width: 180 },
                   { src: "/brands/ancine.png", alt: "Ancine", width: 120 },
                   { src: "/brands/itaipu-logo.png", alt: "Itaipu Binacional", width: 150 },
                   { src: "/brands/favretto-logo.png", alt: "Favretto Mídia Exterior", width: 140 },
@@ -785,7 +510,7 @@ export default function MotinFilms() {
                       className="relative group overflow-hidden rounded-lg"
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      transition={{ duration: 0.3, delay: Math.min(index * 0.05, 0.3) }}
                       whileHover={{ y: -5 }}
                     >
                       <Image
@@ -945,24 +670,12 @@ export default function MotinFilms() {
 
             <AnimatedSection delay={0.4}>
               <div className="flex justify-center mt-10">
-                {visibleItems < portfolioItems.length ? (
-                  <Button
-                    className="bg-[#00B2B2] hover:bg-[#009999] text-white rounded-md px-6 py-3 flex items-center gap-2"
-                    onClick={loadMoreItems}
-                    disabled={isLoading}
-                  >
-                    {isLoading ? (
-                      <>
-                        <Loader2 size={16} className="animate-spin mr-2" />
-                        CARREGANDO...
-                      </>
-                    ) : (
-                      "VER MAIS PROJETOS"
-                    )}
+                <Link href="/portfolio">
+                  <Button className="bg-[#00B2B2] hover:bg-[#009999] text-white rounded-md px-6 py-3 flex items-center gap-2">
+                    VER PORTFÓLIO COMPLETO
+                    <ChevronRight size={16} />
                   </Button>
-                ) : (
-                  <p className="text-gray-400 text-sm">Todos os projetos foram carregados</p>
-                )}
+                </Link>
               </div>
             </AnimatedSection>
           </div>

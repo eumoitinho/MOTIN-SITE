@@ -43,12 +43,11 @@ function createBeam(width: number, height: number): Beam {
     angle: angle,
     speed: 0.6 + Math.random() * 1.2,
     opacity: 0.12 + Math.random() * 0.16,
-    hue: color.hue,
+    hue: color.hue || 180,
     pulse: Math.random() * Math.PI * 2,
     pulseSpeed: 0.02 + Math.random() * 0.03,
-    // Adicione sat e light se quiser customizar ainda mais
-    sat: color.sat,
-    light: color.light,
+    sat: color.sat || 85,
+    light: color.light || 65,
   } as Beam & { sat: number; light: number }
 }
 export function BeamsBackground({ className, intensity = "strong", children }: AnimatedGradientBackgroundProps) {
@@ -97,6 +96,10 @@ export function BeamsBackground({ className, intensity = "strong", children }: A
       beam.speed = 0.5 + Math.random() * 0.4
       beam.hue = 190 + (index * 70) / totalBeams
       beam.opacity = 0.2 + Math.random() * 0.1
+      // Ensure pulse is a valid number
+      if (isNaN(beam.pulse)) {
+        beam.pulse = 0
+      }
       return beam
     }
 
@@ -106,16 +109,23 @@ export function BeamsBackground({ className, intensity = "strong", children }: A
       ctx.translate(beam.x, beam.y)
       ctx.rotate((beam.angle * Math.PI) / 180)
 
-      const pulsingOpacity = beam.opacity * (0.8 + Math.sin(beam.pulse) * 0.2) * opacityMap[intensity]
+      // Ensure we have valid numbers for the opacity calculation
+      const pulseEffect = isNaN(beam.pulse) ? 0 : Math.sin(beam.pulse) || 0
+      const baseOpacity = isNaN(beam.opacity) ? 0.1 : beam.opacity
+      const intensityFactor = opacityMap[intensity] || 1
+      const pulsingOpacity = baseOpacity * (0.8 + pulseEffect * 0.2) * intensityFactor
+
       const sat = beam.sat ?? 85
       const light = beam.light ?? 65
+      const safeOpacity = isNaN(pulsingOpacity) ? 0.1 : Math.max(0, Math.min(1, pulsingOpacity))
+      const halfOpacity = isNaN(safeOpacity * 0.5) ? 0.05 : safeOpacity * 0.5
 
       const gradient = ctx.createLinearGradient(0, 0, 0, beam.length)
       gradient.addColorStop(0, `hsla(${beam.hue}, ${sat}%, ${light}%, 0)`)
-      gradient.addColorStop(0.1, `hsla(${beam.hue}, ${sat}%, ${light}%, ${pulsingOpacity * 0.5})`)
-      gradient.addColorStop(0.4, `hsla(${beam.hue}, ${sat}%, ${light}%, ${pulsingOpacity})`)
-      gradient.addColorStop(0.6, `hsla(${beam.hue}, ${sat}%, ${light}%, ${pulsingOpacity})`)
-      gradient.addColorStop(0.9, `hsla(${beam.hue}, ${sat}%, ${light}%, ${pulsingOpacity * 0.5})`)
+      gradient.addColorStop(0.1, `hsla(${beam.hue}, ${sat}%, ${light}%, ${halfOpacity})`)
+      gradient.addColorStop(0.4, `hsla(${beam.hue}, ${sat}%, ${light}%, ${safeOpacity})`)
+      gradient.addColorStop(0.6, `hsla(${beam.hue}, ${sat}%, ${light}%, ${safeOpacity})`)
+      gradient.addColorStop(0.9, `hsla(${beam.hue}, ${sat}%, ${light}%, ${halfOpacity})`)
       gradient.addColorStop(1, `hsla(${beam.hue}, ${sat}%, ${light}%, 0)`)
 
       ctx.fillStyle = gradient

@@ -221,6 +221,13 @@ export function Header({ dictionary, locale }: HeaderProps) {
             >
               {dictionary.navigation.careers}
             </Link>
+            <Link
+              href="/portfolio"
+              className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${activeSection === "portfolio" ? "text-[#00B2B2]" : ""}`}
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Portfólio
+            </Link>
           </nav>
         </motion.div>
       )}

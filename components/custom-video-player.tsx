@@ -5,7 +5,6 @@ import type React from "react"
 import { useState, useRef, useEffect } from "react"
 import { Play, Pause, Volume2, VolumeX, Maximize, Minimize } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
-import YouTube from "react-youtube"
 
 interface CustomVideoPlayerProps {
   videoId: string
@@ -131,24 +130,14 @@ export function CustomVideoPlayer({ videoId, className = "" }: CustomVideoPlayer
     >
       {/* YouTube Player */}
       <div className="aspect-video w-full">
-        <YouTube
-          videoId={videoId}
-          opts={{
-            height: "100%",
-            width: "100%",
-            playerVars: {
-              autoplay: 0,
-              controls: 0,
-              modestbranding: 1,
-              rel: 0,
-              showinfo: 0,
-              iv_load_policy: 3,
-            },
-          }}
-          onReady={onReady}
-          onStateChange={onStateChange}
+        <iframe
+          src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&playsinline=1`}
+          title="YouTube video player"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
           className="w-full h-full"
-        />
+          loading="lazy"
+        ></iframe>
       </div>
 
       {/* Custom Controls */}
