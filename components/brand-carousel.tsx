@@ -1,29 +1,52 @@
 "use client"
 
-import { useRef, useEffect } from "react"
+import { useRef, useEffect, useState } from "react"
 import Image from "next/image"
-import { motion } from "framer-motion"
 
 interface BrandCarouselProps {
-  brands: {
+  brands?: {
     src: string
     alt: string
-    width: number
+    width?: number
   }[]
 }
 
 export function BrandCarousel({ brands }: BrandCarouselProps) {
   const carouselRef = useRef<HTMLDivElement>(null)
+  const [isClient, setIsClient] = useState(false)
+
+  // Default brands if none provided
+  const defaultBrands = [
+    { src: "/images/brands/unimed-logo.png", alt: "Unimed" },
+    { src: "/images/brands/wb-logo.png", alt: "Warner Bros" },
+    { src: "/images/brands/ssc-blueprism-logo.png", alt: "SSC BluePrism" },
+    { src: "/images/brands/santos-logo.png", alt: "Santos" },
+    { src: "/images/brands/sony-logo.png", alt: "Sony" },
+    { src: "/images/brands/favretto-logo.png", alt: "Favretto" },
+    { src: "/images/brands/paris-filmes-logo.png", alt: "Paris Filmes" },
+    { src: "/images/brands/electrolux-white.png", alt: "Electrolux" },
+    { src: "/images/brands/lumicenter.png", alt: "Lumicenter" },
+    { src: "/images/brands/itaipu-logo.png", alt: "Itaipu" },
+  ]
+
+  const brandsToShow = brands || defaultBrands
 
   useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  // Don't run animation on server or before hydration
+  useEffect(() => {
+    if (!isClient) return
+
     const scrollWidth = carouselRef.current?.scrollWidth || 0
     const clientWidth = carouselRef.current?.clientWidth || 0
 
     if (scrollWidth <= clientWidth) return
 
     let scrollPosition = 0
-    const scrollSpeed = 0.2
-    const gap = 20
+    const scrollSpeed = 0.1 // Reduced speed
+    let animationId: number | null = null
 
     const scroll = () => {
       if (!carouselRef.current) return
@@ -36,55 +59,53 @@ export function BrandCarousel({ brands }: BrandCarouselProps) {
       }
 
       carouselRef.current.scrollLeft = scrollPosition
-      requestAnimationFrame(scroll)
+      animationId = requestAnimationFrame(scroll)
     }
 
-    const animation = requestAnimationFrame(scroll)
+    // Start animation after a delay to reduce initial load
+    const timeoutId = setTimeout(() => {
+      animationId = requestAnimationFrame(scroll)
+    }, 2000)
 
-    return () => cancelAnimationFrame(animation)
-  }, [brands])
+    return () => {
+      if (animationId) cancelAnimationFrame(animationId)
+      clearTimeout(timeoutId)
+    }
+  }, [brandsToShow, isClient])
 
   return (
     <div className="w-full overflow-hidden relative">
       <div
         ref={carouselRef}
-        className="flex items-center gap-20 py-8 overflow-x-auto scrollbar-hide"
+        className="flex items-center gap-16 py-8 overflow-x-auto scrollbar-hide"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {/* First set of brands */}
-          {brands.map((brand, index) => (
-          <motion.div
-            key={`brand-${index}`}
-            className="flex-shrink-0"
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.3 }}
-          >
+        {brandsToShow.map((brand, index) => (
+          <div key={`brand-${index}`} className="flex-shrink-0 h-16 flex items-center">
             <Image
               src={brand.src || "/placeholder.svg"}
               alt={brand.alt}
-              width={brand.width}
-              height={80} // <-- aumente aqui (antes era 50)
-              className="h-20 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity filter brightness-100" // h-20 = 80px
+              width={160}
+              height={64}
+              className="h-auto w-auto max-h-24 max-w-[160px] object-contain opacity-90 hover:opacity-100 transition-opacity filter brightness-100"
+              loading="lazy"
             />
-          </motion.div>
+          </div>
         ))}
 
         {/* Duplicate brands for infinite scroll effect */}
-        {brands.map((brand, index) => (
-          <motion.div
-            key={`brand-dup-${index}`}
-            className="flex-shrink-0"
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.3 }}
-          >
+        {brandsToShow.map((brand, index) => (
+          <div key={`brand-dup-${index}`} className="flex-shrink-0 h-16 flex items-center">
             <Image
               src={brand.src || "/placeholder.svg"}
               alt={brand.alt}
-              width={brand.width}
-              height={80} // <-- aumente aqui também
-              className="h-20 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity filter brightness-100"
+              width={160}
+              height={64}
+              className="h-auto w-auto max-h-16 max-w-[160px] object-contain opacity-90 hover:opacity-100 transition-opacity filter brightness-100"
+              loading="lazy"
             />
-          </motion.div>
+          </div>
         ))}
       </div>
 

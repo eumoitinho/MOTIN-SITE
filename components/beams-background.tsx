@@ -1,8 +1,7 @@
 "use client"
 
 import type React from "react"
-
-import { useEffect, useRef } from "react"
+import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 
@@ -12,162 +11,33 @@ interface AnimatedGradientBackgroundProps {
   intensity?: "subtle" | "medium" | "strong"
 }
 
-interface Beam {
-  x: number
-  y: number
-  width: number
-  length: number
-  angle: number
-  speed: number
-  opacity: number
-  hue: number
-  pulse: number
-  pulseSpeed: number
-}
-
-const PROJECT_BEAM_COLORS = [
-  { hue: 180, sat: 100, light: 35 }, // primary
-  { hue: 190, sat: 100, light: 45 }, // variação azul/ciano
-  { hue: 45, sat: 100, light: 50 }, // amarelo/dourado para brilho
-  { hue: 160, sat: 100, light: 40 }, // verde água
-]
-
-function createBeam(width: number, height: number): Beam {
-  const angle = -35 + Math.random() * 10
-  const color = PROJECT_BEAM_COLORS[Math.floor(Math.random() * PROJECT_BEAM_COLORS.length)]
-  return {
-    x: Math.random() * width * 1.5 - width * 0.25,
-    y: Math.random() * height * 1.5 - height * 0.25,
-    width: 30 + Math.random() * 60,
-    length: height * 2.5,
-    angle: angle,
-    speed: 0.6 + Math.random() * 1.2,
-    opacity: 0.12 + Math.random() * 0.16,
-    hue: color.hue || 180,
-    pulse: Math.random() * Math.PI * 2,
-    pulseSpeed: 0.02 + Math.random() * 0.03,
-    sat: color.sat || 85,
-    light: color.light || 65,
-  } as Beam & { sat: number; light: number }
-}
 export function BeamsBackground({ className, intensity = "strong", children }: AnimatedGradientBackgroundProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const beamsRef = useRef<Beam[]>([])
-  const animationFrameRef = useRef<number>(0)
-  const MINIMUM_BEAMS = 20
-
-  const opacityMap = {
-    subtle: 0.7,
-    medium: 0.85,
-    strong: 1,
-  }
+  const [isClient, setIsClient] = useState(false)
 
   useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
+    setIsClient(true)
+  }, [])
 
-    const ctx = canvas.getContext("2d")
-    if (!ctx) return
-
-    const updateCanvasSize = () => {
-      const dpr = window.devicePixelRatio || 1
-      canvas.width = window.innerWidth * dpr
-      canvas.height = window.innerHeight * dpr
-      canvas.style.width = `${window.innerWidth}px`
-      canvas.style.height = `${window.innerHeight}px`
-      ctx.scale(dpr, dpr)
-
-      const totalBeams = MINIMUM_BEAMS * 1.5
-      beamsRef.current = Array.from({ length: totalBeams }, () => createBeam(canvas.width, canvas.height))
-    }
-
-    updateCanvasSize()
-    window.addEventListener("resize", updateCanvasSize)
-
-    function resetBeam(beam: Beam, index: number, totalBeams: number) {
-      if (!canvas) return beam
-
-      const column = index % 3
-      const spacing = canvas.width / 3
-
-      beam.y = canvas.height + 100
-      beam.x = column * spacing + spacing / 2 + (Math.random() - 0.5) * spacing * 0.5
-      beam.width = 100 + Math.random() * 100
-      beam.speed = 0.5 + Math.random() * 0.4
-      beam.hue = 190 + (index * 70) / totalBeams
-      beam.opacity = 0.2 + Math.random() * 0.1
-      // Ensure pulse is a valid number
-      if (isNaN(beam.pulse)) {
-        beam.pulse = 0
-      }
-      return beam
-    }
-
-    // Altere o drawBeam para usar sat e light:
-    function drawBeam(ctx: CanvasRenderingContext2D, beam: Beam & { sat?: number; light?: number }) {
-      ctx.save()
-      ctx.translate(beam.x, beam.y)
-      ctx.rotate((beam.angle * Math.PI) / 180)
-
-      // Ensure we have valid numbers for the opacity calculation
-      const pulseEffect = isNaN(beam.pulse) ? 0 : Math.sin(beam.pulse) || 0
-      const baseOpacity = isNaN(beam.opacity) ? 0.1 : beam.opacity
-      const intensityFactor = opacityMap[intensity] || 1
-      const pulsingOpacity = baseOpacity * (0.8 + pulseEffect * 0.2) * intensityFactor
-
-      const sat = beam.sat ?? 85
-      const light = beam.light ?? 65
-      const safeOpacity = isNaN(pulsingOpacity) ? 0.1 : Math.max(0, Math.min(1, pulsingOpacity))
-      const halfOpacity = isNaN(safeOpacity * 0.5) ? 0.05 : safeOpacity * 0.5
-
-      const gradient = ctx.createLinearGradient(0, 0, 0, beam.length)
-      gradient.addColorStop(0, `hsla(${beam.hue}, ${sat}%, ${light}%, 0)`)
-      gradient.addColorStop(0.1, `hsla(${beam.hue}, ${sat}%, ${light}%, ${halfOpacity})`)
-      gradient.addColorStop(0.4, `hsla(${beam.hue}, ${sat}%, ${light}%, ${safeOpacity})`)
-      gradient.addColorStop(0.6, `hsla(${beam.hue}, ${sat}%, ${light}%, ${safeOpacity})`)
-      gradient.addColorStop(0.9, `hsla(${beam.hue}, ${sat}%, ${light}%, ${halfOpacity})`)
-      gradient.addColorStop(1, `hsla(${beam.hue}, ${sat}%, ${light}%, 0)`)
-
-      ctx.fillStyle = gradient
-      ctx.fillRect(-beam.width / 2, 0, beam.width, beam.length)
-      ctx.restore()
-    }
-
-    function animate() {
-      if (!canvas || !ctx) return
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
-      ctx.filter = "blur(35px)"
-
-      const totalBeams = beamsRef.current.length
-      beamsRef.current.forEach((beam, index) => {
-        beam.y -= beam.speed
-        beam.pulse += beam.pulseSpeed
-
-        // Reset beam when it goes off screen
-        if (beam.y + beam.length < -100) {
-          resetBeam(beam, index, totalBeams)
-        }
-
-        drawBeam(ctx, beam)
-      })
-
-      animationFrameRef.current = requestAnimationFrame(animate)
-    }
-
-    animate()
-
-    return () => {
-      window.removeEventListener("resize", updateCanvasSize)
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current)
-      }
-    }
-  }, [intensity])
+  // Only render the static version on the server or if client-side rendering is not yet available
+  if (!isClient) {
+    return (
+      <div className={cn("relative overflow-hidden bg-neutral-950", className)}>
+        <div className="absolute inset-0 bg-gradient-to-br from-neutral-950 via-neutral-900 to-neutral-950"></div>
+        <div className="relative z-10 w-full">{children}</div>
+      </div>
+    )
+  }
 
   return (
     <div className={cn("relative overflow-hidden bg-neutral-950", className)}>
-      <canvas ref={canvasRef} className="absolute inset-0" style={{ filter: "blur(15px)" }} />
+      {/* Static gradient background instead of canvas animation */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#001a1a] via-black to-[#001a1a] opacity-80"></div>
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-[-10%] left-[5%] w-[40%] h-[60%] rounded-full bg-[#00B2B2] blur-[120px]"></div>
+          <div className="absolute bottom-[-5%] right-[10%] w-[35%] h-[50%] rounded-full bg-[#00B2B2] blur-[100px]"></div>
+        </div>
+      </div>
 
       <motion.div
         className="absolute inset-0 bg-neutral-950/5"

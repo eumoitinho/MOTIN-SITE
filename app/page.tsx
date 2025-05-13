@@ -142,6 +142,8 @@ export default function MotinFilms() {
     },
   ]
 
+  
+
   const methodology = [
     {
       number: "1",
@@ -343,7 +345,7 @@ export default function MotinFilms() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight"
+                className="text-3xl md:text-5xl lg:text-5xl font-bold mb-4 leading-tight"
               >
                 Filmes de alto impacto com qualidade cinematográfica
               </motion.h1>
@@ -351,9 +353,9 @@ export default function MotinFilms() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-lg md:text-xl mb-8 text-gray-300"
+                className="text-lg md:text-2xl mb-8 text-gray-300"
               >
-                Somos uma produtora audiovisual especializada em criar conteúdos que conectam marcas e pessoas através
+                Somos uma produtora de filmes especializada em criar conteúdos que conectam marcas e pessoas através
                 de histórias memoráveis.
               </motion.p>
               <motion.div
@@ -382,8 +384,8 @@ export default function MotinFilms() {
                   { src: "/brands/lumicenter-logo.png", alt: "Lumicenter", width: 150 },
                   { src: "/brands/dentaluni-logo.png", alt: "DentalUni", width: 180 },
                   { src: "/brands/escolar-office-brasil.jpeg", alt: "Escolar Office Brasil", width: 120 },
-                  { src: "/brands/paris-filmes-logo.png", alt: "Paris Filmes", width: 180 },
-                  { src: "/brands/sony-logo.png", alt: "Sony", width: 180 },
+                  { src: "/brands/paris-filmes-logo.png", alt: "Paris Filmes", width: 130 },
+                  { src: "/brands/sony-logo.png", alt: "Sony", width: 120 },
                   { src: "/brands/ancine.png", alt: "Ancine", width: 120 },
                   { src: "/brands/itaipu-logo.png", alt: "Itaipu Binacional", width: 150 },
                   { src: "/brands/favretto-logo.png", alt: "Favretto Mídia Exterior", width: 140 },
@@ -797,31 +799,7 @@ export default function MotinFilms() {
           </div>
         </section>
 
-        {/* Contact Section */}
-        <section ref={sectionRefs.contato} className="relative" id="contato">
-          <BeamsBackground intensity="medium" className="py-16">
-            <div className="container mx-auto px-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <AnimatedSection>
-                  <h2 className="text-2xl md:text-3xl font-bold mb-4">Transforme sua comunicação!</h2>
-                  <p className="text-gray-300 mb-6">
-                    Preencha seus dados agora e nosso time entrará em contato para entender melhor seus desafios!
-                  </p>
-                </AnimatedSection>
-                <AnimatedSection delay={0.3}>
-                  <motion.div
-                    className="bg-black/40 backdrop-blur-md p-6 rounded-lg border border-gray-800/50"
-                    initial={{ boxShadow: "0 0 0 rgba(0, 178, 178, 0)" }}
-                    whileHover={{ boxShadow: "0 0 20px rgba(0, 178, 178, 0.3)" }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <RDStationForm formId="contato-home" buttonText="Enviar" redirectUrl="/obrigado" />
-                  </motion.div>
-                </AnimatedSection>
-              </div>
-            </div>
-          </BeamsBackground>
-        </section>
+        
 
         {/* RD Station Button (replacing WhatsApp Button) */}
         <RDStationButton />

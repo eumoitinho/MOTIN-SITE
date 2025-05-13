@@ -118,7 +118,7 @@ export default function Footer() {
           <div>
             <h3 className="font-bold text-lg mb-4">Endereço</h3>
             <ul className="space-y-2 text-gray-400">
-              <li>Rua João Alencar Guimarães, 500</li>
+              <li>Rua Coronel Joaquim Ignácio Taborda Ribas - 212</li>
               <li>Bigorrilho, Curitiba - PR</li>
               <li>CEP 80730-320</li>
               <li>Brasil</li>
@@ -128,8 +128,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="tel:+5541999999999" className="hover:text-primary transition-colors">
-                  +55 41 99999-9999
+                <Link href="tel:+554191425126" className="hover:text-primary transition-colors">
+                  +55 41 9142-5126
                 </Link>
               </li>
             </ul>

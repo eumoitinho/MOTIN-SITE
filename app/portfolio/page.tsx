@@ -5,15 +5,15 @@ import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Play, ChevronLeft, Loader2 } from "lucide-react"
+import { Play, ChevronLeft } from "lucide-react"
 import { motion } from "framer-motion"
 import { PortfolioVideoModal } from "@/components/portfolio-video-modal"
-import { BeamsBackground } from "@/components/beams-background"
 import Footer from "@/components/footer"
 
 export default function PortfolioPage() {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
   const [currentVideoId, setCurrentVideoId] = useState("")
+  const [activeCategory, setActiveCategory] = useState("todos")
   const [visibleItems, setVisibleItems] = useState(12)
   const [isLoading, setIsLoading] = useState(false)
 
@@ -24,9 +24,8 @@ export default function PortfolioPage() {
 
   const loadMoreItems = () => {
     setIsLoading(true)
-    // Simular um carregamento
     setTimeout(() => {
-      setVisibleItems((prev) => Math.min(prev + 12, portfolioItems.length))
+      setVisibleItems((prev) => Math.min(prev + 6, portfolioItems.length))
       setIsLoading(false)
     }, 800)
   }
@@ -220,389 +219,152 @@ export default function PortfolioPage() {
       image: "https://i.ytimg.com/vi/Cy0uQBKBCVc/maxresdefault.jpg",
       videoId: "Cy0uQBKBCVc",
     },
-    {
-      title: "CASE DE SUCESSO",
-      category: "CASE",
-      image: "https://i.ytimg.com/vi/8ge3hdMAa8s/maxresdefault.jpg",
-      videoId: "8ge3hdMAa8s",
-    },
-    {
-      title: "PERFIL EMPRESARIAL EXECUTIVO",
-      category: "EMPRESARIAL",
-      image: "https://i.ytimg.com/vi/zH3rERJkmRI/maxresdefault.jpg",
-      videoId: "zH3rERJkmRI",
-    },
-    {
-      title: "PRODUTO INOVADOR",
-      category: "PRODUTO",
-      image: "https://i.ytimg.com/vi/eBuo2rlB9mo/maxresdefault.jpg",
-      videoId: "eBuo2rlB9mo",
-    },
-    {
-      title: "LANÇAMENTO TECNOLÓGICO",
-      category: "PRODUTO",
-      image: "https://i.ytimg.com/vi/oD1ITLt8SP4/maxresdefault.jpg",
-      videoId: "oD1ITLt8SP4",
-    },
-    {
-      title: "PERFIL CORPORATIVO",
-      category: "EMPRESARIAL",
-      image: "https://i.ytimg.com/vi/Pr_IcGYSxBM/maxresdefault.jpg",
-      videoId: "Pr_IcGYSxBM",
-    },
-    {
-      title: "HISTÓRIA EMPRESARIAL",
-      category: "EMPRESARIAL",
-      image: "https://i.ytimg.com/vi/h6pFhFZzmsk/maxresdefault.jpg",
-      videoId: "h6pFhFZzmsk",
-    },
-    {
-      title: "CAMPANHA DE MARKETING",
-      category: "AÇÃO DE MARKETING",
-      image: "https://i.ytimg.com/vi/3VHmQY5Ak90/maxresdefault.jpg",
-      videoId: "3VHmQY5Ak90",
-    },
-    {
-      title: "PRODUTO EXCLUSIVO",
-      category: "PRODUTO",
-      image: "https://i.ytimg.com/vi/-afHOczVR38/maxresdefault.jpg",
-      videoId: "-afHOczVR38",
-    },
-    {
-      title: "HISTÓRIA DE MARCA",
-      category: "EMPRESARIAL",
-      image: "https://i.ytimg.com/vi/jaBbTGKz21k/maxresdefault.jpg",
-      videoId: "jaBbTGKz21k",
-    },
-    {
-      title: "PRODUTO PREMIUM",
-      category: "PRODUTO",
-      image: "https://i.ytimg.com/vi/WhoDsDLhxW0/maxresdefault.jpg",
-      videoId: "WhoDsDLhxW0",
-    },
-    {
-      title: "PERFIL DE EMPRESA",
-      category: "EMPRESARIAL",
-      image: "https://i.ytimg.com/vi/g_2LCHqdJWg/maxresdefault.jpg",
-      videoId: "g_2LCHqdJWg",
-    },
-    {
-      title: "LANÇAMENTO ESPECIAL",
-      category: "PRODUTO",
-      image: "https://i.ytimg.com/vi/pUB0spMZVZk/maxresdefault.jpg",
-      videoId: "pUB0spMZVZk",
-    },
-    {
-      title: "HISTÓRIA CORPORATIVA",
-      category: "EMPRESARIAL",
-      image: "https://i.ytimg.com/vi/4QJTpvUi6V0/maxresdefault.jpg",
-      videoId: "4QJTpvUi6V0",
-    },
   ]
 
+  // Filtrar itens com base na categoria selecionada
+  const filteredItems =
+    activeCategory === "todos"
+      ? portfolioItems
+      : portfolioItems.filter((item) => item.category.toLowerCase().includes(activeCategory.toLowerCase()))
+
   return (
-    <>
-      <div className="min-h-screen bg-black text-white pt-24">
-        {/* Header da página */}
-        <BeamsBackground intensity="low" className="py-12">
-          <div className="container mx-auto px-4">
-            <div className="flex items-center mb-8">
-              <Link href="/" className="flex items-center text-gray-400 hover:text-white transition-colors">
-                <ChevronLeft size={16} className="mr-1" />
-                Voltar para Home
-              </Link>
-            </div>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">Nosso Portfólio Completo</h1>
-            <p className="text-lg text-gray-300 max-w-2xl">
-              Explore nossa coleção completa de projetos audiovisuais, desde vídeos institucionais até coberturas de
-              eventos e campanhas de produtos.
-            </p>
-          </div>
-        </BeamsBackground>
+    <div className="min-h-screen bg-black text-white">
+      {/* Header */}
+      <header className="fixed w-full z-50 bg-black/90 border-b border-gray-800 backdrop-blur-sm">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <Link href="/" className="text-2xl font-bold">
+            <Image src="/motin-logo-white.webp" alt="Motin Films" width={120} height={36} priority />
+          </Link>
 
-        {/* Portfolio Section */}
-        <section className="bg-black py-16">
-          <div className="container mx-auto px-4">
-            <Tabs defaultValue="todos" className="w-full">
-              <div className="flex justify-center mb-8">
-                <TabsList className="bg-transparent">
-                  <TabsTrigger
-                    value="todos"
-                    className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md mx-1"
+          {/* Desktop Menu */}
+          <nav className="hidden md:flex space-x-6">
+            <Link href="/" className="text-sm font-medium hover:text-[#00B2B2] transition-colors">
+              Início
+            </Link>
+            <Link href="/portfolio" className="text-sm font-medium text-[#00B2B2] transition-colors">
+              Portfólio
+            </Link>
+            <Link href="/#servicos" className="text-sm font-medium hover:text-[#00B2B2] transition-colors">
+              Serviços
+            </Link>
+            <Link href="/#sobre" className="text-sm font-medium hover:text-[#00B2B2] transition-colors">
+              Sobre
+            </Link>
+            <Link href="/#contato" className="text-sm font-medium hover:text-[#00B2B2] transition-colors">
+              Contato
+            </Link>
+          </nav>
+        </div>
+      </header>
+
+      {/* Portfolio Section */}
+      <section className="bg-black pt-24 pb-16">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center mb-8">
+            <Link href="/" className="flex items-center text-gray-400 hover:text-white mr-4">
+              <ChevronLeft size={16} className="mr-1" />
+              Voltar
+            </Link>
+            <h1 className="text-2xl md:text-3xl font-bold">Portfólio Completo</h1>
+          </div>
+
+          <Tabs defaultValue="todos" className="w-full" onValueChange={setActiveCategory}>
+            <TabsList className="flex justify-center mb-8 bg-transparent">
+              <TabsTrigger
+                value="todos"
+                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md mx-1"
+              >
+                TODOS
+              </TabsTrigger>
+              <TabsTrigger
+                value="institucional"
+                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md mx-1"
+              >
+                INSTITUCIONAL
+              </TabsTrigger>
+              <TabsTrigger
+                value="evento"
+                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md mx-1"
+              >
+                EVENTOS
+              </TabsTrigger>
+              <TabsTrigger
+                value="produto"
+                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md mx-1"
+              >
+                PRODUTOS
+              </TabsTrigger>
+              <TabsTrigger
+                value="empresarial"
+                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md mx-1"
+              >
+                EMPRESARIAL
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value={activeCategory} className="mt-0">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {filteredItems.slice(0, visibleItems).map((item, index) => (
+                  <motion.div
+                    key={index}
+                    className="relative group overflow-hidden rounded-lg"
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: Math.min(index * 0.05, 0.3) }}
+                    whileHover={{ y: -5 }}
                   >
-                    TODOS
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="institucional"
-                    className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md mx-1"
-                  >
-                    INSTITUCIONAL
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="evento"
-                    className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md mx-1"
-                  >
-                    EVENTOS
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="produto"
-                    className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md mx-1"
-                  >
-                    PRODUTOS
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value="empresarial"
-                    className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md mx-1"
-                  >
-                    EMPRESARIAL
-                  </TabsTrigger>
-                </TabsList>
+                    <Image
+                      src={item.image || "/placeholder.svg"}
+                      alt={item.title}
+                      width={400}
+                      height={225}
+                      className="w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-105"
+                      loading={index < 6 ? "eager" : "lazy"}
+                    />
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <Button
+                        className="bg-[#00B2B2]/80 hover:bg-[#00B2B2] h-12 w-12 rounded-full flex items-center justify-center"
+                        onClick={(e) => {
+                          e.preventDefault()
+                          e.stopPropagation()
+                          openVideoModal(item.videoId)
+                        }}
+                      >
+                        <Play size={20} fill="white" />
+                      </Button>
+                    </div>
+                    <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
+                      <p className="text-xs text-[#00B2B2]">{item.category}</p>
+                      <h3 className="font-bold">{item.title}</h3>
+                    </div>
+                  </motion.div>
+                ))}
               </div>
+            </TabsContent>
+          </Tabs>
 
-              <TabsContent value="todos" className="mt-0">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                  {portfolioItems.slice(0, visibleItems).map((item, index) => (
-                    <motion.div
-                      key={index}
-                      className="relative group overflow-hidden rounded-lg"
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3, delay: Math.min(index * 0.05, 0.5) }}
-                      whileHover={{ y: -5 }}
-                    >
-                      <Image
-                        src={item.image || "/placeholder.svg"}
-                        alt={item.title}
-                        width={400}
-                        height={225}
-                        className="w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <Button
-                          className="bg-[#00B2B2]/80 hover:bg-[#00B2B2] h-12 w-12 rounded-full flex items-center justify-center"
-                          onClick={(e) => {
-                            e.preventDefault()
-                            e.stopPropagation()
-                            openVideoModal(item.videoId)
-                          }}
-                        >
-                          <Play size={20} fill="white" />
-                        </Button>
-                      </div>
-                      <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
-                        <p className="text-xs text-[#00B2B2]">{item.category}</p>
-                        <h3 className="font-bold">{item.title}</h3>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="institucional" className="mt-0">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                  {portfolioItems
-                    .filter((item) => item.category === "INSTITUCIONAL")
-                    .slice(0, visibleItems)
-                    .map((item, index) => (
-                      <motion.div
-                        key={index}
-                        className="relative group overflow-hidden rounded-lg"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: Math.min(index * 0.05, 0.5) }}
-                        whileHover={{ y: -5 }}
-                      >
-                        <Image
-                          src={item.image || "/placeholder.svg"}
-                          alt={item.title}
-                          width={400}
-                          height={225}
-                          className="w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                          <Button
-                            className="bg-[#00B2B2]/80 hover:bg-[#00B2B2] h-12 w-12 rounded-full flex items-center justify-center"
-                            onClick={(e) => {
-                              e.preventDefault()
-                              e.stopPropagation()
-                              openVideoModal(item.videoId)
-                            }}
-                          >
-                            <Play size={20} fill="white" />
-                          </Button>
-                        </div>
-                        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
-                          <p className="text-xs text-[#00B2B2]">{item.category}</p>
-                          <h3 className="font-bold">{item.title}</h3>
-                        </div>
-                      </motion.div>
-                    ))}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="evento" className="mt-0">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                  {portfolioItems
-                    .filter(
-                      (item) =>
-                        item.category === "EVENTO" ||
-                        item.category === "EVENTO CORPORATIVO" ||
-                        item.category === "EVENTO DE ENTRETENIMENTO",
-                    )
-                    .slice(0, visibleItems)
-                    .map((item, index) => (
-                      <motion.div
-                        key={index}
-                        className="relative group overflow-hidden rounded-lg"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: Math.min(index * 0.05, 0.5) }}
-                        whileHover={{ y: -5 }}
-                      >
-                        <Image
-                          src={item.image || "/placeholder.svg"}
-                          alt={item.title}
-                          width={400}
-                          height={225}
-                          className="w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                          <Button
-                            className="bg-[#00B2B2]/80 hover:bg-[#00B2B2] h-12 w-12 rounded-full flex items-center justify-center"
-                            onClick={(e) => {
-                              e.preventDefault()
-                              e.stopPropagation()
-                              openVideoModal(item.videoId)
-                            }}
-                          >
-                            <Play size={20} fill="white" />
-                          </Button>
-                        </div>
-                        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
-                          <p className="text-xs text-[#00B2B2]">{item.category}</p>
-                          <h3 className="font-bold">{item.title}</h3>
-                        </div>
-                      </motion.div>
-                    ))}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="produto" className="mt-0">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                  {portfolioItems
-                    .filter((item) => item.category === "PRODUTO")
-                    .slice(0, visibleItems)
-                    .map((item, index) => (
-                      <motion.div
-                        key={index}
-                        className="relative group overflow-hidden rounded-lg"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: Math.min(index * 0.05, 0.5) }}
-                        whileHover={{ y: -5 }}
-                      >
-                        <Image
-                          src={item.image || "/placeholder.svg"}
-                          alt={item.title}
-                          width={400}
-                          height={225}
-                          className="w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                          <Button
-                            className="bg-[#00B2B2]/80 hover:bg-[#00B2B2] h-12 w-12 rounded-full flex items-center justify-center"
-                            onClick={(e) => {
-                              e.preventDefault()
-                              e.stopPropagation()
-                              openVideoModal(item.videoId)
-                            }}
-                          >
-                            <Play size={20} fill="white" />
-                          </Button>
-                        </div>
-                        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
-                          <p className="text-xs text-[#00B2B2]">{item.category}</p>
-                          <h3 className="font-bold">{item.title}</h3>
-                        </div>
-                      </motion.div>
-                    ))}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="empresarial" className="mt-0">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                  {portfolioItems
-                    .filter((item) => item.category === "EMPRESARIAL")
-                    .slice(0, visibleItems)
-                    .map((item, index) => (
-                      <motion.div
-                        key={index}
-                        className="relative group overflow-hidden rounded-lg"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: Math.min(index * 0.05, 0.5) }}
-                        whileHover={{ y: -5 }}
-                      >
-                        <Image
-                          src={item.image || "/placeholder.svg"}
-                          alt={item.title}
-                          width={400}
-                          height={225}
-                          className="w-full aspect-video object-cover transition-transform duration-300 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                          <Button
-                            className="bg-[#00B2B2]/80 hover:bg-[#00B2B2] h-12 w-12 rounded-full flex items-center justify-center"
-                            onClick={(e) => {
-                              e.preventDefault()
-                              e.stopPropagation()
-                              openVideoModal(item.videoId)
-                            }}
-                          >
-                            <Play size={20} fill="white" />
-                          </Button>
-                        </div>
-                        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black to-transparent">
-                          <p className="text-xs text-[#00B2B2]">{item.category}</p>
-                          <h3 className="font-bold">{item.title}</h3>
-                        </div>
-                      </motion.div>
-                    ))}
-                </div>
-              </TabsContent>
-            </Tabs>
-
+          {visibleItems < filteredItems.length && (
             <div className="flex justify-center mt-10">
-              {visibleItems < portfolioItems.length ? (
-                <Button
-                  className="bg-[#00B2B2] hover:bg-[#009999] text-white rounded-md px-6 py-3 flex items-center gap-2"
-                  onClick={loadMoreItems}
-                  disabled={isLoading}
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 size={16} className="animate-spin mr-2" />
-                      CARREGANDO...
-                    </>
-                  ) : (
-                    "CARREGAR MAIS PROJETOS"
-                  )}
-                </Button>
-              ) : (
-                <p className="text-gray-400 text-sm">Todos os projetos foram carregados</p>
-              )}
+              <Button
+                className="bg-[#00B2B2] hover:bg-[#009999] text-white rounded-md px-6 py-3"
+                onClick={loadMoreItems}
+                disabled={isLoading}
+              >
+                {isLoading ? "CARREGANDO..." : "CARREGAR MAIS"}
+              </Button>
             </div>
-          </div>
-        </section>
+          )}
+        </div>
+      </section>
 
-        {/* Video Modal */}
-        <PortfolioVideoModal
-          isOpen={isVideoModalOpen}
-          onClose={() => setIsVideoModalOpen(false)}
-          videoId={currentVideoId}
-        />
-      </div>
+      {/* Video Modal */}
+      <PortfolioVideoModal
+        isOpen={isVideoModalOpen}
+        onClose={() => setIsVideoModalOpen(false)}
+        videoId={currentVideoId}
+      />
+
       <Footer />
-    </>
+    </div>
   )
 }

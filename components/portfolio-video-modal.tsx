@@ -1,8 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
-import { CustomVideoPlayer } from "@/components/custom-video-player"
 import { X } from "lucide-react"
 
 interface PortfolioVideoModalProps {
@@ -12,26 +10,29 @@ interface PortfolioVideoModalProps {
 }
 
 export function PortfolioVideoModal({ isOpen, onClose, videoId }: PortfolioVideoModalProps) {
-  const [isMounted, setIsMounted] = useState(false)
-
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
-
-  if (!isMounted) return null
+  if (!videoId) return null
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="max-w-4xl p-0 bg-black border-gray-800">
         <button
           onClick={onClose}
-          className="absolute right-4 top-4 z-50 bg-black/50 rounded-full p-2 text-white hover:bg-black transition-colors"
-          aria-label="Fechar"
+          className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 z-10"
+          aria-label="Close"
         >
-          <X size={20} />
+          <X className="h-6 w-6 text-white" />
         </button>
-        <div className="w-full aspect-video">
-          <CustomVideoPlayer videoId={videoId} className="w-full h-full" />
+        <div className="aspect-video w-full">
+          {isOpen && (
+            <iframe
+              src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`}
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="w-full h-full"
+              loading="lazy"
+            ></iframe>
+          )}
         </div>
       </DialogContent>
     </Dialog>
