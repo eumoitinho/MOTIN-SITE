@@ -86,11 +86,17 @@ export default function MotinFilms() {
 
   // Lista de itens do portfólio em destaque
   const portfolioItems = [
-    {
-      title: "BLANC DE ROUGE",
-      category: "EVENTO",
-      image: "/portfolio/blanc-de-rouge.jpeg",
-      videoId: "UiqL2gycjo8",
+     {
+      title: "SS&C BLUE PRISM",
+      category: "EVENTO CORPORATIVO",
+      image: "/portfolio/ssc-blue-prism.jpeg",
+      videoId: "3YNyHv8jH60",
+    },
+     {
+      title: "ACTIONCOACH",
+      category: "INSTITUCIONAL",
+      image: "https://i.ytimg.com/vi/Roo1OWxkCZM/maxresdefault.jpg",
+      videoId: "Roo1OWxkCZM",
     },
     {
       title: "LIQUEXPRESS",
@@ -99,28 +105,10 @@ export default function MotinFilms() {
       videoId: "hG86fjjkpx4",
     },
     {
-      title: "LUMICENTER",
-      category: "EVENTO CORPORATIVO",
-      image: "/portfolio/lumicenter.jpeg",
-      videoId: "Dvj_JDpJPTU",
-    },
-    {
-      title: "SS&C BLUE PRISM",
-      category: "EVENTO CORPORATIVO",
-      image: "/portfolio/ssc-blue-prism.jpeg",
-      videoId: "3YNyHv8jH60",
-    },
-    {
-      title: "DITRATOR",
+      title: "UNIFATEB E DOM BOSCO",
       category: "INSTITUCIONAL",
-      image: "/portfolio/ditrator.jpeg",
-      videoId: "ond_kR7F_7s",
-    },
-    {
-      title: "ESCOLAR OFFICE BRASIL",
-      category: "INSTITUCIONAL",
-      image: "/portfolio/escolar-office-brasil-1.jpeg",
-      videoId: "ipRxXf7od5E",
+      image: "/portfolio/unifateb-dom-bosco.jpeg",
+      videoId: "YjST4vR4hfY",
     },
     {
       title: "BIOBIO COSMÉTICOS",
@@ -129,16 +117,28 @@ export default function MotinFilms() {
       videoId: "rGk75VaxOHA",
     },
     {
-      title: "UNIFATEB E DOM BOSCO",
-      category: "INSTITUCIONAL",
-      image: "/portfolio/unifateb-dom-bosco.jpeg",
-      videoId: "YjST4vR4hfY",
+      title: "LUMICENTER",
+      category: "EVENTO CORPORATIVO",
+      image: "/portfolio/lumicenter.jpeg",
+      videoId: "Dvj_JDpJPTU",
+    },
+     {
+      title: "PASA",
+      category: "PRODUTO",
+      image: "https://i.ytimg.com/vi/cUatyp4eyhw/maxresdefault.jpg",
+      videoId: "cUatyp4eyhw",
     },
     {
-      title: "LJ SANTOS",
-      category: "PRODUTO",
-      image: "/portfolio/lj-santos.jpeg",
-      videoId: "RuZy13ZDmeQ",
+      title: "ESCOLAR OFFICE BRASIL",
+      category: "INSTITUCIONAL",
+      image: "/portfolio/escolar-office-brasil-1.jpeg",
+      videoId: "ipRxXf7od5E",
+    },
+    {
+      title: "DITRATOR",
+      category: "INSTITUCIONAL",
+      image: "/portfolio/ditrator.jpeg",
+      videoId: "ond_kR7F_7s",
     },
   ]
 

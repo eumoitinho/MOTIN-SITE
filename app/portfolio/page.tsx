@@ -106,7 +106,7 @@ export default function PortfolioPage() {
     },
     // Novos vídeos adicionados com thumbnails do YouTube
     {
-      title: "PRODUTO ESPECIAL",
+      title: "PASA",
       category: "PRODUTO",
       image: "https://i.ytimg.com/vi/cUatyp4eyhw/maxresdefault.jpg",
       videoId: "cUatyp4eyhw",
@@ -190,7 +190,7 @@ export default function PortfolioPage() {
       videoId: "zHZ1DFHkR5E",
     },
     {
-      title: "APRESENTAÇÃO CORPORATIVA",
+      title: "ACTIONCOACH",
       category: "INSTITUCIONAL",
       image: "https://i.ytimg.com/vi/Roo1OWxkCZM/maxresdefault.jpg",
       videoId: "Roo1OWxkCZM",
