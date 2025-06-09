@@ -40,19 +40,7 @@ export default function MotinFilms() {
   }
 
     // Função para obter a cor do badge baseada na categoria
-  const getBadgeColor = (category: string) => {
-    const colors = {
-      INSTITUCIONAL: "bg-blue-500/20 text-blue-400 border-blue-500/30",
-      "EVENTO CORPORATIVO": "bg-purple-500/20 text-purple-400 border-purple-500/30",
-      PRODUTO: "bg-green-500/20 text-green-400 border-green-500/30",
-      CASE: "bg-orange-500/20 text-orange-400 border-orange-500/30",
-      CONTEÚDO: "bg-pink-500/20 text-pink-400 border-pink-500/30",
-      "AÇÃO DE MARKETING": "bg-yellow-500/20 text-yellow-400 border-yellow-500/30",
-      ARTISTAS: "bg-red-500/20 text-red-400 border-red-500/30",
-      TREINAMENTO: "bg-indigo-500/20 text-indigo-400 border-indigo-500/30",
-    }
-    return colors[category as keyof typeof colors] || "bg-gray-500/20 text-gray-400 border-gray-500/30"
-  }
+  
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -100,64 +88,77 @@ export default function MotinFilms() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  // Lista de itens do portfólio em destaque
-  const portfolioItems = [
-    {
-      title: "BLUEPRISM",
-      category: "EVENTO CORPORATIVO",
-      image: "https://i.ytimg.com/vi/kKpIG1XKbS0/maxresdefault.jpg",
-      videoId: "kKpIG1XKbS0",
-    },
-    {
-      title: "ACTION COACH",
-      category: "INSTITUCIONAL",
-      image: "https://i.ytimg.com/vi/JjBw2zdNuek/maxresdefault.jpg",
-      videoId: "JjBw2zdNuek",
-    },
-    {
-      title: "LIQUEXPRESS",
-      category: "INSTITUCIONAL",
-      image: "https://i.ytimg.com/vi/3YNyHv8jH60/maxresdefault.jpg",
-      videoId: "3YNyHv8jH60",
-    },
-    {
-      title: "UNIFATEB",
-      category: "INSTITUCIONAL",
-      image: "https://i.ytimg.com/vi/Wyg3UPuf5Ec/maxresdefault.jpg",
-      videoId: "Wyg3UPuf5Ec",
-    },
-    {
-      title: "BIOBIO",
-      category: "PRODUTO",
-      image: "https://i.ytimg.com/vi/oC-T7m3JU8E/maxresdefault.jpg",
-      videoId: "oC-T7m3JU8E",
-    },
-    {
-      title: "LUMICENTER",
-      category: "EVENTO CORPORATIVO",
-      image: "https://i.ytimg.com/vi/4LE6PpXeUnQ/maxresdefault.jpg",
-      videoId: "4LE6PpXeUnQ",
-    },
-    {
-      title: "PASA",
-      category: "TREINAMENTO",
-      image: "https://i.ytimg.com/vi/2baqnywIK5w/maxresdefault.jpg",
-      videoId: "2baqnywIK5w",
-    },
-    {
-      title: "ESCOLAR OFFICE BRASIL",
-      category: "CASE",
-      image: "https://i.ytimg.com/vi/hx_lx1saEiQ/maxresdefault.jpg",
-      videoId: "hx_lx1saEiQ",
-    },
-    {
-      title: "DITRATOR",
-      category: "INSTITUCIONAL",
-      image: "https://i.ytimg.com/vi/YU1VTsr-h-Q/maxresdefault.jpg",
-      videoId: "YU1VTsr-h-Q",
-    },
-  ]
+// Função para obter a cor do badge - usando apenas verde como solicitado
+const getBadgeColor = (category: string) => {
+  return "bg-primary/20 text-primary border-primary/30"
+}
 
+// Lista de itens do portfólio em destaque - dados verificados e consistentes
+const portfolioItems = [
+  {
+    title: "BLUEPRISM",
+    category: "EVENTO CORPORATIVO",
+    description: "Cobertura completa do evento corporativo da SS&C Blue Prism com captação dinâmica e edição profissional.",
+    image: "https://i.ytimg.com/vi/kKpIG1XKbS0/maxresdefault.jpg",
+    videoId: "kKpIG1XKbS0",
+  },
+  {
+    title: "ACTION COACH",
+    category: "INSTITUCIONAL",
+    description: "Filme institucional destacando os valores e metodologia da ActionCOACH Brasil.",
+    image: "https://i.ytimg.com/vi/JjBw2zdNuek/maxresdefault.jpg",
+    videoId: "JjBw2zdNuek",
+  },
+  {
+    title: "LIQUEXPRESS",
+    category: "INSTITUCIONAL",
+    description: "Apresentação institucional da Liquexpress, destacando seus serviços e diferenciais no mercado.",
+    image: "https://i.ytimg.com/vi/3YNyHv8jH60/maxresdefault.jpg",
+    videoId: "3YNyHv8jH60",
+  },
+  {
+    title: "UNIFATEB",
+    category: "INSTITUCIONAL",
+    description: "Filme institucional da UNIFATEB apresentando a estrutura e qualidade do ensino superior.",
+    image: "https://i.ytimg.com/vi/Wyg3UPuf5Ec/maxresdefault.jpg",
+    videoId: "Wyg3UPuf5Ec",
+  },
+  {
+    title: "BIOBIO",
+    category: "PRODUTO",
+    description: "Apresentação do produto BioBio com foco em sustentabilidade e inovação.",
+    image: "https://i.ytimg.com/vi/oC-T7m3JU8E/maxresdefault.jpg",
+    videoId: "oC-T7m3JU8E",
+  },
+  {
+    title: "LUMICENTER",
+    category: "EVENTO CORPORATIVO",
+    description: "Cobertura do evento corporativo da Lumicenter com captação aérea e terrestre.",
+    image: "https://i.ytimg.com/vi/4LE6PpXeUnQ/maxresdefault.jpg",
+    videoId: "4LE6PpXeUnQ",
+  },
+  {
+    title: "PASA",
+    category: "TREINAMENTO",
+    description: "Vídeo de treinamento corporativo da PASA com metodologia didática e engajante.",
+    image: "https://i.ytimg.com/vi/2baqnywIK5w/maxresdefault.jpg",
+    videoId: "2baqnywIK5w",
+  },
+  {
+    title: "ESCOLAR OFFICE BRASIL",
+    category: "CASE",
+    description: "Case de sucesso da Escolar Office Brasil, mostrando a jornada empreendedora pelo país.",
+    image: "https://i.ytimg.com/vi/hx_lx1saEiQ/maxresdefault.jpg",
+    videoId: "hx_lx1saEiQ",
+  },
+  {
+    title: "DITRATOR",
+    category: "INSTITUCIONAL",
+    description: "Filme institucional da Ditrator apresentando soluções em tecnologia e inovação.",
+    image: "https://i.ytimg.com/vi/YU1VTsr-h-Q/maxresdefault.jpg",
+    videoId: "YU1VTsr-h-Q",
+  },
+]
   
 
   const methodology = [
@@ -481,187 +482,188 @@ export default function MotinFilms() {
             <Image src="/brands/ancine.png" alt="Ancine" width={150} height={75} />
           </div>
         </section>
- {/* Portfolio Section */}
+{/* Portfolio Section */}
       <section ref={sectionRefs.portfolio} className="bg-black py-16" id="portfolio">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-2 text-center">Nosso portfólio</h2>
-            <p className="text-gray-300 text-center mb-12">Veja alguns dos nossos trabalhos mais recentes</p>
-          </motion.div>
+  <div className="container mx-auto px-4">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      viewport={{ once: true }}
+    >
+      <h2 className="text-3xl md:text-4xl font-bold mb-2 text-center">Nosso portfólio</h2>
+      <p className="text-gray-300 text-center mb-12">Veja alguns dos nossos trabalhos mais recentes</p>
+    </motion.div>
 
-          <Tabs defaultValue="todos" className="w-full">
-            <TabsList className="flex justify-center mb-12 bg-transparent">
-              <TabsTrigger
-                value="todos"
-                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md mx-1"
-              >
-                TODOS
-              </TabsTrigger>
-              <TabsTrigger
-                value="institucional"
-                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md mx-1"
-              >
-                INSTITUCIONAL
-              </TabsTrigger>
-              <TabsTrigger
-                value="evento"
-                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md mx-1"
-              >
-                EVENTOS
-              </TabsTrigger>
-              <TabsTrigger
-                value="produto"
-                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md mx-1"
-              >
-                PRODUTOS
-              </TabsTrigger>
-              <TabsTrigger
-                value="case"
-                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md mx-1"
-              >
-                CASES
-              </TabsTrigger>
-              <TabsTrigger
-                value="treinamento"
-                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md mx-1"
-              >
-                TREINAMENTO
-              </TabsTrigger>
-            </TabsList>
+    <Tabs defaultValue="todos" className="w-full">
+      <TabsList className="flex justify-center mb-12 bg-transparent">
+        <TabsTrigger
+          value="todos"
+          className="data-[state=active]:bg-primary data-[state=active]:text-white rounded-md mx-1"
+        >
+          TODOS
+        </TabsTrigger>
+        <TabsTrigger
+          value="institucional"
+          className="data-[state=active]:bg-primary data-[state=active]:text-white rounded-md mx-1"
+        >
+          INSTITUCIONAL
+        </TabsTrigger>
+        <TabsTrigger
+          value="evento"
+          className="data-[state=active]:bg-primary data-[state=active]:text-white rounded-md mx-1"
+        >
+          EVENTOS
+        </TabsTrigger>
+        <TabsTrigger
+          value="produto"
+          className="data-[state=active]:bg-primary data-[state=active]:text-white rounded-md mx-1"
+        >
+          PRODUTOS
+        </TabsTrigger>
+        <TabsTrigger
+          value="case"
+          className="data-[state=active]:bg-primary data-[state=active]:text-white rounded-md mx-1"
+        >
+          CASES
+        </TabsTrigger>
+        <TabsTrigger
+          value="treinamento"
+          className="data-[state=active]:bg-primary data-[state=active]:text-white rounded-md mx-1"
+        >
+          TREINAMENTO
+        </TabsTrigger>
+      </TabsList>
 
-            <TabsContent value="todos" className="mt-0">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {portfolioItems.map((item, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                    whileHover={{ y: -8 }}
-                  >
-                    <Card className="bg-gray-900/50 border-gray-800 overflow-hidden group hover:border-[#00B2B2]/50 transition-all duration-300">
-                      <CardContent className="p-0">
-                        {/* Video Thumbnail */}
-                        <div
-                          className="relative overflow-hidden cursor-pointer"
-                          onClick={() => openVideoModal(item.videoId)}
-                        >
-                          <Image
-                            src={item.image || "/placeholder.svg"}
-                            alt={item.title}
-                            width={400}
-                            height={225}
-                            className="w-full aspect-video object-cover transition-transform duration-500 group-hover:scale-110"
-                          />
-
-                          {/* Play Button Overlay */}
-                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
-                            <Button className="bg-[#00B2B2]/90 hover:bg-[#00B2B2] h-16 w-16 rounded-full flex items-center justify-center shadow-2xl transform scale-90 group-hover:scale-100 transition-transform duration-300">
-                              <Play size={24} fill="white" className="ml-1" />
-                            </Button>
-                          </div>
-                        </div>
-
-                        {/* Card Content - Apenas Badge e Título */}
-                        <div className="p-4 space-y-2">
-                          {/* Badge */}
-                          <Badge
-                            variant="outline"
-                            className={`text-xs font-medium px-3 py-1 ${getBadgeColor(item.category)}`}
-                          >
-                            {item.category}
-                          </Badge>
-
-                          {/* Title */}
-                          <h3 className="font-bold text-lg text-white group-hover:text-[#00B2B2] transition-colors duration-300">
-                            {item.title}
-                          </h3>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
-              </div>
-            </TabsContent>
-
-            {/* Filtered content for other tabs */}
-            {["institucional", "evento", "produto", "case", "treinamento"].map((category) => (
-              <TabsContent key={category} value={category} className="mt-0">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {portfolioItems
-                    .filter((item) => item.category.toLowerCase().includes(category))
-                    .map((item, index) => (
-                      <motion.div
-                        key={index}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3, delay: index * 0.1 }}
-                        viewport={{ once: true }}
-                        whileHover={{ y: -8 }}
-                      >
-                        <Card className="bg-gray-900/50 border-gray-800 overflow-hidden group hover:border-[#00B2B2]/50 transition-all duration-300">
-                          <CardContent className="p-0">
-                            {/* Video Thumbnail */}
-                            <div
-                              className="relative overflow-hidden cursor-pointer"
-                              onClick={() => openVideoModal(item.videoId)}
-                            >
-                              <Image
-                                src={item.image || "/placeholder.svg"}
-                                alt={item.title}
-                                width={400}
-                                height={225}
-                                className="w-full aspect-video object-cover transition-transform duration-500 group-hover:scale-110"
-                              />
-
-                              {/* Play Button Overlay */}
-                              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
-                                <Button className="bg-[#00B2B2]/90 hover:bg-[#00B2B2] h-16 w-16 rounded-full flex items-center justify-center shadow-2xl transform scale-90 group-hover:scale-100 transition-transform duration-300">
-                                  <Play size={24} fill="white" className="ml-1" />
-                                </Button>
-                              </div>
-                            </div>
-
-                            {/* Card Content - Apenas Badge e Título */}
-                            <div className="p-4 space-y-2">
-                              {/* Badge */}
-                              <Badge
-                                variant="outline"
-                                className={`text-xs font-medium px-3 py-1 ${getBadgeColor(item.category)}`}
-                              >
-                                {item.category}
-                              </Badge>
-
-                              {/* Title */}
-                              <h3 className="font-bold text-lg text-white group-hover:text-[#00B2B2] transition-colors duration-300">
-                                {item.title}
-                              </h3>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </motion.div>
-                    ))}
-                </div>
-              </TabsContent>
-            ))}
-          </Tabs>
-
-          <div className="flex justify-center mt-12">
-            <Link href="/portfolio">
-              <Button className="bg-[#00B2B2] hover:bg-[#009999] text-white rounded-md px-8 py-4 flex items-center gap-2">
-                VER PORTFÓLIO COMPLETO
-                <ChevronRight size={20} />
-              </Button>
-            </Link>
+      <TabsContent value="todos" className="mt-0">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  {portfolioItems.map((item, index) => (
+    <motion.div
+      key={index}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, delay: index * 0.1 }}
+      viewport={{ once: true }}
+      whileHover={{ y: -8, scale: 1.02 }}
+      className="group cursor-pointer"
+      onClick={() => openVideoModal(item.videoId)}
+    >
+      {/* Card de Vídeo */}
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/20 shadow-2xl hover:shadow-primary/20 transition-all duration-500">
+        <Image
+          src={item.image || "/placeholder.svg"}
+          alt={item.title}
+          width={400}
+          height={225}
+          className="w-full aspect-video object-cover transition-transform duration-700 group-hover:scale-110"
+        />
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="bg-primary/90 backdrop-blur-sm h-16 w-16 rounded-full flex items-center justify-center shadow-2xl transform scale-90 group-hover:scale-100 transition-transform duration-300 border border-white/20">
+            <Play size={24} fill="white" className="ml-1" />
           </div>
         </div>
-      </section>
+      </div>
+
+      {/* Badge, Título e Descrição fora do card */}
+      <div className="mt-4 space-y-2">
+        <Badge
+          variant="outline"
+          className="text-xs font-medium px-3 py-1.5 backdrop-blur-md bg-primary/20 text-primary border-primary/30 shadow-lg"
+        >
+          {item.category}
+        </Badge>
+        <h3 className="text-lg font-bold text-white group-hover:text-primary transition-colors">
+          {item.title}
+        </h3>
+        <p className="text-gray-300 text-sm leading-relaxed line-clamp-2">
+          {item.description}
+        </p>
+      </div>
+    </motion.div>
+  ))}
+</div>
+      </TabsContent>
+
+      {/* Filtered content for other tabs */}
+      {["institucional", "evento", "produto", "case", "treinamento"].map((category) => (
+        <TabsContent key={category} value={category} className="mt-0">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {portfolioItems
+              .filter((item) => item.category.toLowerCase().includes(category))
+              .map((item, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  className="group cursor-pointer"
+                  onClick={() => openVideoModal(item.videoId)}
+                >
+                  {/* Liquid Glass Card */}
+                  <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/20 shadow-2xl hover:shadow-primary/20 transition-all duration-500">
+                    {/* Video Thumbnail */}
+                    <div className="relative overflow-hidden">
+                      <Image
+                        src={item.image || "/placeholder.svg"}
+                        alt={item.title}
+                        width={400}
+                        height={225}
+                        className="w-full aspect-video object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                      
+                      {/* Gradient Overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-300" />
+                      
+                      {/* Play Button */}
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        <div className="bg-primary/90 backdrop-blur-sm h-16 w-16 rounded-full flex items-center justify-center shadow-2xl transform scale-90 group-hover:scale-100 transition-transform duration-300 border border-white/20">
+                          <Play size={24} fill="white" className="ml-1" />
+                        </div>
+                      </div>
+
+                      {/* Badge */}
+                      <div className="absolute top-4 left-4">
+                        <Badge
+                          variant="outline"
+                          className={`text-xs font-medium px-3 py-1.5 backdrop-blur-md bg-primary/20 text-primary border-primary/30 shadow-lg`}
+                        >
+                          {item.category}
+                        </Badge>
+                      </div>
+                    </div>
+
+                    {/* Card Content */}
+                    <div className="p-6 space-y-3">
+                      <h3 className="font-bold text-xl text-white group-hover:text-primary transition-colors duration-300 line-clamp-1">
+                        {item.title}
+                      </h3>
+                      <p className="text-gray-300 text-sm leading-relaxed line-clamp-2 group-hover:text-gray-200 transition-colors duration-300">
+                        {item.description}
+                      </p>
+                    </div>
+
+                    {/* Glass Effect Border */}
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                  </div>
+                </motion.div>
+              ))}
+          </div>
+        </TabsContent>
+      ))}
+    </Tabs>
+
+    <div className="flex justify-center mt-12">
+      <Link href="/portfolio">
+        <Button className="bg-primary hover:bg-primary/90 text-white rounded-md px-8 py-4 flex items-center gap-2 shadow-lg hover:shadow-primary/20 transition-all duration-300">
+          VER PORTFÓLIO COMPLETO
+          <ChevronRight size={20} />
+        </Button>
+      </Link>
+    </div>
+  </div>
+</section>
 
 
         {/* Why Choose Us Section - Updated */}
