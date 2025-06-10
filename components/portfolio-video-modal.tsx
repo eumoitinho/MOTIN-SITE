@@ -23,16 +23,19 @@ export function PortfolioVideoModal({ isOpen, onClose, videoId }: PortfolioVideo
           <X className="h-6 w-6 text-white" />
         </button>
         <div className="aspect-video w-full">
-          {isOpen && (
-            <iframe
-              src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`}
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="w-full h-full"
-              loading="lazy"
-            ></iframe>
-          )}
+           <div className="relative  rounded-xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/20 shadow-lg">
+             {isOpen && (
+               <iframe
+                 src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`}
+                 title="YouTube video player"
+                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                 allowFullScreen
+                 className="w-full h-full"
+                 loading="lazy"
+               ></iframe>
+             )}
+             
+           </div>
         </div>
       </DialogContent>
     </Dialog>
