@@ -49,11 +49,7 @@ export default function RootLayout({
           data-deferred="1"
         />
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-62E37T448N" defer data-deferred="1" />
-        <script
-          type="text/javascript"
-          async
-          src="https://d335luupugsy2.cloudfront.net/js/loader-scripts/11c7dc74-1a5c-4f2e-a40a-b5824fed51b0-loader.js"
-        />
+       
      
         {/* Google Tag Manager (noscript) */}
         {/* <noscript>
@@ -88,6 +84,11 @@ export default function RootLayout({
             style={{ display: "none", visibility: "hidden" }}
           ></iframe>
         </noscript> */}
+         <script
+          type="text/javascript"
+          async
+          src="https://d335luupugsy2.cloudfront.net/js/loader-scripts/11c7dc74-1a5c-4f2e-a40a-b5824fed51b0-loader.js"
+        />
          </head>
       <body>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
