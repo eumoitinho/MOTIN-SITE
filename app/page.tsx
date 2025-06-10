@@ -109,12 +109,7 @@ export default function MotinFilms() {
     },
   ]
 
-  const openDetail = (item: typeof portfolioItems[0]) => {
-    setDetailItem(item)
-    setIsDetailOpen(true)
-  }
 
-  const closeDetail = () => setIsDetailOpen(false)
 
   const renderGrid = (items: typeof portfolioItems) => (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
@@ -204,15 +199,21 @@ export default function MotinFilms() {
     }
   }
 
-  const openVideoModal = (videoId: string) => {
-    setCurrentVideoId(videoId)
-    setIsVideoModalOpen(true)
+
+  const openDetail = (item: typeof portfolioItems[0]) => {
+    setDetailItem(item)
+    setIsDetailOpen(true)
   }
 
-  const closeVideoModal = () => {
-    setIsVideoModalOpen(false)
-    setCurrentVideoId(null)
+  const closeDetail = () => setIsDetailOpen(false)
+
+const openVideoModal = (videoId: string) => {
+  const item = portfolioItems.find((item) => item.videoId === videoId) || null
+  if (item) {
+    setDetailItem(item)
+    setIsDetailOpen(true)
   }
+}
 
   useEffect(() => {
     const handleScroll = () => {
