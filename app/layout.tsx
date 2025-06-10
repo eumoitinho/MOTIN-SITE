@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { ScrollToTop } from "@/components/scroll-to-top"
 import { UtmCapture } from "@/components/utm-capture"
 import { GoogleTagManager } from '@next/third-parties/google'
+import { Analytics } from "@vercel/analytics/next"
 
 export const metadata = {
   title: "Motin Films - Produção Audiovisual de Alta Qualidade",
@@ -91,6 +92,7 @@ export default function RootLayout({
       <body>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <UtmCapture />
+          <Analytics />
           {children}
           <ScrollToTop />
         </ThemeProvider>
