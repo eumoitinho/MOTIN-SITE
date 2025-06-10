@@ -716,39 +716,41 @@ export default function MotinFilms() {
               <X size={24} />
             </button>
 
-            {/* Content Grid */}
-            <div className="grid grid-cols-1 gap-6 p-6">
-              {/* Video */}
-              <div className="relative">
-                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/20 shadow-lg">
-                  <iframe
-                    src={`https://www.youtube.com/embed/${detailItem.videoId}?autoplay=1&rel=0&modestbranding=1&controls=1`}
-                    title="YouTube video player"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="w-full h-[60vh] rounded-lg shadow-inner"
-                  />
-                </div>
-              </div>
+      {/* Content Grid */}
+      <div className="grid grid-cols-1 gap-6 p-6">
+        {/* Video */}
+        <div className="relative">
+          <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/20 shadow-lg">
+            <iframe
+              src={`https://www.youtube.com/embed/${detailItem.videoId}?autoplay=1&rel=0&modestbranding=1&controls=1`}
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="w-full h-[60vh] rounded-lg shadow-inner"
+            />
+           
+          </div>
+        </div>
 
-              {/* Details */}
-              <div className="space-y-4">
-                <h3 className="text-2xl font-bold text-white">{detailItem.title}</h3>
-                <Badge
-                  variant="outline"
-                  className="text-xs font-medium px-3 py-1.5 backdrop-blur-md bg-primary/20 text-primary border-primary/30 shadow-lg"
-                >
-                  {detailItem.category}
-                </Badge>
-                <p className="text-gray-300 text-base leading-relaxed">{detailItem.description}</p>
-              </div>
-            </div>
+        {/* Details */}
+        <div className="space-y-4">
+          <h3 className="text-2xl font-bold text-white">{detailItem.title}</h3>
+          <Badge
+            variant="outline"
+            className="text-xs font-medium px-3 py-1.5 backdrop-blur-md bg-primary/20 text-primary border-primary/30 shadow-lg"
+          >
+            {detailItem.category}
+          </Badge>
+          <p className="text-gray-300 text-base leading-relaxed">{detailItem.description}</p>
+        </div>
+      </div>
 
-            {/* Liquid Glass Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-[#00B2B2]/10 via-transparent to-[#00B2B2]/5 backdrop-blur-sm opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-          </motion.div>
-        </motion.div>
-      )}
+          {/* Liquid Glass Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-[#00B2B2]/10 via-transparent to-[#00B2B2]/5 backdrop-blur-sm opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+              </motion.div>
+            </motion.div>
+          )}
+
 
         {/* Why Choose Us Section - Updated */}
         <WhyChooseUs />
