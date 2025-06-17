@@ -28,6 +28,7 @@ import {
   Eye,
   CheckCircle2,
   Sparkles,
+  Newspaper,
 } from "lucide-react"
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
@@ -291,7 +292,7 @@ export default function MotinFilms() {
               <Badge className="bg-primary/20 text-primary border-primary/30 text-xs font-medium px-3 py-1">
                 {item.category}
               </Badge>
-              <h3 className="text-lg font-semibold text-white group-hover:text-primary transition-colors">
+              <h3 className="text-lg font-semibold text-white group-hover:text-primary/30 transition-colors">
                 {item.title}
               </h3>
               <p className="text-gray-400 text-sm leading-relaxed line-clamp-2">{item.description}</p>
@@ -592,7 +593,9 @@ export default function MotinFilms() {
                 <h2 className="text-3xl md:text-4xl font-light mb-8 leading-tight">
                   Crie seu filme com a produtora
                   <br />
-                  <span className="font-semibold">das grandes marcas</span>
+                  <span className="font-semibold bg-gradient-to-r from-[#00b2b2] to-[#008080] bg-clip-text text-transparent">
+                
+                das grandes marcas</span>
                 </h2>
                 <ul className="mb-10 space-y-4">
                   {[
@@ -600,9 +603,9 @@ export default function MotinFilms() {
                     "Crie conexão com sua audiência",
                     "Exponha seu produto de maneira única no mercado",
                     "Reforce a lembrança da sua marca",
-                  ].map((item, index) => (
+                  ].map((item, index) => ( 
                     <li key={index} className="flex items-center gap-4">
-                      <span className="text-primary text-xl">✓</span>
+                      <span className="bg-gradient-to-r from-[#00b2b2] to-[#008080] bg-clip-text text-transparent text-xl">✓</span>
                       <span className="text-gray-300">{item}</span>
                     </li>
                   ))}
@@ -639,15 +642,28 @@ export default function MotinFilms() {
         <section className="section-slide-up bg-black py-20" id="portfolio">
           <div className="container mx-auto px-6 max-w-7xl">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="text-center mb-16"
+              className="text-center mb-20"
             >
-              <h2 className="text-3xl md:text-4xl font-light mb-6">Nossos Trabalhos</h2>
-              <p className="text-gray-400 text-lg font-light">Confira alguns dos nossos projetos mais recentes</p>
+              <div className="inline-flex items-center gap-2 bg-[#00b2b2]/10 border border-[#00b2b2]/20 rounded-full px-4 py-2 mb-6">
+                <Newspaper className="w-4 h-4 text-[#00b2b2]" />
+                <span className="text-[#00b2b2] text-sm font-medium">Portfólio</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-light mb-6 leading-tight">
+                Nossos {" "}
+                
+                <span className="font-semibold bg-gradient-to-r from-[#00b2b2] to-[#008080] bg-clip-text text-transparent">
+                 Trabalhos
+                </span>
+              </h2>
+              <p className="text-gray-400 text-lg font-light max-w-2xl mx-auto">
+               Confira alguns dos nossos projetos
+              </p>
             </motion.div>
+
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -673,14 +689,26 @@ export default function MotinFilms() {
         <section className="section-slide-up bg-black py-20 border-t border-white/10" id="servicos">
           <div className="container mx-auto px-6">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="text-center mb-16"
+              className="text-center mb-20"
             >
-              <h2 className="text-3xl md:text-4xl font-light mb-6">Nossos Serviços</h2>
-              <p className="text-gray-400 text-lg font-light">Soluções completas em produção audiovisual</p>
+              <div className="inline-flex items-center gap-2 bg-[#00b2b2]/10 border border-[#00b2b2]/20 rounded-full px-4 py-2 mb-6">
+                <Camera className="w-4 h-4 text-[#00b2b2]" />
+                <span className="text-[#00b2b2] text-sm font-medium">Audiovisual completo</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-light mb-6 leading-tight">
+                Nossos
+                <br />
+                <span className="font-semibold bg-gradient-to-r from-[#00b2b2] to-[#008080] bg-clip-text text-transparent">
+                 Serviços
+                </span>
+              </h2>
+              <p className="text-gray-400 text-lg font-light max-w-2xl mx-auto">
+               Soluções completas em produção audiovisual 
+              </p>
             </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
@@ -803,7 +831,7 @@ export default function MotinFilms() {
         </section>
 
         {/* Stats Section - Enhanced */}
-        <section className="section-slide-up bg-black py-24 border-t border-white/10">
+        {/* <section className="section-slide-up bg-black py-24 border-t border-white/10">
           <div className="container mx-auto px-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -847,7 +875,7 @@ export default function MotinFilms() {
               ))}
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* Methodology Section */}
         <section className="section-slide-up bg-black py-20 border-t border-white/10">

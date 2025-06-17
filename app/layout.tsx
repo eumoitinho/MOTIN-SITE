@@ -3,6 +3,7 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { ScrollToTop } from "@/components/scroll-to-top"
 import { UtmCapture } from "@/components/utm-capture"
+import { CustomWhatsAppButton } from "@/components/custom-whatsapp-button"
 import { GoogleTagManager } from '@next/third-parties/google'
 import { Analytics } from "@vercel/analytics/next"
 
@@ -34,6 +35,7 @@ export default function RootLayout({
           <Analytics />
           {children}
           <ScrollToTop />
+          <CustomWhatsAppButton />
         </ThemeProvider>
       </body>
     </html>

@@ -9,9 +9,10 @@ interface BrandCarouselProps {
     alt: string
     width?: number
   }[]
+  whiteFilter?: boolean // Novo prop para controlar se aplicamos o filtro branco
 }
 
-export function BrandCarousel({ brands }: BrandCarouselProps) {
+export function BrandCarousel({ brands, whiteFilter = true }: BrandCarouselProps) {
   const carouselRef = useRef<HTMLDivElement>(null)
   const [isClient, setIsClient] = useState(false)
 
@@ -73,6 +74,10 @@ export function BrandCarousel({ brands }: BrandCarouselProps) {
     }
   }, [brandsToShow, isClient])
 
+ const imageFilterClass = whiteFilter
+    ? "brightness-[1.20] contrast-[1.25] saturate-[0.01] opacity-90 hover:opacity-100 transition-all duration-300" 
+    : "opacity-90 hover:opacity-100 transition-opacity filter brightness-100"
+
   return (
     <div className="w-full overflow-hidden relative">
       <div
@@ -83,28 +88,32 @@ export function BrandCarousel({ brands }: BrandCarouselProps) {
         {/* First set of brands */}
         {brandsToShow.map((brand, index) => (
           <div key={`brand-${index}`} className="flex-shrink-0 h-16 flex items-center">
-            <Image
-              src={brand.src || "/placeholder.svg"}
-              alt={brand.alt}
-              width={160}
-              height={64}
-              className="h-auto w-auto max-h-24 max-w-[160px] object-contain opacity-90 hover:opacity-100 transition-opacity filter brightness-100"
-              loading="lazy"
-            />
+            <div className="relative">
+              <Image
+                src={brand.src || "/placeholder.svg"}
+                alt={brand.alt}
+                width={ 160}
+                height={64}
+                className={`h-auto w-auto max-h-16 max-w-[160px] object-contain ${imageFilterClass}`}
+                loading="lazy"
+              />
+            </div>
           </div>
         ))}
 
         {/* Duplicate brands for infinite scroll effect */}
         {brandsToShow.map((brand, index) => (
           <div key={`brand-dup-${index}`} className="flex-shrink-0 h-16 flex items-center">
-            <Image
-              src={brand.src || "/placeholder.svg"}
-              alt={brand.alt}
-              width={160}
-              height={64}
-              className="h-auto w-auto max-h-16 max-w-[160px] object-contain opacity-90 hover:opacity-100 transition-opacity filter brightness-100"
-              loading="lazy"
-            />
+            <div className="relative">
+              <Image
+                src={brand.src || "/placeholder.svg"}
+                alt={brand.alt}
+                width={ 160}
+                height={64}
+                className={`h-auto w-auto max-h-16 max-w-[160px] object-contain ${imageFilterClass}`}
+                loading="lazy"
+              />
+            </div>
           </div>
         ))}
       </div>
