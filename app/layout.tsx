@@ -35,7 +35,6 @@ export default function RootLayout({
           <Analytics />
           {children}
           <ScrollToTop />
-          <CustomWhatsAppButton />
         </ThemeProvider>
       </body>
     </html>
