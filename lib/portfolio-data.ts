@@ -176,14 +176,14 @@ export const portfolioVideos = [
     videoId: "-ubKHgwhJEU",
   },
   {
-    title: "BluePrism 2",
+    title: "BluePrism",
     category: "Evento Corporativo",
     description: "Segunda cobertura do evento corporativo BluePrism.",
     image: "https://i.ytimg.com/vi/3YNyHv8jH60/maxresdefault.jpg",
     videoId: "3YNyHv8jH60",
   },
   {
-    title: "Escolar Office Brasil 2",
+    title: "Escolar Office Brasil",
     category: "Case",
     description: "Segundo case de sucesso da Escolar Office Brasil.",
     image: "https://i.ytimg.com/vi/rGk75VaxOHA/maxresdefault.jpg",
@@ -295,7 +295,7 @@ export const portfolioVideos = [
     videoId: "4LE6PpXeUnQ",
   },
   {
-    title: "CW Trends 2",
+    title: "CW Trends ",
     category: "Institucional",
     description: "Filme institucional da CW Trends.",
     image: "https://i.ytimg.com/vi/XHPNutOOTQo/maxresdefault.jpg",
@@ -309,7 +309,7 @@ export const portfolioVideos = [
     videoId: "LgXxgTIMjmY",
   },
   {
-    title: "Compwire 2",
+    title: "Compwire ",
     category: "Case",
     description: "Case de sucesso da Compwire.",
     image: "https://i.ytimg.com/vi/ENuvzngBuK4/maxresdefault.jpg",
@@ -337,7 +337,7 @@ export const portfolioVideos = [
     videoId: "5xTvnW6of2o",
   },
   {
-    title: "CW Trends 3",
+    title: "CW Trends ",
     category: "Ação de Marketing",
     description: "Ação de marketing da CW Trends.",
     image: "https://i.ytimg.com/vi/2r1PhYSU5hY/maxresdefault.jpg",
@@ -351,7 +351,7 @@ export const portfolioVideos = [
     videoId: "N_Lj-2hQIZc",
   },
   {
-    title: "Thiago Castelli 2",
+    title: "Thiago Castelli ",
     category: "Artistas",
     description: "Segunda produção para o artista Thiago Castelli.",
     image: "https://i.ytimg.com/vi/qy5XkX6wrwg/maxresdefault.jpg",
@@ -365,7 +365,7 @@ export const portfolioVideos = [
     videoId: "2VcVx8T93cY",
   },
   {
-    title: "Action Coach 2",
+    title: "Action Coach ",
     category: "Conteúdo",
     description: "Conteúdo produzido para Action Coach.",
     image: "https://i.ytimg.com/vi/XauRtG4ALys/maxresdefault.jpg",
@@ -393,21 +393,21 @@ export const portfolioVideos = [
     videoId: "pavAz8vN4DY",
   },
   {
-    title: "Ruan Mansur 2",
+    title: "Ruan Mansur ",
     category: "Artistas",
     description: "Segunda produção para o artista Ruan Mansur.",
     image: "https://i.ytimg.com/vi/QQYqNDKLaQs/maxresdefault.jpg",
     videoId: "QQYqNDKLaQs",
   },
   {
-    title: "CW Trends 4",
+    title: "CW Trends ",
     category: "Evento Corporativo",
     description: "Cobertura do evento corporativo CW Trends.",
     image: "https://i.ytimg.com/vi/AZ40lXILG2Q/maxresdefault.jpg",
     videoId: "AZ40lXILG2Q",
   },
   {
-    title: "CW Trends 5",
+    title: "CW Trends ",
     category: "Ação de Marketing",
     description: "Segunda ação de marketing da CW Trends.",
     image: "https://i.ytimg.com/vi/zH3rERJkmRI/maxresdefault.jpg",
@@ -435,7 +435,7 @@ export const portfolioVideos = [
     videoId: "5_nDj1d2tyw",
   },
   {
-    title: "Motin Films 2",
+    title: "Motin Films ",
     category: "Produto",
     description: "Segunda apresentação da própria Motin Films.",
     image: "https://i.ytimg.com/vi/eBuo2rlB9mo/maxresdefault.jpg",
