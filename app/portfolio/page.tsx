@@ -10,6 +10,7 @@ import { motion } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import Footer from "@/components/footer"
 import { Card, CardContent } from "@/components/ui/card"
+import { portfolioVideos } from "@/lib/portfolio-data"
 
 export default function PortfolioPage() {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
@@ -18,9 +19,9 @@ export default function PortfolioPage() {
   const [visibleItems, setVisibleItems] = useState(12)
   const [isLoading, setIsLoading] = useState(false)
   const [isDetailOpen, setIsDetailOpen] = useState(false)
-  const [detailItem, setDetailItem] = useState<typeof portfolioItems[0] | null>(null)
+  const [detailItem, setDetailItem] = useState<typeof portfolioVideos[0] | null>(null)
 
-  const openDetail = (item: typeof portfolioItems[0]) => {
+  const openDetail = (item: typeof portfolioVideos[0]) => {
     setDetailItem(item)
     setIsDetailOpen(true)
   }
@@ -28,14 +29,14 @@ export default function PortfolioPage() {
   const closeDetail = () => setIsDetailOpen(false)
 
 const openVideoModal = (videoId: string) => {
-  const item = portfolioItems.find((item) => item.videoId === videoId) || null
+  const item = portfolioVideos.find((item) => item.videoId === videoId) || null
   if (item) {
     setDetailItem(item)
     setIsDetailOpen(true)
   }
 }
 
-const renderGrid = (items: typeof portfolioItems) => (
+const renderGrid = (items: typeof portfolioVideos) => (
   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
     {items.map((item, i) => {
       const shortDesc = item.description.slice(0, 100)

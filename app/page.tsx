@@ -104,7 +104,64 @@ export default function MotinFilms() {
     },
   ]
 
-  const portfolioItems = portfolioVideos.slice(0, 12)
+  const portfolioItems = [
+    {
+      title: "UNIFATEB e Colégio Dom Bosco | Filme Institucional",
+      category: "Institucional",
+      description: "Apresentação institucional que exibe a infraestrutura, cursos e valores das instituições UNIFATEB e Colégio Dom Bosco, destacando sua importância na educação.",
+      image: "https://i.ytimg.com/vi/Wyg3UPuf5Ec/maxresdefault.jpg",
+      videoId: "Wyg3UPuf5Ec",
+    },
+    {
+      title: "Mercedes-Benz | Filme Institucional",
+      category: "Institucional",
+      description: "Vídeo institucional da Mercedes-Benz, showcasing sua história, inovação tecnológica e compromisso com a excelência no setor automotivo, com imagens de veículos premium.",
+      image: "https://i.ytimg.com/vi/kKpIG1XKbS0/maxresdefault.jpg",
+      videoId: "kKpIG1XKbS0",
+    },
+    {
+      title: "LJ Santos - Linha de Cromagem | Filme Produto",
+      category: "Produto",
+      description: "Lançamento da linha de cromagem da LJ Santos, apresentando o processo de produção e os benefícios do produto com foco em qualidade e durabilidade.",
+      image: "https://i.ytimg.com/vi/hELpTXBl798/maxresdefault.jpg",
+      videoId: "hELpTXBl798",
+    },
+    {
+      title: "Liquexpress | Filme Institucional",
+      category: "Institucional",
+      description: "Vídeo institucional da Liquexpress, destacando seus serviços logísticos e a infraestrutura que garante eficiência e confiabilidade no transporte.",
+      image: "https://i.ytimg.com/vi/Dvj_JDpJPTU/maxresdefault.jpg",
+      videoId: "Dvj_JDpJPTU",
+    },
+    {
+      title: "SS&C Blue Prism Live - Live São Paulo | Filme Evento Corporativo",
+      category: "Evento Corporativo",
+      description: "Cobertura ao vivo do evento SS&C Blue Prism em São Paulo, com destaque para apresentações e interações ao vivo com edição em tempo real.",
+      image: "https://i.ytimg.com/vi/3YNyHv8jH60/maxresdefault.jpg",
+      videoId: "3YNyHv8jH60",
+    },
+    {
+      title: "Lumicenter Lighting - Essência Lumicenter 2024 | Filme Evento Corporativo",
+      category: "Evento Corporativo",
+      description: "Registro do evento Essência Lumicenter 2024, destacando lançamentos de produtos e tendências em iluminação com edição sofisticada.",
+      image: "https://i.ytimg.com/vi/ond_kR7F_7s/maxresdefault.jpg",
+      videoId: "ond_kR7F_7s",
+    },
+    {
+      title: "Händz - Headphone EcoSound | Filme Produto",
+      category: "Produto",
+      description: "Lançamento do headphone EcoSound da Händz, destacando design sustentável e qualidade de som com demonstrações práticas.",
+      image: "https://i.ytimg.com/vi/oC-T7m3JU8E/maxresdefault.jpg",
+      videoId: "oC-T7m3JU8E",
+    },
+    {
+      title: "BioBio Cosméticos - Only One | Filme Produto",
+      category: "Produto",
+      description: "Lançamento do produto Only One da BioBio Cosméticos, destacando sua fórmula inovadora e benefícios para a pele.",
+      image: "https://i.ytimg.com/vi/RuZy13ZDmeQ/maxresdefault.jpg",
+      videoId: "RuZy13ZDmeQ",
+    },
+  ]
 
   const services = [
     {
