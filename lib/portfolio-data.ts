@@ -421,7 +421,7 @@ export const portfolioVideos = [
     videoId: "0-CXPK2MlWI",
   },
   {
-    title: "Favretto Mídia Exterior 2",
+    title: "Favretto Mídia Exterior ",
     category: "Produto",
     description: "Segunda apresentação de produto da Favretto Mídia Exterior.",
     image: "https://i.ytimg.com/vi/-afHOczVR38/maxresdefault.jpg",
