@@ -101,233 +101,36 @@ const renderGrid = (items: typeof portfolioVideos) => (
   const loadMoreItems = () => {
     setIsLoading(true)
     setTimeout(() => {
-      setVisibleItems((prev) => Math.min(prev + 6, portfolioItems.length))
+      setVisibleItems((prev) => Math.min(prev + 6, portfolioVideos.length))
       setIsLoading(false)
     }, 800)
   }
 
-  const portfolioItems = [
-    {
-      title: "AWA Comercial | Filme Institucional",
-      category: "Institucional",
-      description: "Vídeo institucional que apresenta a AWA Comercial, destacando sua missão, valores e os serviços oferecidos, com imagens de alta qualidade que refletem sua identidade corporativa.",
-      image: "https://i.ytimg.com/vi/ws6GMw_wtxU/maxresdefault.jpg",
-      videoId: "ws6GMw_wtxU",
-    },
-    {
-      title: "Minha Biblioteca Católica - Esqueça um Livro | Filme Ação de Marketing",
-      category: "Ação de Marketing",
-      description: "Campanha criativa promovendo a iniciativa 'Esqueça um Livro' da Minha Biblioteca Católica, incentivando a troca de livros em espaços públicos com uma narrativa envolvente e emocional.",
-      image: "https://i.ytimg.com/vi/RRp3Kqn9dcw/maxresdefault.jpg",
-      videoId: "RRp3Kqn9dcw",
-    },
-    {
-      title: "UNIFATEB e Colégio Dom Bosco | Filme Institucional",
-      category: "Institucional",
-      description: "Apresentação institucional que exibe a infraestrutura, cursos e valores das instituições UNIFATEB e Colégio Dom Bosco, destacando sua importância na educação.",
-      image: "https://i.ytimg.com/vi/Wyg3UPuf5Ec/maxresdefault.jpg",
-      videoId: "Wyg3UPuf5Ec",
-    },
-    {
-      title: "Mercedes-Benz | Filme Institucional",
-      category: "Institucional",
-      description: "Vídeo institucional da Mercedes-Benz, showcasing sua história, inovação tecnológica e compromisso com a excelência no setor automotivo, com imagens de veículos premium.",
-      image: "https://i.ytimg.com/vi/kKpIG1XKbS0/maxresdefault.jpg",
-      videoId: "kKpIG1XKbS0",
-    },
-    {
-      title: "SS&C Blue Prism - Buenos Aires | Filme Evento Corporativo",
-      category: "Evento Corporativo",
-      description: "Cobertura profissional do evento corporativo da SS&C Blue Prism em Buenos Aires, capturando palestras, networking e momentos-chave com edição dinâmica.",
-      image: "https://i.ytimg.com/vi/carUjyho6cc/maxresdefault.jpg",
-      videoId: "carUjyho6cc",
-    },
-    {
-      title: "Favretto Mídia Exterior - Mídia Elevadores | Filme Produto",
-      category: "Produto",
-      description: "Lançamento do serviço de mídia em elevadores da Favretto Mídia Exterior, destacando sua eficácia em publicidade com exemplos visuais e depoimentos.",
-      image: "https://i.ytimg.com/vi/YU1VTsr-h-Q/maxresdefault.jpg",
-      videoId: "YU1VTsr-h-Q",
-    },
-    {
-      title: "Ditrator | Filme Institucional",
-      category: "Institucional",
-      description: "Vídeo institucional que apresenta a Ditrator, enfatizando sua expertise em soluções industriais e sua presença no mercado com imagens de produção.",
-      image: "https://i.ytimg.com/vi/AO4UycrhPMM/maxresdefault.jpg",
-      videoId: "AO4UycrhPMM",
-    },
-    {
-      title: "Paraná Clínicas | Filme Institucional",
-      category: "Institucional",
-      description: "Apresentação institucional das Paraná Clínicas, destacando seus serviços médicos, instalações modernas e compromisso com a saúde da comunidade.",
-      image: "https://i.ytimg.com/vi/odE0fqvvWa8/maxresdefault.jpg",
-      videoId: "odE0fqvvWa8",
-    },
-    {
-      title: "NineTwo Performance - KPIs | Filme Conteúdo",
-      category: "Conteúdo",
-      description: "Vídeo educativo da NineTwo Performance sobre KPIs (Indicadores-Chave de Performance), oferecendo insights práticos para otimização de resultados empresariais.",
-      image: "https://i.ytimg.com/vi/vcCr_Kbn8Nw/maxresdefault.jpg",
-      videoId: "vcCr_Kbn8Nw",
-    },
-    {
-      title: "LJ Santos - Linha de Cromagem | Filme Produto",
-      category: "Produto",
-      description: "Lançamento da linha de cromagem da LJ Santos, apresentando o processo de produção e os benefícios do produto com foco em qualidade e durabilidade.",
-      image: "https://i.ytimg.com/vi/hELpTXBl798/maxresdefault.jpg",
-      videoId: "hELpTXBl798",
-    },
-    {
-      title: "Dental Uni - Connect Week Summit | Filme Evento Corporativo",
-      category: "Evento Corporativo",
-      description: "Cobertura do Connect Week Summit da Dental Uni, destacando palestras, workshops e networking no setor odontológico com edição profissional.",
-      image: "https://i.ytimg.com/vi/0dVNlYTni_o/maxresdefault.jpg",
-      videoId: "0dVNlYTni_o",
-    },
-    {
-      title: "Biofarm - Lançamento EPREMIUM 5% | Filme Evento Corporativo",
-      category: "Evento Corporativo",
-      description: "Registro do lançamento do EPREMIUM 5% pela Biofarm, capturando a cerimônia, apresentações e o impacto do novo produto no mercado farmacêutico.",
-      image: "https://i.ytimg.com/vi/evVJT-S8DnA/maxresdefault.jpg",
-      videoId: "evVJT-S8DnA",
-    },
-    {
-      title: "Liquexpress | Filme Institucional",
-      category: "Institucional",
-      description: "Vídeo institucional da Liquexpress, destacando seus serviços logísticos e a infraestrutura que garante eficiência e confiabilidade no transporte.",
-      image: "https://i.ytimg.com/vi/Dvj_JDpJPTU/maxresdefault.jpg",
-      videoId: "Dvj_JDpJPTU",
-    },
-    {
-      title: "Hogrefe Construtora - Beach World Residences | Filme Produto",
-      category: "Produto",
-      description: "Lançamento do empreendimento Beach World Residences pela Hogrefe Construtora, com imagens aéreas e detalhes dos diferenciais do projeto residencial.",
-      image: "https://i.ytimg.com/vi/C4V_BwMlKE0/maxresdefault.jpg",
-      videoId: "C4V_BwMlKE0",
-    },
-    {
-      title: "SS&C Blue Prism Live - Live São Paulo | Filme Evento Corporativo",
-      category: "Evento Corporativo",
-      description: "Cobertura ao vivo do evento SS&C Blue Prism em São Paulo, com destaque para apresentações e interações ao vivo com edição em tempo real.",
-      image: "https://i.ytimg.com/vi/3YNyHv8jH60/maxresdefault.jpg",
-      videoId: "3YNyHv8jH60",
-    },
-    {
-      title: "Francal - Rebranding | Filme Ação de Marketing",
-      category: "Ação de Marketing",
-      description: "Campanha de rebranding da Francal, apresentando a nova identidade visual e valores da marca com um vídeo impactante e moderno.",
-      image: "https://i.ytimg.com/vi/WMFSuFo6iAA/maxresdefault.jpg",
-      videoId: "WMFSuFo6iAA",
-    },
-    {
-      title: "Escolar Office Brasil - Lepok Papelaria | Filme Case",
-      category: "Case",
-      description: "Case de sucesso da Escolar Office Brasil com a Lepok Papelaria, mostrando como a parceria impulsionou vendas e visibilidade no mercado.",
-      image: "https://i.ytimg.com/vi/rGk75VaxOHA/maxresdefault.jpg",
-      videoId: "rGk75VaxOHA",
-    },
-    {
-      title: "The Batman - Warner Bros. Pictures | Filme Ação de Marketing",
-      category: "Ação de Marketing",
-      description: "Campanha promocional do filme The Batman pela Warner Bros., com cenas exclusivas e teasers que geram expectativa para o lançamento.",
-      image: "https://i.ytimg.com/vi/muv4EAlVR5M/maxresdefault.jpg",
-      videoId: "muv4EAlVR5M",
-    },
-    {
-      title: "Flash Construtora - Casa em Santa Felicidade | Filme Produto",
-      category: "Produto",
-      description: "Lançamento de uma casa em Santa Felicidade pela Flash Construtora, destacando design, localização e características do imóvel.",
-      image: "https://i.ytimg.com/vi/67FQ4Isw2tM/maxresdefault.jpg",
-      videoId: "67FQ4Isw2tM",
-    },
-    {
-      title: "Circuito Oliveira de Rodeio | Filme Evento",
-      category: "Evento Corporativo",
-      description: "Cobertura do Circuito Oliveira de Rodeio, capturando competições, cultura e momentos marcantes do evento com edição vibrante.",
-      image: "https://i.ytimg.com/vi/hx_lx1saEiQ/maxresdefault.jpg",
-      videoId: "hx_lx1saEiQ",
-    },
-    {
-      title: "Naport - Pintura Eletrostática | Filme Produto",
-      category: "Produto",
-      description: "Apresentação do serviço de pintura eletrostática da Naport, destacando a tecnologia e os benefícios para a indústria.",
-      image: "https://i.ytimg.com/vi/2baqnywIK5w/maxresdefault.jpg",
-      videoId: "2baqnywIK5w",
-    },
-    {
-      title: "Construtora Equilíbrio - Blanc de Rouge | Filme Evento Corporativo",
-      category: "Evento Corporativo",
-      description: "Cobertura do evento de lançamento do empreendimento Blanc de Rouge pela Construtora Equilíbrio, com foco em arquitetura e inovação.",
-      image: "https://i.ytimg.com/vi/ipRxXf7od5E/maxresdefault.jpg",
-      videoId: "ipRxXf7od5E",
-    },
-    {
-      title: "Lumicenter Lighting - Essência Lumicenter 2024 | Filme Evento Corporativo",
-      category: "Evento Corporativo",
-      description: "Registro do evento Essência Lumicenter 2024, destacando lançamentos de produtos e tendências em iluminação com edição sofisticada.",
-      image: "https://i.ytimg.com/vi/ond_kR7F_7s/maxresdefault.jpg",
-      videoId: "ond_kR7F_7s",
-    },
-    {
-      title: "ENAF - Congresso Brasileiro de Musculação | Filme Evento Corporativo",
-      category: "Evento Corporativo",
-      description: "Cobertura do Congresso Brasileiro de Musculação da ENAF, com palestras, demonstrações e networking no setor fitness.",
-      image: "https://i.ytimg.com/vi/NSaibgM86dY/maxresdefault.jpg",
-      videoId: "NSaibgM86dY",
-    },
-    {
-      title: "Händz - Headphone EcoSound | Filme Produto",
-      category: "Produto",
-      description: "Lançamento do headphone EcoSound da Händz, destacando design sustentável e qualidade de som com demonstrações práticas.",
-      image: "https://i.ytimg.com/vi/oC-T7m3JU8E/maxresdefault.jpg",
-      videoId: "oC-T7m3JU8E",
-    },
-    {
-      title: "Gards Drinks & Cocktails | Filme Institucional",
-      category: "Institucional",
-      description: "Vídeo institucional da Gards, apresentando sua linha de drinks e cocktails com foco em qualidade e experiência sensorial.",
-      image: "https://i.ytimg.com/vi/Zkt_QW_i7LE/maxresdefault.jpg",
-      videoId: "Zkt_QW_i7LE",
-    },
-    {
-      title: "BioBio Cosméticos - Only One | Filme Produto",
-      category: "Produto",
-      description: "Lançamento do produto Only One da BioBio Cosméticos, destacando sua fórmula inovadora e benefícios para a pele.",
-      image: "https://i.ytimg.com/vi/RuZy13ZDmeQ/maxresdefault.jpg",
-      videoId: "RuZy13ZDmeQ",
-    },
-    {
-      title: "CWTrends Suplementos | Filme Institucional",
-      category: "Institucional",
-      description: "Apresentação institucional da CWTrends Suplementos, destacando sua linha de produtos e compromisso com a saúde e performance.",
-      image: "https://i.ytimg.com/vi/XHPNutOOTQo/maxresdefault.jpg",
-      videoId: "XHPNutOOTQo",
-    },
-  ]
+
 
   // Ajuste a lógica de filtro para corresponder às categorias exatas
   const filteredItems = (() => {
     switch (activeCategory) {
       case "todos":
-        return portfolioItems.slice(0, visibleItems)
+        return portfolioVideos.slice(0, visibleItems)
       case "institucional":
-        return portfolioItems.filter((item) => item.category === "Institucional").slice(0, visibleItems)
+        return portfolioVideos.filter((item) => item.category === "Institucional").slice(0, visibleItems)
       case "evento":
-        return portfolioItems.filter((item) => item.category === "Evento Corporativo").slice(0, visibleItems)
+        return portfolioVideos.filter((item) => item.category === "Evento Corporativo").slice(0, visibleItems)
       case "produto":
-        return portfolioItems.filter((item) => item.category === "Produto").slice(0, visibleItems)
+        return portfolioVideos.filter((item) => item.category === "Produto").slice(0, visibleItems)
       case "case":
-        return portfolioItems.filter((item) => item.category === "Case").slice(0, visibleItems)
+        return portfolioVideos.filter((item) => item.category === "Case").slice(0, visibleItems)
       case "conteudo":
-        return portfolioItems.filter((item) => item.category === "Conteúdo").slice(0, visibleItems)
+        return portfolioVideos.filter((item) => item.category === "Conteúdo").slice(0, visibleItems)
       case "marketing":
-        return portfolioItems.filter((item) => item.category === "Ação de Marketing").slice(0, visibleItems)
+        return portfolioVideos.filter((item) => item.category === "Ação de Marketing").slice(0, visibleItems)
       case "artistas":
-        return portfolioItems.filter((item) => item.category === "Artistas").slice(0, visibleItems)
+        return portfolioVideos.filter((item) => item.category === "Artistas").slice(0, visibleItems)
       case "treinamento":
-        return portfolioItems.filter((item) => item.category === "Treinamento").slice(0, visibleItems)
+        return portfolioVideos.filter((item) => item.category === "Treinamento").slice(0, visibleItems)
       default:
-        return portfolioItems.slice(0, visibleItems)
+        return portfolioVideos.slice(0, visibleItems)
     }
   })()
 
@@ -389,97 +192,54 @@ const renderGrid = (items: typeof portfolioVideos) => (
           </motion.div>
 
           <Tabs defaultValue="todos" className="w-full" onValueChange={setActiveCategory}>
-            <TabsList className="flex justify-center mb-12 bg-transparent gap-2">
-              <TabsTrigger
-                value="todos"
-                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md px-4 py-2 text-sm transition-all duration-300 hover:bg-[#00B2B2]/50"
-              >
-                TODOS
-              </TabsTrigger>
-              <TabsTrigger
-                value="institucional"
-                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md px-4 py-2 text-sm transition-all duration-300 hover:bg-[#00B2B2]/50"
-              >
-                INSTITUCIONAL
-              </TabsTrigger>
-              <TabsTrigger
-                value="evento"
-                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md px-4 py-2 text-sm transition-all duration-300 hover:bg-[#00B2B2]/50"
-              >
-                EVENTO CORPORATIVO
-              </TabsTrigger>
-              <TabsTrigger
-                value="produto"
-                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md px-4 py-2 text-sm transition-all duration-300 hover:bg-[#00B2B2]/50"
-              >
-                PRODUTO
-              </TabsTrigger>
-              <TabsTrigger
-                value="case"
-                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md px-4 py-2 text-sm transition-all duration-300 hover:bg-[#00B2B2]/50"
-              >
-                CASE
-              </TabsTrigger>
-              <TabsTrigger
-                value="conteudo"
-                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md px-4 py-2 text-sm transition-all duration-300 hover:bg-[#00B2B2]/50"
-              >
-                CONTEÚDO
-              </TabsTrigger>
-              <TabsTrigger
-                value="marketing"
-                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md px-4 py-2 text-sm transition-all duration-300 hover:bg-[#00B2B2]/50"
-              >
-                AÇÃO DE MARKETING
-              </TabsTrigger>
-              <TabsTrigger
-                value="artistas"
-                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md px-4 py-2 text-sm transition-all duration-300 hover:bg-[#00B2B2]/50"
-              >
-                ARTISTAS
-              </TabsTrigger>
-              <TabsTrigger
-                value="treinamento"
-                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md px-4 py-2 text-sm transition-all duration-300 hover:bg-[#00B2B2]/50"
-              >
-                TREINAMENTO
-              </TabsTrigger>
-            </TabsList>
+              <TabsList className="flex justify-center mb-16 bg-transparent gap-2 md:gap-3 flex-wrap max-w-full">
+  {[
+    "todos",
+    "institucional",
+    "evento",
+    "produto",
+    "case",
+    "conteudo",
+    "marketing",
+    "artistas",
+    "treinamento",
+  ].map((category) => (
+    <TabsTrigger
+      key={category}
+      value={category}
+      className="data-[state=active]:bg-primary data-[state=active]:text-white rounded-full px-3 sm:px-4 md:px-6 py-2 md:py-3 text-xs md:text-sm font-medium transition-all duration-300 hover:bg-primary/20 border border-white/10 mb-2"
+    >
+      {category === "todos"
+        ? "TODOS"
+        : category === "institucional"
+          ? "INSTITUCIONAL"
+          : category === "evento"
+            ? "EVENTO CORP."
+            : category === "produto"
+              ? "PRODUTO"
+              : category === "case"
+                ? "CASE"
+                : category === "conteudo"
+                  ? "CONTEÚDO"
+                  : category === "marketing"
+                    ? "MARKETING"
+                    : category === "artistas"
+                      ? "ARTISTAS"
+                      : "TREINAMENTO"}
+    </TabsTrigger>
+  ))}
+</TabsList>
 
-            <TabsContent value="todos">
-              {renderGrid(portfolioItems.slice(0, visibleItems))}
-              {visibleItems < portfolioItems.length && (
-                <div className="flex justify-center mt-12">
-                  <Button
-                    onClick={loadMoreItems}
-                    disabled={isLoading}
-                    className="bg-[#00B2B2] hover:bg-[#00B2B2]/90 text-white rounded-full px-8 py-3 flex items-center gap-2 shadow-lg transition-all duration-300"
-                  >
-                    {isLoading ? "Carregando..." : "Carregar Mais"}
-                    <ChevronRight size={20} />
-                  </Button>
-                </div>
+              <TabsContent value="todos">{renderGrid(portfolioVideos)}</TabsContent>
+
+              {["institucional", "evento", "produto", "case", "conteudo", "marketing", "artistas", "treinamento"].map(
+                (cat) => (
+                  <TabsContent key={cat} value={cat}>
+                    {renderGrid(filteredItems)}
+                  </TabsContent>
+                ),
               )}
-            </TabsContent>
-
-            {["institucional", "evento", "produto", "case", "conteudo", "marketing", "artistas", "treinamento"].map((cat) => (
-              <TabsContent key={cat} value={cat}>
-                {renderGrid(filteredItems)}
-                {filteredItems.length > visibleItems && (
-                  <div className="flex justify-center mt-12">
-                    <Button
-                      onClick={loadMoreItems}
-                      disabled={isLoading}
-                      className="bg-[#00B2B2] hover:bg-[#00B2B2]/90 text-white rounded-full px-8 py-3 flex items-center gap-2 shadow-lg transition-all duration-300"
-                    >
-                      {isLoading ? "Carregando..." : "Carregar Mais"}
-                      <ChevronRight size={20} />
-                    </Button>
-                  </div>
-                )}
-              </TabsContent>
-            ))}
-          </Tabs>
+            </Tabs>
         </div>
       </section>
 

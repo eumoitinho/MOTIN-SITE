@@ -113,46 +113,11 @@ export default function MotinFilms() {
       videoId: "Wyg3UPuf5Ec",
     },
     {
-      title: "Mercedes-Benz | Filme Institucional",
-      category: "Institucional",
-      description: "Vídeo institucional da Mercedes-Benz, showcasing sua história, inovação tecnológica e compromisso com a excelência no setor automotivo, com imagens de veículos premium.",
-      image: "https://i.ytimg.com/vi/kKpIG1XKbS0/maxresdefault.jpg",
-      videoId: "kKpIG1XKbS0",
-    },
-    {
       title: "LJ Santos - Linha de Cromagem | Filme Produto",
       category: "Produto",
       description: "Lançamento da linha de cromagem da LJ Santos, apresentando o processo de produção e os benefícios do produto com foco em qualidade e durabilidade.",
       image: "https://i.ytimg.com/vi/hELpTXBl798/maxresdefault.jpg",
       videoId: "hELpTXBl798",
-    },
-    {
-      title: "Liquexpress | Filme Institucional",
-      category: "Institucional",
-      description: "Vídeo institucional da Liquexpress, destacando seus serviços logísticos e a infraestrutura que garante eficiência e confiabilidade no transporte.",
-      image: "https://i.ytimg.com/vi/Dvj_JDpJPTU/maxresdefault.jpg",
-      videoId: "Dvj_JDpJPTU",
-    },
-    {
-      title: "SS&C Blue Prism Live - Live São Paulo | Filme Evento Corporativo",
-      category: "Evento Corporativo",
-      description: "Cobertura ao vivo do evento SS&C Blue Prism em São Paulo, com destaque para apresentações e interações ao vivo com edição em tempo real.",
-      image: "https://i.ytimg.com/vi/3YNyHv8jH60/maxresdefault.jpg",
-      videoId: "3YNyHv8jH60",
-    },
-    {
-      title: "Lumicenter Lighting - Essência Lumicenter 2024 | Filme Evento Corporativo",
-      category: "Evento Corporativo",
-      description: "Registro do evento Essência Lumicenter 2024, destacando lançamentos de produtos e tendências em iluminação com edição sofisticada.",
-      image: "https://i.ytimg.com/vi/ond_kR7F_7s/maxresdefault.jpg",
-      videoId: "ond_kR7F_7s",
-    },
-    {
-      title: "Händz - Headphone EcoSound | Filme Produto",
-      category: "Produto",
-      description: "Lançamento do headphone EcoSound da Händz, destacando design sustentável e qualidade de som com demonstrações práticas.",
-      image: "https://i.ytimg.com/vi/oC-T7m3JU8E/maxresdefault.jpg",
-      videoId: "oC-T7m3JU8E",
     },
     {
       title: "BioBio Cosméticos - Only One | Filme Produto",
@@ -161,6 +126,28 @@ export default function MotinFilms() {
       image: "https://i.ytimg.com/vi/RuZy13ZDmeQ/maxresdefault.jpg",
       videoId: "RuZy13ZDmeQ",
     },
+    {
+    title: "Ditrator",
+    category: "Institucional",
+    description: "Filme institucional da Ditrator.",
+    image: "https://i.ytimg.com/vi/AO4UycrhPMM/maxresdefault.jpg",
+    videoId: "AO4UycrhPMM",
+  },
+  {
+    title: "AWA Comercial",
+    category: "Institucional",
+    description: "Filme institucional da AWA Comercial apresentando a empresa e seus valores.",
+    image: "https://i.ytimg.com/vi/6bseD2wgI6A/maxresdefault.jpg",
+    videoId: "6bseD2wgI6A",
+  },
+  {
+    title: "E.Mix",
+    category: "Case",
+    description: "Case de sucesso da E.Mix.",
+    image: "https://i.ytimg.com/vi/VBOcex5L9-Y/maxresdefault.jpg",
+    videoId: "VBOcex5L9-Y",
+  }
+
   ]
 
   const services = [
@@ -662,55 +649,14 @@ export default function MotinFilms() {
               <p className="text-gray-400 text-lg font-light">Confira alguns dos nossos projetos mais recentes</p>
             </motion.div>
 
-            <Tabs defaultValue="todos" className="w-full" onValueChange={setActiveCategory}>
-              <TabsList className="flex justify-center mb-16 bg-transparent gap-3 flex-wrap">
-                {[
-                  "todos",
-                  "institucional",
-                  "evento",
-                  "produto",
-                  "case",
-                  "conteudo",
-                  "marketing",
-                  "artistas",
-                  "treinamento",
-                ].map((category) => (
-                  <TabsTrigger
-                    key={category}
-                    value={category}
-                    className="data-[state=active]:bg-primary data-[state=active]:text-white rounded-full px-6 py-3 text-sm font-medium transition-all duration-300 hover:bg-primary/20 border border-white/10"
-                  >
-                    {category === "todos"
-                      ? "TODOS"
-                      : category === "institucional"
-                        ? "INSTITUCIONAL"
-                        : category === "evento"
-                          ? "EVENTO CORPORATIVO"
-                          : category === "produto"
-                            ? "PRODUTO"
-                            : category === "case"
-                              ? "CASE"
-                              : category === "conteudo"
-                                ? "CONTEÚDO"
-                                : category === "marketing"
-                                  ? "AÇÃO DE MARKETING"
-                                  : category === "artistas"
-                                    ? "ARTISTAS"
-                                    : "TREINAMENTO"}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-
-              <TabsContent value="todos">{renderGrid(portfolioItems)}</TabsContent>
-
-              {["institucional", "evento", "produto", "case", "conteudo", "marketing", "artistas", "treinamento"].map(
-                (cat) => (
-                  <TabsContent key={cat} value={cat}>
-                    {renderGrid(filteredItems)}
-                  </TabsContent>
-                ),
-              )}
-            </Tabs>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              viewport={{ once: true }}
+            >
+              {renderGrid(portfolioItems)}
+            </motion.div>
 
             <div className="flex justify-center mt-16">
               <Link href="/portfolio">
