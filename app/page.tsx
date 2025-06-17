@@ -4,37 +4,91 @@ import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Play, ChevronRight, X } from "lucide-react"
-import { motion } from "framer-motion"
+import {
+  Play,
+  X,
+  ArrowRight,
+  Users,
+  Video,
+  Globe,
+  Target,
+  Lightbulb,
+  Camera,
+  Edit,
+  Film,
+  Briefcase,
+  BookOpen,
+  Shield,
+  Clock,
+  TrendingUp,
+  Star,
+  Rocket,
+  Heart,
+  Eye,
+  CheckCircle2,
+  Sparkles,
+} from "lucide-react"
+import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Badge } from "@/components/ui/badge"
 import { BrandCarousel } from "@/components/brand-carousel"
-import { AnimatedSection } from "@/components/animated-section"
 import { VideoBackground } from "@/components/video-background"
-import { ServicesSection } from "@/components/services-section"
-import { WhyChooseUs } from "@/components/why-choose-us"
-import { MethodologySection } from "@/components/methodology-section"
 import { CustomVideoPlayer } from "@/components/custom-video-player"
-import { PortfolioVideoModal } from "@/components/portfolio-video-modal"
 import { RDStationButton } from "@/components/rd-station-button"
+import { portfolioVideos } from "@/lib/portfolio-data"
 import Footer from "@/components/footer"
+
+// Counter component for animated numbers
+function AnimatedCounter({ end, duration = 2000, suffix = "" }: { end: number; duration?: number; suffix?: string }) {
+  const [count, setCount] = useState(0)
+  const countRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(countRef, { once: true, margin: "-100px" })
+
+  useEffect(() => {
+    if (!isInView) return
+
+    let startTime: number
+    let animationFrame: number
+
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp
+      const progress = Math.min((timestamp - startTime) / duration, 1)
+
+      const easeOutQuart = 1 - Math.pow(1 - progress, 4)
+      setCount(Math.floor(easeOutQuart * end))
+
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate)
+      }
+    }
+
+    animationFrame = requestAnimationFrame(animate)
+    return () => cancelAnimationFrame(animationFrame)
+  }, [isInView, end, duration])
+
+  return (
+    <div ref={countRef} className="text-4xl md:text-5xl font-bold">
+      {count}
+      {suffix}
+    </div>
+  )
+}
 
 export default function MotinFilms() {
   const [activeSection, setActiveSection] = useState("inicio")
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
-  const [currentVideoId, setCurrentVideoId] = useState<string | null>("")
-  const [visibleItems, setVisibleItems] = useState(12)
-  const [isLoading, setIsLoading] = useState(false)
   const [isDetailOpen, setIsDetailOpen] = useState(false)
-  const [detailItem, setDetailItem] = useState<null | typeof portfolioItems[0]>(null)
+  const [detailItem, setDetailItem] = useState<null | (typeof portfolioItems)[0]>(null)
   const [activeCategory, setActiveCategory] = useState("todos")
 
+  const heroRef = useRef<HTMLElement>(null)
+  const { scrollYProgress } = useScroll()
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0])
+  const heroY = useTransform(scrollYProgress, [0, 0.3], [0, -100])
 
   const testimonials = [
     {
-      text: "Ficamos super satisfeitos com a produção. Vídeo principal, vídeos de performance bônus, show. Atendimento, suporte, grupo com profissionais pré, durante e pós evento. Já os temos como prioridade para continuar com nossa parceria de cobertura.",
+      text: "Ficamos super satisfeitos com a produção. Vídeo principal, vídeos de performance bônus, show. Atendimento, suporte, grupo com profissionais pré, durante e pós evento.",
       author: "ENAF",
       image: "/testimonials/enaf.webp",
     },
@@ -44,138 +98,167 @@ export default function MotinFilms() {
       image: "/testimonials/marco.webp",
     },
     {
-      text: 'A nossa minisérie "Escolar pelo Brasil" contou a história de 10 papelarias de norte a sul do Brasil e foi inspirador conhecer a jornada empreendedora de cada um. Agradecemos imensamente ao excelente trabalho da Motin Films e todo o cuidado que tiveram com esse projeto tão especial.',
+      text: 'A nossa minisérie "Escolar pelo Brasil" contou a história de 10 papelarias de norte a sul do Brasil e foi inspirador conhecer a jornada empreendedora de cada um.',
       author: "Escolar Office Brasil",
       image: "/brands/escolar-office-brasil.jpeg",
     },
   ]
 
-  const portfolioItems = [
+  const portfolioItems = portfolioVideos.slice(0, 12)
+
+  const services = [
     {
-      title: "UNIFATEB e Colégio Dom Bosco | Filme Institucional",
-      category: "Institucional",
-      description: "Apresentação institucional que exibe a infraestrutura, cursos e valores das instituições UNIFATEB e Colégio Dom Bosco, destacando sua importância na educação.",
-      image: "https://i.ytimg.com/vi/Wyg3UPuf5Ec/maxresdefault.jpg",
-      videoId: "Wyg3UPuf5Ec",
+      icon: Film,
+      title: "Filmes Institucionais",
+      description: "Conte a história da sua empresa de forma envolvente e profissional",
+      link: "/filmes-institucionais",
+      gradient: "from-[#00b2b2]/20 to-[#008080]/20",
     },
     {
-      title: "Mercedes-Benz | Filme Institucional",
-      category: "Institucional",
-      description: "Vídeo institucional da Mercedes-Benz, showcasing sua história, inovação tecnológica e compromisso com a excelência no setor automotivo, com imagens de veículos premium.",
-      image: "https://i.ytimg.com/vi/kKpIG1XKbS0/maxresdefault.jpg",
-      videoId: "kKpIG1XKbS0",
+      icon: Briefcase,
+      title: "Eventos Corporativos",
+      description: "Capture os momentos mais importantes dos seus eventos empresariais",
+      link: "/eventos-corporativos",
+      gradient: "from-[#00b2b2]/20 to-[#008080]/20",
     },
     {
-      title: "LJ Santos - Linha de Cromagem | Filme Produto",
-      category: "Produto",
-      description: "Lançamento da linha de cromagem da LJ Santos, apresentando o processo de produção e os benefícios do produto com foco em qualidade e durabilidade.",
-      image: "https://i.ytimg.com/vi/hELpTXBl798/maxresdefault.jpg",
-      videoId: "hELpTXBl798",
-    },
-    {
-      title: "Liquexpress | Filme Institucional",
-      category: "Institucional",
-      description: "Vídeo institucional da Liquexpress, destacando seus serviços logísticos e a infraestrutura que garante eficiência e confiabilidade no transporte.",
-      image: "https://i.ytimg.com/vi/Dvj_JDpJPTU/maxresdefault.jpg",
-      videoId: "Dvj_JDpJPTU",
-    },
-    {
-      title: "SS&C Blue Prism Live - Live São Paulo | Filme Evento Corporativo",
-      category: "Evento Corporativo",
-      description: "Cobertura ao vivo do evento SS&C Blue Prism em São Paulo, com destaque para apresentações e interações ao vivo com edição em tempo real.",
-      image: "https://i.ytimg.com/vi/3YNyHv8jH60/maxresdefault.jpg",
-      videoId: "3YNyHv8jH60",
-    },
-    {
-      title: "Lumicenter Lighting - Essência Lumicenter 2024 | Filme Evento Corporativo",
-      category: "Evento Corporativo",
-      description: "Registro do evento Essência Lumicenter 2024, destacando lançamentos de produtos e tendências em iluminação com edição sofisticada.",
-      image: "https://i.ytimg.com/vi/ond_kR7F_7s/maxresdefault.jpg",
-      videoId: "ond_kR7F_7s",
-    },
-    {
-      title: "Händz - Headphone EcoSound | Filme Produto",
-      category: "Produto",
-      description: "Lançamento do headphone EcoSound da Händz, destacando design sustentável e qualidade de som com demonstrações práticas.",
-      image: "https://i.ytimg.com/vi/oC-T7m3JU8E/maxresdefault.jpg",
-      videoId: "oC-T7m3JU8E",
-    },
-    {
-      title: "BioBio Cosméticos - Only One | Filme Produto",
-      category: "Produto",
-      description: "Lançamento do produto Only One da BioBio Cosméticos, destacando sua fórmula inovadora e benefícios para a pele.",
-      image: "https://i.ytimg.com/vi/RuZy13ZDmeQ/maxresdefault.jpg",
-      videoId: "RuZy13ZDmeQ",
+      icon: BookOpen,
+      title: "Filmes de Conteúdo",
+      description: "Crie conteúdo estratégico para suas redes sociais e marketing digital",
+      link: "/filmes-conteudo",
+      gradient: "from-[#00b2b2]/20 to-[#008080]/20",
     },
   ]
 
+  const whyChooseUs = [
+    {
+      icon: Shield,
+      title: "Processo transparente",
+      description: "Acompanhe cada etapa do projeto com total controle sobre o resultado final",
+      gradient: "from-[#00b2b2]/10 to-[#008080]/5",
+      iconBg: "bg-[#00b2b2]/20",
+      iconColor: "text-[#00b2b2]",
+    },
+    {
+      icon: Users,
+      title: "Equipe especializada",
+      description: "Profissionais especializados em marketing e produções audiovisuais de alta qualidade",
+      gradient: "from-[#00b2b2]/10 to-[#008080]/5",
+      iconBg: "bg-[#00b2b2]/20",
+      iconColor: "text-[#00b2b2]",
+    },
+    {
+      icon: Rocket,
+      title: "Tecnologia de ponta",
+      description: "Equipamentos de última geração para capturas dinâmicas e inovadoras",
+      gradient: "from-[#00b2b2]/10 to-[#008080]/5",
+      iconBg: "bg-[#00b2b2]/20",
+      iconColor: "text-[#00b2b2]",
+    },
+    {
+      icon: Star,
+      title: "Edição profissional",
+      description: "Técnicas avançadas de sonoplastia, color grading e edição cinematográfica",
+      gradient: "from-[#00b2b2]/10 to-[#008080]/5",
+      iconBg: "bg-[#00b2b2]/20",
+      iconColor: "text-[#00b2b2]",
+    },
+    {
+      icon: Globe,
+      title: "Cobertura nacional",
+      description: "Atendemos todo o Brasil com a mesma qualidade e excelência comprovada",
+      gradient: "from-[#00b2b2]/10 to-[#008080]/5",
+      iconBg: "bg-[#00b2b2]/20",
+      iconColor: "text-[#00b2b2]",
+    },
+    {
+      icon: TrendingUp,
+      title: "Resultados comprovados",
+      description: "Mais de 10 anos no mercado com centenas de clientes satisfeitos",
+      gradient: "from-[#00b2b2]/10 to-[#008080]/5",
+      iconBg: "bg-[#00b2b2]/20",
+      iconColor: "text-[#00b2b2]",
+    },
+  ]
 
+  const methodology = [
+    {
+      icon: Target,
+      title: "Planejamento estratégico",
+      description: "Entendemos suas necessidades e criamos vídeos que atendam aos seus objetivos específicos",
+      step: "01",
+    },
+    {
+      icon: Lightbulb,
+      title: "Roteiro inteligente",
+      description: "Desenvolvemos roteiros que tornam sua mensagem clara, impactante e capaz de gerar conversões",
+      step: "02",
+    },
+    {
+      icon: Camera,
+      title: "Captação profissional",
+      description: "Utilizamos movimentos de câmera inovadores e drones para capturas cinematográficas",
+      step: "03",
+    },
+    {
+      icon: Edit,
+      title: "Edição e finalização",
+      description: "Aplicamos técnicas avançadas que elevam a qualidade e prendem a atenção do público",
+      step: "04",
+    },
+  ]
+
+  const stats = [
+    { number: 10, label: "Anos de mercado", icon: Clock, color: "text-[#00b2b2]", suffix: "+" },
+    { number: 300, label: "Clientes satisfeitos", icon: Heart, color: "text-[#00b2b2]", suffix: "+" },
+    { number: 500, label: "Filmes realizados", icon: Video, color: "text-[#00b2b2]", suffix: "+" },
+    { number: 2000, label: "Projetos desenvolvidos", icon: Eye, color: "text-[#00b2b2]", suffix: "+" },
+  ]
 
   const renderGrid = (items: typeof portfolioItems) => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-      {items.map((item, i) => {
-        const shortDesc = item.description.slice(0, 100)
-        const isLong = item.description.length > 100
-        return (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: i * 0.05 }}
-            viewport={{ once: true }}
-            whileHover={{ y: -8, scale: 1.02 }}
-            className="group cursor-pointer"
-          >
-            <div
-              className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/20 shadow-2xl hover:shadow-primary/20 transition-all duration-500"
-              onClick={() => openVideoModal(item.videoId)}
-            >
+    <div className="modern-grid">
+      {items.map((item, i) => (
+        <motion.div
+          key={i}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: i * 0.05 }}
+          viewport={{ once: true }}
+          whileHover={{ y: -6, scale: 1.02 }}
+          className="group cursor-pointer"
+          onClick={() => openDetail(item)}
+        >
+          <div className="modern-card">
+            <div className="relative overflow-hidden">
               <Image
-                src={item.image}
+                src={item.image || "/placeholder.svg"}
                 alt={item.title}
                 width={400}
                 height={225}
-                className="w-full aspect-video object-cover transition-transform duration-700 group-hover:scale-110"
+                className="w-full aspect-video object-cover transition-transform duration-500 group-hover:scale-110"
               />
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="bg-primary/90 backdrop-blur-sm h-16 w-16 rounded-full flex items-center justify-center shadow-2xl transform scale-90 group-hover:scale-100 transition-transform duration-300 border border-white/20">
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40">
+                <div className="bg-primary/90 backdrop-blur-sm h-16 w-16 rounded-full flex items-center justify-center shadow-2xl transform scale-90 group-hover:scale-100 transition-transform duration-300">
                   <Play size={24} fill="white" />
                 </div>
               </div>
             </div>
-            <div className="mt-4 space-y-1">
-              <Badge
-                variant="outline"
-                className={getBadgeColor(item.category)}
-              >
+            <div className="p-6 space-y-3">
+              <Badge className="bg-primary/20 text-primary border-primary/30 text-xs font-medium px-3 py-1">
                 {item.category}
               </Badge>
-              <h3 className="text-lg font-bold text-white group-hover:text-primary transition-colors">
+              <h3 className="text-lg font-semibold text-white group-hover:text-primary transition-colors">
                 {item.title}
               </h3>
-              <p className="text-gray-300 text-sm leading-relaxed">
-                {isLong ? shortDesc + "…" : item.description}
-                {isLong && (
-                  <button
-                    className="ml-1 text-primary underline"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      openDetail(item)
-                    }}
-                  >
-                    ler mais
-                  </button>
-                )}
-              </p>
+              <p className="text-gray-400 text-sm leading-relaxed line-clamp-2">{item.description}</p>
             </div>
-          </motion.div>
-        )
-      })}
+          </div>
+        </motion.div>
+      ))}
     </div>
   )
 
-
- const sectionRefs = {
+  const sectionRefs = {
     inicio: useRef<HTMLElement>(null),
     portfolio: useRef<HTMLElement>(null),
     servicos: useRef<HTMLElement>(null),
@@ -183,9 +266,6 @@ export default function MotinFilms() {
     contato: useRef<HTMLElement>(null),
     equipe: useRef<HTMLElement>(null),
   }
-
-    // Função para obter a cor do badge baseada na categoria
-  
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen)
@@ -199,25 +279,17 @@ export default function MotinFilms() {
     }
   }
 
-
-  const openDetail = (item: typeof portfolioItems[0]) => {
+  const openDetail = (item: (typeof portfolioItems)[0]) => {
     setDetailItem(item)
     setIsDetailOpen(true)
   }
 
   const closeDetail = () => setIsDetailOpen(false)
 
-const openVideoModal = (videoId: string) => {
-  const item = portfolioItems.find((item) => item.videoId === videoId) || null
-  if (item) {
-    setDetailItem(item)
-    setIsDetailOpen(true)
-  }
-}
-
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY
+
       Object.entries(sectionRefs).forEach(([sectionId, ref]) => {
         if (ref.current) {
           const sectionTop = ref.current.offsetTop
@@ -228,156 +300,104 @@ const openVideoModal = (videoId: string) => {
           }
         }
       })
+
+      const sections = document.querySelectorAll(".section-slide-up")
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect()
+        if (rect.top < window.innerHeight * 0.8) {
+          section.classList.add("visible")
+        }
+      })
     }
 
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-
-  // Função para obter a cor do badge baseada na categoria
-  const getBadgeColor = (category: string) => {
-    const colors = {
-      Institucional: "text-xs font-medium px-3 py-1.5 backdrop-blur-md bg-primary/20 text-primary border-primary/30 shadow-lg",
-      "Evento Corporativo": "text-xs font-medium px-3 py-1.5 backdrop-blur-md bg-primary/20 text-primary border-primary/30 shadow-lg",
-      Produto: "text-xs font-medium px-3 py-1.5 backdrop-blur-md bg-primary/20 text-primary border-primary/30 shadow-lg",
-      Case: "text-xs font-medium px-3 py-1.5 backdrop-blur-md bg-primary/20 text-primary border-primary/30 shadow-lg",
-      Conteúdo: "text-xs font-medium px-3 py-1.5 backdrop-blur-md bg-primary/20 text-primary border-primary/30 shadow-lg",
-      "Ação de Marketing": "text-xs font-medium px-3 py-1.5 backdrop-blur-md bg-primary/20 text-primary border-primary/30 shadow-lg",
-      Artistas: "text-xs font-medium px-3 py-1.5 backdrop-blur-md bg-primary/20 text-primary border-primary/30 shadow-lg",
-      Treinamento: "text-xs font-medium px-3 py-1.5 backdrop-blur-md bg-primary/20 text-primary border-primary/30 shadow-lg",
-    }
-    return colors[category as keyof typeof colors] || "text-xs font-medium px-3 py-1.5 backdrop-blur-md bg-primary/20 text-primary border-primary/30 shadow-lg"
-  }
-
-  // Ajuste a lógica de filtro para corresponder às categorias exatas
   const filteredItems = (() => {
     switch (activeCategory) {
       case "todos":
-        return portfolioItems.slice(0, visibleItems)
+        return portfolioItems
       case "institucional":
-        return portfolioItems.filter((item) => item.category === "Institucional").slice(0, visibleItems)
+        return portfolioItems.filter((item) => item.category === "Institucional")
       case "evento":
-        return portfolioItems.filter((item) => item.category === "Evento Corporativo").slice(0, visibleItems)
+        return portfolioItems.filter((item) => item.category === "Evento Corporativo")
       case "produto":
-        return portfolioItems.filter((item) => item.category === "Produto").slice(0, visibleItems)
+        return portfolioItems.filter((item) => item.category === "Produto")
       case "case":
-        return portfolioItems.filter((item) => item.category === "Case").slice(0, visibleItems)
+        return portfolioItems.filter((item) => item.category === "Case")
       case "conteudo":
-        return portfolioItems.filter((item) => item.category === "Conteúdo").slice(0, visibleItems)
+        return portfolioItems.filter((item) => item.category === "Conteúdo")
       case "marketing":
-        return portfolioItems.filter((item) => item.category === "Ação de Marketing").slice(0, visibleItems)
+        return portfolioItems.filter((item) => item.category === "Ação de Marketing")
       case "artistas":
-        return portfolioItems.filter((item) => item.category === "Artistas").slice(0, visibleItems)
+        return portfolioItems.filter((item) => item.category === "Artistas")
       case "treinamento":
-        return portfolioItems.filter((item) => item.category === "Treinamento").slice(0, visibleItems)
+        return portfolioItems.filter((item) => item.category === "Treinamento")
       default:
-        return portfolioItems.slice(0, visibleItems)
+        return portfolioItems
     }
   })()
- const methodology = [
-    {
-      number: "1",
-      title: "Planejamento estratégico",
-      description:
-        "Cada projeto começa com um planejamento minucioso para entender suas necessidades e criar vídeos que atendam aos seus objetivos.",
-    },
-    {
-      number: "2",
-      title: "Roteiro",
-      description:
-        "Nosso time especializado em marketing cria roteiros que não apenas contam sua história, mas tornam sua mensagem clara, impactante e capaz de gerar conversões.",
-    },
-    {
-      number: "3",
-      title: "Captação",
-// (removed unused 'methodology' variable)
-    },
-  ]
 
-    function loadMoreItems(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void {
-      event.preventDefault();
-      setIsLoading(true);
-      setTimeout(() => {
-        setVisibleItems((prev) => prev + 6);
-        setIsLoading(false);
-      }, 500);
-    }
   return (
     <>
       <div className="min-h-screen bg-black text-white">
         {/* Header */}
-        <header className="fixed w-full z-50 bg-black/90 border-b border-gray-800 backdrop-blur-sm">
-          <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
+        <header className="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
+          <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.3 }}>
               <Link href="/" className="text-2xl font-bold">
                 <Image src="/motin-logo-white.webp" alt="Motin Films" width={120} height={36} priority />
               </Link>
             </motion.div>
 
-            {/* Desktop Menu */}
             <motion.nav
-              className="hidden md:flex space-x-6"
+              className="hidden md:flex space-x-8"
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
+              transition={{ duration: 0.3, delay: 0.1 }}
             >
               <Link
                 href="#inicio"
-                className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${activeSection === "inicio" ? "text-[#00B2B2]" : ""}`}
+                className={`text-sm font-medium hover:text-primary transition-colors ${activeSection === "inicio" ? "text-primary" : "text-gray-300"}`}
               >
                 Início
               </Link>
               <Link
                 href="#portfolio"
-                className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${activeSection === "portfolio" ? "text-[#00B2B2]" : ""}`}
+                className={`text-sm font-medium hover:text-primary transition-colors ${activeSection === "portfolio" ? "text-primary" : "text-gray-300"}`}
               >
                 Portfólio
               </Link>
               <Link
                 href="#servicos"
-                className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${activeSection === "servicos" ? "text-[#00B2B2]" : ""}`}
+                className={`text-sm font-medium hover:text-primary transition-colors ${activeSection === "servicos" ? "text-primary" : "text-gray-300"}`}
               >
                 Serviços
               </Link>
               <Link
                 href="#sobre"
-                className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${activeSection === "sobre" ? "text-[#00B2B2]" : ""}`}
+                className={`text-sm font-medium hover:text-primary transition-colors ${activeSection === "sobre" ? "text-primary" : "text-gray-300"}`}
               >
                 Sobre
               </Link>
               <Link
                 href="#contato"
-                className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${activeSection === "contato" ? "text-[#00B2B2]" : ""}`}
+                className={`text-sm font-medium hover:text-primary transition-colors ${activeSection === "contato" ? "text-primary" : "text-gray-300"}`}
               >
                 Contato
               </Link>
             </motion.nav>
 
-            {/* Mobile Menu Button */}
             <motion.button
               className="md:hidden text-white"
               onClick={toggleMenu}
-              aria-label={isMenuOpen ? "Fechar menu" : "Abrir menu"}
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.3 }}
             >
               {isMenuOpen ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
+                <X size={24} />
               ) : (
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -387,8 +407,6 @@ const openVideoModal = (videoId: string) => {
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
                 >
                   <line x1="3" y1="12" x2="21" y2="12"></line>
                   <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -398,99 +416,97 @@ const openVideoModal = (videoId: string) => {
             </motion.button>
           </div>
 
-          {/* Mobile Menu */}
           {isMenuOpen && (
             <motion.div
-              className="md:hidden bg-black shadow-lg absolute w-full border-b border-gray-800"
+              className="md:hidden bg-black/95 backdrop-blur-md shadow-lg absolute w-full border-b border-white/10"
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.2 }}
             >
-              <nav className="container mx-auto px-4 py-4 flex flex-col space-y-4">
-                <Link
-                  href="#inicio"
-                  className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${activeSection === "inicio" ? "text-[#00B2B2]" : ""}`}
-                  onClick={() => scrollToSection("inicio")}
-                >
-                  Início
-                </Link>
-                <Link
-                  href="#portfolio"
-                  className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${activeSection === "portfolio" ? "text-[#00B2B2]" : ""}`}
-                  onClick={() => scrollToSection("portfolio")}
-                >
-                  Portfólio
-                </Link>
-                <Link
-                  href="#servicos"
-                  className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${activeSection === "servicos" ? "text-[#00B2B2]" : ""}`}
-                  onClick={() => scrollToSection("servicos")}
-                >
-                  Serviços
-                </Link>
-                <Link
-                  href="#sobre"
-                  className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${activeSection === "sobre" ? "text-[#00B2B2]" : ""}`}
-                  onClick={() => scrollToSection("sobre")}
-                >
-                  Sobre
-                </Link>
-                <Link
-                  href="#contato"
-                  className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${activeSection === "contato" ? "text-[#00B2B2]" : ""}`}
-                  onClick={() => scrollToSection("contato")}
-                >
-                  Contato
-                </Link>
+              <nav className="container mx-auto px-6 py-6 flex flex-col space-y-4">
+                {["inicio", "portfolio", "servicos", "sobre", "contato"].map((section) => (
+                  <Link
+                    key={section}
+                    href={`#${section}`}
+                    className={`text-sm font-medium hover:text-primary transition-colors ${activeSection === section ? "text-primary" : "text-gray-300"}`}
+                    onClick={() => scrollToSection(section)}
+                  >
+                    {section.charAt(0).toUpperCase() + section.slice(1)}
+                  </Link>
+                ))}
               </nav>
             </motion.div>
           )}
         </header>
 
         {/* Hero Section */}
-        <section ref={sectionRefs.inicio} className="relative pt-24 pb-16" id="inicio">
-          {/* Video Background */}
+        <motion.section
+          ref={heroRef}
+          style={{ opacity: heroOpacity, y: heroY }}
+          className="relative min-h-screen flex items-center justify-center overflow-hidden"
+          id="inicio"
+        >
           <VideoBackground videoId="ewm0U5C3nAo" fallbackImage="bg-black" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/60"></div>
 
-          <div className="container mx-auto px-4 z-20 relative">
-            <div className="max-w-2xl py-16 md:py-24">
+          <div className="container mx-auto px-6 z-20 relative text-center">
+            <div className="max-w-4xl mx-auto">
               <motion.h1
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                className="text-3xl md:text-5xl lg:text-5xl font-bold mb-4 leading-tight"
+                transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+                className="text-4xl md:text-6xl lg:text-7xl font-light mb-8 leading-tight tracking-tight"
               >
-                Filmes de alto impacto com qualidade cinematográfica
+                Filmes de alto impacto
+                <br />
+                <span className="font-semibold">com qualidade cinematográfica</span>
               </motion.h1>
+
               <motion.p
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
-                className="text-lg md:text-2xl mb-8 text-gray-300"
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-xl md:text-2xl mb-12 text-gray-300 font-light leading-relaxed"
               >
-                Somos uma produtora de filmes especializada em criar conteúdos que conectam marcas e pessoas através
-                de histórias memoráveis.
+                Criamos conteúdos que conectam marcas e pessoas através de histórias memoráveis
               </motion.p>
+
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
               >
-                <Button className="bg-[#00B2B2] hover:bg-[#009999] text-white rounded-md px-6 py-3 flex items-center gap-2">
-                  CONHEÇA NOSSAS SOLUÇÕES
-                  <ChevronRight size={16} />
+                <Button className="modern-button text-white px-8 py-4 text-lg font-medium flex items-center gap-3 mx-auto">
+                  Conheça nossas soluções
+                  <ArrowRight size={20} />
                 </Button>
               </motion.div>
             </div>
           </div>
-        </section>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1, duration: 0.3 }}
+            className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center"
+          >
+            <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
+              <div className="w-1 h-3 bg-white/50 rounded-full mt-2 animate-bounce"></div>
+            </div>
+          </motion.div>
+        </motion.section>
 
         {/* Brands Section */}
-        <section className="bg-black py-12">
-          <div className="container mx-auto px-4">
-            <AnimatedSection delay={0.2}>
-              <h3 className="text-center text-lg mb-8">Marcas que confiam:</h3>
+        <section className="section-slide-up bg-black py-16 border-t border-white/10">
+          <div className="container mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              viewport={{ once: true }}
+            >
+              <h3 className="text-center text-lg font-light mb-12 text-gray-400">Marcas que confiam</h3>
               <BrandCarousel
                 brands={[
                   { src: "/brands/electrolux-logo.png", alt: "Electrolux", width: 140 },
@@ -510,299 +526,398 @@ const openVideoModal = (videoId: string) => {
                   { src: "/brands/santos-logo.png", alt: "Santos", width: 140 },
                 ]}
               />
-            </AnimatedSection>
+            </motion.div>
           </div>
         </section>
 
-        {/* Video Promo Section - Updated with custom player */}
-        <section className="relative py-16 overflow-hidden">
-          {/* Background Image with Overlay */}
+        {/* Video Promo Section */}
+        <section className="section-slide-up relative py-20 overflow-hidden">
           <div className="absolute inset-0 z-0">
             <Image src="/images/cameraman-bg.webp" alt="Cameraman" fill className="object-cover" priority />
-            <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-black via-black/90 to-black/60"></div>
           </div>
 
-          <div className="container mx-auto px-4 relative z-10">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-              <AnimatedSection>
-                <h2 className="text-2xl md:text-3xl font-bold mb-4">
-                  Crie seu filme com a produtora das grandes marcas
+          <div className="container mx-auto px-6 relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+                viewport={{ once: true }}
+              >
+                <h2 className="text-3xl md:text-4xl font-light mb-8 leading-tight">
+                  Crie seu filme com a produtora
+                  <br />
+                  <span className="font-semibold">das grandes marcas</span>
                 </h2>
-                <ul className="mb-6 space-y-2">
-                  <li className="flex items-center gap-2">
-                    <span className="text-[#00B2B2]">✓</span>
-                    <span>
-                      Gere <b>mais contatos</b> interessados e <b>mais vendas</b>
-                    </span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="text-[#00B2B2]">✓</span>
-                    <span>
-                      Crie <b>conexão</b> com sua <b>audiência</b>
-                    </span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="text-[#00B2B2]">✓</span>
-                    <span>
-                      <b>Exponha</b> seu produto de maneira <b>única no mercado</b>
-                    </span>
-                  </li>
-                  <li className="flex items-center gap-2">
-                    <span className="text-[#00B2B2]">✓</span>
-                    <span>
-                      Reforce a <b>lembrança</b> da sua <b>marca</b>
-                    </span>
-                  </li>
+                <ul className="mb-10 space-y-4">
+                  {[
+                    "Gere mais contatos interessados e mais vendas",
+                    "Crie conexão com sua audiência",
+                    "Exponha seu produto de maneira única no mercado",
+                    "Reforce a lembrança da sua marca",
+                  ].map((item, index) => (
+                    <li key={index} className="flex items-center gap-4">
+                      <span className="text-primary text-xl">✓</span>
+                      <span className="text-gray-300">{item}</span>
+                    </li>
+                  ))}
                 </ul>
-                <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.3 }}>
-                  <Button className="bg-[#00B2B2] hover:bg-[#009999] text-white rounded-md px-6 py-3 flex items-center gap-2">
-                    FALE COM UM CONSULTOR
-                    <ChevronRight size={16} />
-                  </Button>
-                </motion.div>
-              </AnimatedSection>
+                <Button className="modern-button text-white px-8 py-4 flex items-center gap-3">
+                  Fale com um consultor
+                  <ArrowRight size={20} />
+                </Button>
+              </motion.div>
 
-              <AnimatedSection delay={0.3}>
-                <div className="relative rounded-xl overflow-hidden shadow-2xl shadow-[#00B2B2]/20">
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                viewport={{ once: true }}
+              >
+                <div className="modern-card overflow-hidden shadow-2xl">
                   <CustomVideoPlayer videoId="1AVEH6OtbeY" className="aspect-video w-full" />
                 </div>
-              </AnimatedSection>
+              </motion.div>
             </div>
           </div>
         </section>
 
         {/* Produtora Licenciada Section */}
-        <section className="bg-gradient-to-r from-[#001a1a] to-black py-8">
-          <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4 md:mb-0">Produtora Licenciada</h2>
-            <Image src="/brands/ancine.png" alt="Ancine" width={150} height={75} />
+        <section className="section-slide-up bg-gradient-to-r from-gray-900/50 to-black py-12 border-y border-white/10">
+          <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+            <h2 className="text-2xl md:text-3xl font-light mb-4 md:mb-0">Produtora Licenciada</h2>
+            <Image src="/brands/ancine.png" alt="Ancine" width={150} height={75} className="opacity-80" />
           </div>
         </section>
-      {/* Portfolio Section */}
-      <section className="bg-black py-16" id="portfolio">
-        <div className="container mx-auto px-4 max-w-7xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center">Nossos Trabalhos</h2>
-            <p className="text-gray-400 text-center mb-12">Confira alguns dos nossos projetos mais recentes</p>
-          </motion.div>
 
-          <Tabs defaultValue="todos" className="w-full" onValueChange={setActiveCategory}>
-            <TabsList className="flex justify-center mb-12 bg-transparent gap-2">
-              <TabsTrigger
-                value="todos"
-                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md px-4 py-2 text-sm transition-all duration-300 hover:bg-[#00B2B2]/50"
-              >
-                TODOS
-              </TabsTrigger>
-              <TabsTrigger
-                value="institucional"
-                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md px-4 py-2 text-sm transition-all duration-300 hover:bg-[#00B2B2]/50"
-              >
-                INSTITUCIONAL
-              </TabsTrigger>
-              <TabsTrigger
-                value="evento"
-                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md px-4 py-2 text-sm transition-all duration-300 hover:bg-[#00B2B2]/50"
-              >
-                EVENTO CORPORATIVO
-              </TabsTrigger>
-              <TabsTrigger
-                value="produto"
-                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md px-4 py-2 text-sm transition-all duration-300 hover:bg-[#00B2B2]/50"
-              >
-                PRODUTO
-              </TabsTrigger>
-              <TabsTrigger
-                value="case"
-                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md px-4 py-2 text-sm transition-all duration-300 hover:bg-[#00B2B2]/50"
-              >
-                CASE
-              </TabsTrigger>
-              <TabsTrigger
-                value="conteudo"
-                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md px-4 py-2 text-sm transition-all duration-300 hover:bg-[#00B2B2]/50"
-              >
-                CONTEÚDO
-              </TabsTrigger>
-              <TabsTrigger
-                value="marketing"
-                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md px-4 py-2 text-sm transition-all duration-300 hover:bg-[#00B2B2]/50"
-              >
-                AÇÃO DE MARKETING
-              </TabsTrigger>
-              <TabsTrigger
-                value="artistas"
-                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md px-4 py-2 text-sm transition-all duration-300 hover:bg-[#00B2B2]/50"
-              >
-                ARTISTAS
-              </TabsTrigger>
-              <TabsTrigger
-                value="treinamento"
-                className="data-[state=active]:bg-[#00B2B2] data-[state=active]:text-white rounded-md px-4 py-2 text-sm transition-all duration-300 hover:bg-[#00B2B2]/50"
-              >
-                TREINAMENTO
-              </TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="todos">
-              {renderGrid(portfolioItems.slice(0, visibleItems))}
-              {visibleItems < portfolioItems.length && (
-                <div className="flex justify-center mt-12">
-                  <Button
-                    onClick={loadMoreItems}
-                    disabled={isLoading}
-                    className="bg-[#00B2B2] hover:bg-[#00B2B2]/90 text-white rounded-full px-8 py-3 flex items-center gap-2 shadow-lg transition-all duration-300"
-                  >
-                    {isLoading ? "Carregando..." : "Carregar Mais"}
-                    <ChevronRight size={20} />
-                  </Button>
-                </div>
-              )}
-            </TabsContent>
-
-            {["institucional", "evento", "produto", "case", "conteudo", "marketing", "artistas", "treinamento"].map((cat) => (
-              <TabsContent key={cat} value={cat}>
-                {renderGrid(filteredItems)}
-                {filteredItems.length > visibleItems && (
-                  <div className="flex justify-center mt-12">
-                    <Button
-                      onClick={loadMoreItems}
-                      disabled={isLoading}
-                      className="bg-[#00B2B2] hover:bg-[#00B2B2]/90 text-white rounded-full px-8 py-3 flex items-center gap-2 shadow-lg transition-all duration-300"
-                    >
-                      {isLoading ? "Carregando..." : "Carregar Mais"}
-                      <ChevronRight size={20} />
-                    </Button>
-                  </div>
-                )}
-              </TabsContent>
-            ))}
-          </Tabs>
-          <div className="flex justify-center mt-12">
-  <Link href="/portfolio">
-    <Button className="bg-primary hover:bg-primary/90 text-white rounded-md px-8 py-4 flex items-center gap-2 shadow-lg hover:shadow-primary/20 transition-all duration-300">
-      VER PORTFÓLIO COMPLETO
-      <ChevronRight size={20} />
-    </Button>
-  </Link>
-</div>
-        </div>
-      </section>
-
-      {/* Modal de Detalhes com Liquid Glass Design */}
-      {isDetailOpen && detailItem && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
-        >
-          <motion.div
-            initial={{ scale: 0.9, y: 20 }}
-            animate={{ scale: 1, y: 0 }}
-            exit={{ scale: 0.9, y: 20 }}
-            transition={{ type: "spring", damping: 15, stiffness: 100 }}
-            className="relative bg-gradient-to-br from-black/50 via-black/70 to-transparent backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden max-w-6xl w-full shadow-2xl"
-          >
-            {/* Close Button */}
-            <button
-              onClick={closeDetail}
-              className="absolute top-4 right-4 text-white hover:text-[#00B2B2] transition-colors z-10 bg-primary/20 backdrop-blur-md rounded-full p-2"
+        {/* Portfolio Section */}
+        <section className="section-slide-up bg-black py-20" id="portfolio">
+          <div className="container mx-auto px-6 max-w-7xl">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
             >
-              <X size={24} />
-            </button>
-
-      {/* Content Grid */}
-      <div className="grid grid-cols-1 gap-6 p-6">
-        {/* Video */}
-        <div className="relative">
-          <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border border-white/20 shadow-lg">
-            <iframe
-              src={`https://www.youtube.com/embed/${detailItem.videoId}?autoplay=1&rel=0&modestbranding=1&controls=1`}
-              title="YouTube video player"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="w-full h-[60vh] rounded-lg shadow-inner"
-            />
-           
-          </div>
-        </div>
-
-        {/* Details */}
-        <div className="space-y-4">
-          <h3 className="text-2xl font-bold text-white">{detailItem.title}</h3>
-          <Badge
-            variant="outline"
-            className="text-xs font-medium px-3 py-1.5 backdrop-blur-md bg-primary/20 text-primary border-primary/30 shadow-lg"
-          >
-            {detailItem.category}
-          </Badge>
-          <p className="text-gray-300 text-base leading-relaxed">{detailItem.description}</p>
-        </div>
-      </div>
-
-          {/* Liquid Glass Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#00B2B2]/10 via-transparent to-[#00B2B2]/5 backdrop-blur-sm opacity-0 hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-              </motion.div>
+              <h2 className="text-3xl md:text-4xl font-light mb-6">Nossos Trabalhos</h2>
+              <p className="text-gray-400 text-lg font-light">Confira alguns dos nossos projetos mais recentes</p>
             </motion.div>
-          )}
 
+            <Tabs defaultValue="todos" className="w-full" onValueChange={setActiveCategory}>
+              <TabsList className="flex justify-center mb-16 bg-transparent gap-3 flex-wrap">
+                {[
+                  "todos",
+                  "institucional",
+                  "evento",
+                  "produto",
+                  "case",
+                  "conteudo",
+                  "marketing",
+                  "artistas",
+                  "treinamento",
+                ].map((category) => (
+                  <TabsTrigger
+                    key={category}
+                    value={category}
+                    className="data-[state=active]:bg-primary data-[state=active]:text-white rounded-full px-6 py-3 text-sm font-medium transition-all duration-300 hover:bg-primary/20 border border-white/10"
+                  >
+                    {category === "todos"
+                      ? "TODOS"
+                      : category === "institucional"
+                        ? "INSTITUCIONAL"
+                        : category === "evento"
+                          ? "EVENTO CORPORATIVO"
+                          : category === "produto"
+                            ? "PRODUTO"
+                            : category === "case"
+                              ? "CASE"
+                              : category === "conteudo"
+                                ? "CONTEÚDO"
+                                : category === "marketing"
+                                  ? "AÇÃO DE MARKETING"
+                                  : category === "artistas"
+                                    ? "ARTISTAS"
+                                    : "TREINAMENTO"}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
 
-        {/* Why Choose Us Section - Updated */}
-        <WhyChooseUs />
+              <TabsContent value="todos">{renderGrid(portfolioItems)}</TabsContent>
 
-        {/* Services Section - Updated */}
-        <ServicesSection />
+              {["institucional", "evento", "produto", "case", "conteudo", "marketing", "artistas", "treinamento"].map(
+                (cat) => (
+                  <TabsContent key={cat} value={cat}>
+                    {renderGrid(filteredItems)}
+                  </TabsContent>
+                ),
+              )}
+            </Tabs>
 
-        {/* Stats Section */}
-        <section className="bg-black py-16 border-t border-gray-800">
-          <div className="container mx-auto px-4">
-            <h2 className="text-2xl md:text-3xl font-bold mb-12 text-center">Nossos números</h2>
+            <div className="flex justify-center mt-16">
+              <Link href="/portfolio">
+                <Button className="modern-button text-white px-8 py-4 flex items-center gap-3">
+                  Ver portfólio completo
+                  <ArrowRight size={20} />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-              <div>
-                <p className="text-3xl md:text-4xl font-bold text-[#00B2B2]">+10</p>
-                <p className="text-gray-400">anos de mercado</p>
+        {/* Services Section */}
+        <section className="section-slide-up bg-black py-20 border-t border-white/10" id="servicos">
+          <div className="container mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-3xl md:text-4xl font-light mb-6">Nossos Serviços</h2>
+              <p className="text-gray-400 text-lg font-light">Soluções completas em produção audiovisual</p>
+            </motion.div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              {services.map((service, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="group"
+                >
+                  <div
+                    className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${service.gradient} border border-white/10 p-8 h-full transition-all duration-300 hover:border-[#00b2b2]/50 hover:shadow-2xl hover:shadow-[#00b2b2]/10`}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-br from-black/50 to-black/80"></div>
+                    <div className="relative z-10 text-center">
+                      <div className="w-16 h-16 mx-auto mb-6 bg-[#00b2b2]/20 rounded-full flex items-center justify-center group-hover:bg-[#00b2b2]/30 transition-colors">
+                        <service.icon className="w-8 h-8 text-[#00b2b2]" />
+                      </div>
+                      <h3 className="text-xl font-semibold mb-4 group-hover:text-[#00b2b2] transition-colors">
+                        {service.title}
+                      </h3>
+                      <p className="text-gray-400 mb-6 leading-relaxed">{service.description}</p>
+                      <Link href={service.link}>
+                        <Button className="bg-[#00b2b2]/20 text-[#00b2b2] border border-[#00b2b2]/30 hover:bg-[#00b2b2] hover:text-white transition-all duration-300 px-6 py-2 text-sm">
+                          Saiba mais
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Why Choose Us Section - Simplified */}
+        <section className="section-slide-up bg-black py-24 border-t border-white/10 relative overflow-hidden">
+          {/* Background Elements */}
+          <div className="absolute inset-0 opacity-5">
+            <div className="absolute top-20 left-10 w-72 h-72 bg-[#00b2b2] rounded-full filter blur-[120px]"></div>
+            <div className="absolute bottom-20 right-10 w-72 h-72 bg-[#00b2b2] rounded-full filter blur-[120px]"></div>
+          </div>
+
+          <div className="container mx-auto px-6 relative z-10">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="text-center mb-20"
+            >
+              <div className="inline-flex items-center gap-2 bg-[#00b2b2]/10 border border-[#00b2b2]/20 rounded-full px-4 py-2 mb-6">
+                <Sparkles className="w-4 h-4 text-[#00b2b2]" />
+                <span className="text-[#00b2b2] text-sm font-medium">Por que nos escolher</span>
               </div>
-              <div>
-                <p className="text-3xl md:text-4xl font-bold text-[#00B2B2]">+300</p>
-                <p className="text-gray-400">clientes satisfeitos</p>
-              </div>
-              <div>
-                <p className="text-3xl md:text-4xl font-bold text-[#00B2B2]">+500</p>
-                <p className="text-gray-400">filmes realizados</p>
-              </div>
-              <div>
-                <p className="text-3xl md:text-4xl font-bold text-[#00B2B2]">+2,000</p>
-                <p className="text-gray-400">projetos desenvolvidos</p>
-              </div>
+              <h2 className="text-4xl md:text-5xl font-light mb-6 leading-tight">
+                Diferenciais que fazem
+                <br />
+                <span className="font-semibold bg-gradient-to-r from-[#00b2b2] to-[#008080] bg-clip-text text-transparent">
+                  toda a diferença
+                </span>
+              </h2>
+              <p className="text-gray-400 text-lg font-light max-w-2xl mx-auto">
+                Descubra por que somos a escolha preferida de grandes marcas para suas produções audiovisuais
+              </p>
+            </motion.div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+              {whyChooseUs.map((item, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 40, scale: 0.95 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="group"
+                >
+                  <div
+                    className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${item.gradient} border border-white/10 p-8 h-full transition-all duration-300 hover:border-[#00b2b2]/30 hover:shadow-xl hover:shadow-[#00b2b2]/10 hover:-translate-y-2`}
+                  >
+                    {/* Icon Container */}
+                    <div
+                      className={`w-12 h-12 ${item.iconBg} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}
+                    >
+                      <item.icon className={`w-6 h-6 ${item.iconColor}`} />
+                    </div>
+
+                    {/* Content */}
+                    <div className="space-y-4">
+                      <h3 className="text-xl font-semibold bg-gradient-to-r from-[#00b2b2] to-[#008080] bg-clip-text text-transparent group-hover:from-white group-hover:to-white transition-all duration-300">
+                        {item.title}
+                      </h3>
+                      <p className="text-gray-400 leading-relaxed text-sm">{item.description}</p>
+                    </div>
+
+                    {/* Bottom Accent */}
+                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#00b2b2]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+
+            {/* Call to Action */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.8 }}
+              viewport={{ once: true }}
+              className="text-center mt-16"
+            >
+              <Button className="modern-button text-white px-8 py-4 text-lg font-medium flex items-center gap-3 mx-auto">
+                <CheckCircle2 className="w-5 h-5" />
+                Comece seu projeto agora
+                <ArrowRight size={20} />
+              </Button>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Stats Section - Enhanced */}
+        <section className="section-slide-up bg-black py-24 border-t border-white/10">
+          <div className="container mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-3xl md:text-4xl font-light mb-6">Nossos números falam por si</h2>
+              <p className="text-gray-400 text-lg font-light">Resultados que comprovam nossa excelência</p>
+            </motion.div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
+              {stats.map((stat, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, scale: 0.8, y: 30 }}
+                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.15, type: "spring", stiffness: 100 }}
+                  viewport={{ once: true }}
+                  className="group"
+                >
+                  <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900/50 to-black border border-white/10 p-8 text-center transition-all duration-300 hover:border-[#00b2b2]/30 hover:shadow-xl hover:shadow-[#00b2b2]/10 hover:-translate-y-2">
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      whileInView={{ scale: 1 }}
+                      transition={{ duration: 0.5, delay: index * 0.15 + 0.3, type: "spring", stiffness: 200 }}
+                      viewport={{ once: true }}
+                      className={`w-12 h-12 ${stat.color} mx-auto mb-6 group-hover:scale-110 transition-transform duration-300`}
+                    >
+                      <stat.icon className="w-full h-full" />
+                    </motion.div>
+
+                    <div className="mb-4">
+                      <AnimatedCounter end={stat.number} suffix={stat.suffix} duration={2500} />
+                    </div>
+
+                    <p className="text-gray-400 text-sm font-medium uppercase tracking-wider">{stat.label}</p>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
         </section>
 
         {/* Methodology Section */}
-        <MethodologySection />
+        <section className="section-slide-up bg-black py-20 border-t border-white/10">
+          <div className="container mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h2 className="text-3xl md:text-4xl font-light mb-6">Nossa Metodologia</h2>
+              <p className="text-gray-400 text-lg font-light">Processo estruturado para resultados excepcionais</p>
+            </motion.div>
+
+            <div className="max-w-6xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {methodology.map((step, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                    className="group"
+                  >
+                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900/50 to-black border border-white/10 p-8 h-full transition-all duration-300 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/10">
+                      <div className="flex items-start gap-4 mb-6">
+                        <div className="bg-primary/20 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 group-hover:bg-primary/30 transition-colors">
+                          <span className="text-primary font-bold text-lg">{step.step}</span>
+                        </div>
+                        <step.icon className="w-8 h-8 text-primary mt-2 group-hover:scale-110 transition-transform duration-300" />
+                      </div>
+                      <h3 className="text-xl font-semibold mb-4 group-hover:text-primary transition-colors">
+                        {step.title}
+                      </h3>
+                      <p className="text-gray-400 leading-relaxed">{step.description}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* Testimonials Section */}
-        <section className="bg-black py-16">
-          <div className="container mx-auto px-4">
-            <h6 className="text-center text-sm uppercase tracking-wider mb-2 text-[#00B2B2]">DEPOIMENTOS</h6>
-            <h2 className="text-2xl md:text-3xl font-bold mb-12 text-center">
-              Resultados comprovados por quem mais entende
-            </h2>
+        <section className="section-slide-up bg-black py-20 border-t border-white/10">
+          <div className="container mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              viewport={{ once: true }}
+              className="text-center mb-16"
+            >
+              <h6 className="text-sm uppercase tracking-wider mb-4 text-primary font-medium">DEPOIMENTOS</h6>
+              <h2 className="text-2xl md:text-3xl font-light">Resultados comprovados por quem mais entende</h2>
+            </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
               {testimonials.map((testimonial, index) => (
-                <Card key={index} className="bg-black border border-gray-800 text-white">
-                  <CardContent className="p-6">
-                    <p className="italic text-gray-300 mb-4">"{testimonial.text}"</p>
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  className="group"
+                >
+                  <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900/50 to-black border border-white/10 p-8 h-full transition-all duration-300 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-2">
+                    <p className="italic text-gray-300 mb-6 leading-relaxed">"{testimonial.text}"</p>
                     <div className="flex items-center">
-                      <div className="w-12 h-12 rounded-full overflow-hidden mr-3">
+                      <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
                         <Image
                           src={testimonial.image || "/placeholder.svg"}
                           alt={testimonial.author}
@@ -812,49 +927,71 @@ const openVideoModal = (videoId: string) => {
                         />
                       </div>
                       <div>
-                        <p className="font-bold">- {testimonial.author}</p>
+                        <p className="font-medium text-white">- {testimonial.author}</p>
                       </div>
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </motion.div>
               ))}
             </div>
           </div>
         </section>
 
         {/* About Section */}
-        <section ref={sectionRefs.sobre} className="bg-black py-16 border-t border-gray-800" id="sobre">
-          <div className="container mx-auto px-4">
-            <AnimatedSection>
-              <h6 className="text-sm uppercase tracking-wider mb-2">QUEM SOMOS?</h6>
-              <h2 className="text-2xl md:text-3xl font-bold mb-8">Conheça a Motin Films</h2>
-            </AnimatedSection>
+        <section
+          ref={sectionRefs.sobre}
+          className="section-slide-up bg-black py-20 border-t border-white/10"
+          id="sobre"
+        >
+          <div className="container mx-auto px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              viewport={{ once: true }}
+              className="mb-16"
+            >
+              <h6 className="text-sm uppercase tracking-wider mb-4 text-primary font-medium">QUEM SOMOS?</h6>
+              <h2 className="text-2xl md:text-3xl font-light">Conheça a Motin Films</h2>
+            </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-              <AnimatedSection delay={0.2} className="md:col-span-2">
-                <p className="text-gray-300 mb-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+                viewport={{ once: true }}
+                className="md:col-span-2 space-y-6"
+              >
+                <p className="text-gray-300 leading-relaxed">
                   Somos a Motin Films, uma produtora especializada em produções audiovisuais de alto impacto e
                   certificada pela Ancine. Com mais de 10 anos de atuação no mercado, produzimos filmes com a missão de
                   criar conexões entre marcas e consumidores.
                 </p>
-                <p className="text-gray-300 mb-4">
+                <p className="text-gray-300 leading-relaxed">
                   Com técnicas inovadoras de edição e captação dinâmica, nossos projetos são personalizados e planejados
                   de acordo com as necessidades específicas de cada cliente. Com qualidade excepcional de imagem e som,
                   produzimos filmes para produtos, eventos corporativos, institucionais, promocionais, entre outros.
                 </p>
-                <p className="text-gray-300 mb-6">
+                <p className="text-gray-300 leading-relaxed">
                   Acreditamos que o audiovisual é uma ferramenta poderosa para a construção de imagem da sua empresa.
                   Através de técnicas de storytelling, contamos histórias que inspiram e agregam valor à sua marca e
                   seus produtos.
                 </p>
-                <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}>
-                  <Button className="bg-[#00B2B2] hover:bg-[#009999] text-white rounded-md px-6 py-3">
-                    FALE CONOSCO AGORA!
-                  </Button>
-                </motion.div>
-              </AnimatedSection>
-              <AnimatedSection delay={0.4} className="flex flex-col items-center">
-                <motion.div whileHover={{ scale: 1.05 }} transition={{ duration: 0.3 }}>
+                <Button className="modern-button text-white px-8 py-4 flex items-center gap-3">
+                  Fale conosco agora!
+                  <ArrowRight size={20} />
+                </Button>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                viewport={{ once: true }}
+                className="flex flex-col items-center"
+              >
+                <div className="modern-card p-8 text-center">
                   <Image
                     src="/about/catalisti-grupo.png"
                     alt="Grupo Catalisti"
@@ -862,22 +999,63 @@ const openVideoModal = (videoId: string) => {
                     height={150}
                     className="mb-4"
                   />
-                </motion.div>
-                <p className="text-gray-400 text-sm mt-2">Uma empresa Catalisti Holding</p>
-              </AnimatedSection>
+                  <p className="text-gray-400 text-sm font-light">Uma empresa Catalisti Holding</p>
+                </div>
+              </motion.div>
             </div>
           </div>
         </section>
 
-        
+        {/* Modal de Detalhes */}
+        {isDetailOpen && detailItem && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-6"
+          >
+            <motion.div
+              initial={{ scale: 0.9, y: 20 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.9, y: 20 }}
+              transition={{ type: "spring", damping: 15, stiffness: 100 }}
+              className="modern-card overflow-hidden max-w-6xl w-full shadow-2xl"
+            >
+              <button
+                onClick={closeDetail}
+                className="absolute top-6 right-6 text-white hover:text-primary transition-colors z-10 bg-black/50 backdrop-blur-md rounded-full p-3"
+              >
+                <X size={24} />
+              </button>
 
-        {/* RD Station Button (replacing WhatsApp Button) */}
+              <div className="grid grid-cols-1 gap-8 p-8">
+                <div className="relative">
+                  <div className="modern-card overflow-hidden">
+                    <iframe
+                      src={`https://www.youtube.com/embed/${detailItem.videoId}?autoplay=1&rel=0&modestbranding=1&controls=1`}
+                      title="YouTube video player"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="w-full h-[60vh] rounded-2xl"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-6">
+                  <h3 className="text-2xl font-semibold text-white">{detailItem.title}</h3>
+                  <Badge className="bg-primary/20 text-primary border-primary/30 text-xs font-medium px-3 py-1">
+                    {detailItem.category}
+                  </Badge>
+                  <p className="text-gray-300 text-base leading-relaxed">{detailItem.description}</p>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+
         <RDStationButton />
-
-        
       </div>
       <Footer />
     </>
   )
 }
-     
