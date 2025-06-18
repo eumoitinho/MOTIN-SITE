@@ -107,19 +107,19 @@ export default function MotinFilms() {
 
   const portfolioItems = [
     {
-      title: "UNIFATEB e Colégio Dom Bosco | Filme Institucional",
-      category: "Institucional",
-      description: "Apresentação institucional que exibe a infraestrutura, cursos e valores das instituições UNIFATEB e Colégio Dom Bosco, destacando sua importância na educação.",
-      image: "https://i.ytimg.com/vi/Wyg3UPuf5Ec/maxresdefault.jpg",
-      videoId: "Wyg3UPuf5Ec",
-    },
+    title: "Unifateb",
+    category: "Institucional",
+    description: "Filme institucional produzido para a Unifateb e o Colégio Dom Bosco, instituições que há mais de duas décadas impulsionam o desenvolvimento educacional de Telêmaco Borba e região.",
+    image: "https://i.ytimg.com/vi/Wyg3UPuf5Ec/maxresdefault.jpg",
+    videoId: "Wyg3UPuf5Ec",
+  },
     {
-      title: "LJ Santos - Linha de Cromagem | Filme Produto",
-      category: "Produto",
-      description: "Lançamento da linha de cromagem da LJ Santos, apresentando o processo de produção e os benefícios do produto com foco em qualidade e durabilidade.",
-      image: "https://i.ytimg.com/vi/hELpTXBl798/maxresdefault.jpg",
-      videoId: "hELpTXBl798",
-    },
+    title: "LJ Santos | Linha de Cromagem",
+    category: "Produto",
+    description: "Filme produzido para a LJ Santos, destacando sua linha de cromagem, projetada para garantir o acabamento impecável de peças plásticas para o setor automobilístico.",
+    image: "https://i.ytimg.com/vi/hELpTXBl798/maxresdefault.jpg",
+    videoId: "hELpTXBl798",
+  },
     {
       title: "BioBio Cosméticos - Only One | Filme Produto",
       category: "Produto",
@@ -127,27 +127,27 @@ export default function MotinFilms() {
       image: "https://i.ytimg.com/vi/RuZy13ZDmeQ/maxresdefault.jpg",
       videoId: "RuZy13ZDmeQ",
     },
-    {
+{
     title: "Ditrator",
     category: "Institucional",
-    description: "Filme institucional da Ditrator.",
+    description: "Filme institucional produzido para a Ditrator, distribuidora de peças para tratores agrícolas e motores a diesel com mais de 30 anos de história.",
     image: "https://i.ytimg.com/vi/AO4UycrhPMM/maxresdefault.jpg",
     videoId: "AO4UycrhPMM",
   },
-  {
+{
     title: "AWA Comercial",
     category: "Institucional",
-    description: "Filme institucional da AWA Comercial apresentando a empresa e seus valores.",
+    description: "Filme institucional para a AWA Comercial, referência nacional na fabricação e distribuição de produtos em aço para o setor da construção civil.",
     image: "https://i.ytimg.com/vi/6bseD2wgI6A/maxresdefault.jpg",
     videoId: "6bseD2wgI6A",
   },
   {
     title: "E.Mix",
     category: "Case",
-    description: "Case de sucesso da E.Mix.",
+    description: "Filme case com depoimentos do Grupo Positivo sobre a implementação dos softwares de automação para comércio exterior e logística da e.Mix.",
     image: "https://i.ytimg.com/vi/VBOcex5L9-Y/maxresdefault.jpg",
     videoId: "VBOcex5L9-Y",
-  }
+  },
 
   ]
 
