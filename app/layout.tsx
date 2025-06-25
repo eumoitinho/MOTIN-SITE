@@ -31,6 +31,7 @@ export default function RootLayout({
          </head>
       <body>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+        
           <UtmCapture />
           <Analytics />
           {children}

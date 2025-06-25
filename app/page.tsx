@@ -75,6 +75,22 @@ function AnimatedCounter({ end, duration = 2000, suffix = "" }: { end: number; d
   )
 }
 
+const handleRdStationPopup = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    if (window.RdstationPopup && typeof window.RdstationPopup.open === 'function') {
+      window.RdstationPopup.open();
+    } else {
+      console.error('Popup do RD Station não disponível ou não inicializado.');
+      // Fallback: Simulate click on RD Station floating button
+      const rdFloatingButton = document.getElementById('rd-floating_button-lfvfzlpr');
+      if (rdFloatingButton) {
+        rdFloatingButton.click();
+      } else {
+        console.error('Botão flutuante do RD Station (rd-floating_button-lfvfzlpr) não encontrado.');
+      }
+    }
+  };
+
 export default function MotinFilms() {
   const [activeSection, setActiveSection] = useState("inicio")
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -522,9 +538,11 @@ export default function MotinFilms() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
-                <Button className="modern-button text-white px-8 py-4 text-lg font-medium flex items-center gap-3 mx-auto">
-                  Conheça nossas soluções
-                  <ArrowRight size={20} />
+                <Button asChild className="modern-button text-white px-8 py-4 text-lg font-medium flex items-center gap-3 mx-auto mb-4">
+                  <a href="#portfolio">
+                    Conheça nossas soluções
+                    <ArrowRight size={20} />
+                  </a>
                 </Button>
               </motion.div>
             </div>
@@ -610,10 +628,13 @@ export default function MotinFilms() {
                     </li>
                   ))}
                 </ul>
-                <Button className="modern-button text-white px-8 py-4 flex items-center gap-3">
-                  Fale com um consultor
-                  <ArrowRight size={20} />
-                </Button>
+                <Button
+  className="modern-button text-white px-8 py-4 flex items-center gap-3"
+  onClick={handleRdStationPopup}
+>
+  Fale com um consultor
+  <ArrowRight size={20} />
+</Button>
               </motion.div>
 
               <motion.div
@@ -821,7 +842,7 @@ export default function MotinFilms() {
               viewport={{ once: true }}
               className="text-center mt-16"
             >
-              <Button className="modern-button text-white px-8 py-4 text-lg font-medium flex items-center gap-3 mx-auto">
+              <Button onClick={handleRdStationPopup} className="modern-button text-white px-8 py-4 text-lg font-medium flex items-center gap-3 mx-auto">
                 <CheckCircle2 className="w-5 h-5" />
                 Comece seu projeto agora
                 <ArrowRight size={20} />
@@ -1009,7 +1030,7 @@ export default function MotinFilms() {
                   Através de técnicas de storytelling, contamos histórias que inspiram e agregam valor à sua marca e
                   seus produtos.
                 </p>
-                <Button className="modern-button text-white px-8 py-4 flex items-center gap-3">
+                <Button onClick={handleRdStationPopup} className="modern-button text-white px-8 py-4 flex items-center gap-3">
                   Fale conosco agora!
                   <ArrowRight size={20} />
                 </Button>
@@ -1083,8 +1104,6 @@ export default function MotinFilms() {
             </motion.div>
           </motion.div>
         )}
-
-        <RDStationButton />
       </div>
       <Footer />
     </>

@@ -101,6 +101,22 @@ export default function EventosCorporativos() {
     },
   ]
 
+const handleRdStationPopup = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    if (window.RdstationPopup && typeof window.RdstationPopup.open === 'function') {
+      window.RdstationPopup.open();
+    } else {
+      console.error('Popup do RD Station não disponível ou não inicializado.');
+      // Fallback: Simulate click on RD Station floating button
+      const rdFloatingButton = document.getElementById('rd-floating_button-lfvfzlpr');
+      if (rdFloatingButton) {
+        rdFloatingButton.click();
+      } else {
+        console.error('Botão flutuante do RD Station (rd-floating_button-lfvfzlpr) não encontrado.');
+      }
+    }
+  };
+
   const methodology = [
     {
       icon: Target,
@@ -135,6 +151,7 @@ export default function EventosCorporativos() {
     setIsVideoModalOpen(false)
     setCurrentVideoId(null)
   }
+
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -185,10 +202,12 @@ export default function EventosCorporativos() {
                 Há mais de 10 anos, nossa equipe de especialistas em eventos corporativos utiliza tecnologias de última
                 geração para entregar produções que geram autoridade para o seu negócio e conexão com sua audiência.
               </p>
-              <Button className="modern-button text-white px-8 py-4 flex items-center gap-3 mx-auto">
-                Veja nosso portfólio!
-                <ArrowRight size={20} />
-              </Button>
+              <Link href="#portfolio">
+                <Button  onClick={handleRdStationPopup} className="modern-button text-white px-8 py-4 flex items-center gap-3">
+                  Veja nosso portfólio!
+                  <ArrowRight size={20} />
+                </Button>
+              </Link>
             </motion.div>
           </div>
         </div>
@@ -265,7 +284,7 @@ export default function EventosCorporativos() {
             </div>
 
             <div className="text-center">
-              <Button className="modern-button text-white px-8 py-4 flex items-center gap-3 mx-auto">
+              <Button id="wpp" onClick={handleRdStationPopup} className="modern-button text-white px-8 py-4 flex items-center gap-3 mx-auto">
                 Solicite um orçamento
                 <ArrowRight size={20} />
               </Button>
@@ -314,7 +333,7 @@ export default function EventosCorporativos() {
       </section>
 
       {/* Portfolio Section */}
-      <section className="py-20 bg-black border-t border-white/10">
+      <section id="portfolio" className="py-20 bg-black border-t border-white/10">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -367,10 +386,12 @@ export default function EventosCorporativos() {
           </div>
 
           <div className="text-center">
+            <Link href="/portfolio">
             <Button className="modern-button text-white px-8 py-4 flex items-center gap-3 mx-auto">
               Acesse nosso portfólio completo!
               <ArrowRight size={20} />
             </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -440,7 +461,7 @@ export default function EventosCorporativos() {
           </div>
 
           <div className="text-center mt-16">
-            <Button className="modern-button text-white px-8 py-4 flex items-center gap-3 mx-auto">
+            <Button id="wpp" onClick={handleRdStationPopup} className="modern-button text-white px-8 py-4 flex items-center gap-3 mx-auto">
               Conheça nosso método!
               <ArrowRight size={20} />
             </Button>
@@ -609,7 +630,7 @@ export default function EventosCorporativos() {
                 Através de técnicas de storytelling, contamos histórias que inspiram e agregam valor à sua marca e seus
                 produtos.
               </p>
-              <Button className="modern-button text-white px-8 py-4 flex items-center gap-3">
+              <Button id="wpp" onClick={handleRdStationPopup} className="modern-button text-white px-8 py-4 flex items-center gap-3">
                 Fale conosco agora!
                 <ArrowRight size={20} />
               </Button>

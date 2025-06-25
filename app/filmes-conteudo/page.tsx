@@ -134,6 +134,21 @@ export default function FilmesConteudo() {
     setCurrentVideoId(null)
   }
 
+ const handleRdStationPopup = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    if (window.RdstationPopup && typeof window.RdstationPopup.open === 'function') {
+      window.RdstationPopup.open();
+    } else {
+      console.error('Popup do RD Station não disponível ou não inicializado.');
+      // Fallback: Simulate click on RD Station floating button
+      const rdFloatingButton = document.getElementById('rd-floating_button-lfvfzlpr');
+      if (rdFloatingButton) {
+        rdFloatingButton.click();
+      } else {
+        console.error('Botão flutuante do RD Station (rd-floating_button-lfvfzlpr) não encontrado.');
+      }
+    }
+  };
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Header */}
@@ -278,10 +293,12 @@ export default function FilmesConteudo() {
             </div>
 
             <div className="text-center">
+              <Link href="#portfolio">
               <Button className="modern-button text-white px-8 py-4 flex items-center gap-3 mx-auto">
                 Acesse nosso portfólio
                 <ArrowRight size={20} />
               </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -327,7 +344,7 @@ export default function FilmesConteudo() {
       </section>
 
       {/* Portfolio Section */}
-      <section className="py-20 bg-black border-t border-white/10">
+      <section id="portfolio" className="py-20 bg-black border-t border-white/10">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -378,10 +395,12 @@ export default function FilmesConteudo() {
           </div>
 
           <div className="text-center">
-            <Button className="modern-button text-white px-8 py-4 flex items-center gap-3 mx-auto">
+            <Link href="/portfolio">
+            <Button  className="modern-button text-white px-8 py-4 flex items-center gap-3 mx-auto">
               Acesse nosso portfólio!
               <ArrowRight size={20} />
             </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -451,7 +470,7 @@ export default function FilmesConteudo() {
           </div>
 
           <div className="text-center mt-16">
-            <Button className="modern-button text-white px-8 py-4 flex items-center gap-3 mx-auto">
+            <Button id="wpp" onClick={handleRdStationPopup} className="modern-button text-white px-8 py-4 flex items-center gap-3 mx-auto">
               Conheça nosso método!
               <ArrowRight size={20} />
             </Button>
@@ -623,7 +642,7 @@ export default function FilmesConteudo() {
                 Através de técnicas de storytelling, contamos histórias que inspiram e agregam valor à sua marca e seus
                 produtos.
               </p>
-              <Button className="modern-button text-white px-8 py-4 flex items-center gap-3">
+              <Button id="wpp" onClick={handleRdStationPopup} className="modern-button text-white px-8 py-4 flex items-center gap-3">
                 Fale conosco agora!
                 <ArrowRight size={20} />
               </Button>
