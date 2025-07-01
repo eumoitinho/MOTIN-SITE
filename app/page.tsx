@@ -4,7 +4,6 @@ import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   Play,
   X,
@@ -35,8 +34,6 @@ import { Badge } from "@/components/ui/badge"
 import { BrandCarousel } from "@/components/brand-carousel"
 import { VideoBackground } from "@/components/video-background"
 import { CustomVideoPlayer } from "@/components/custom-video-player"
-import { RDStationButton } from "@/components/rd-station-button"
-import { portfolioVideos } from "@/lib/portfolio-data"
 import Footer from "@/components/footer"
 
 // Counter component for animated numbers
@@ -76,20 +73,20 @@ function AnimatedCounter({ end, duration = 2000, suffix = "" }: { end: number; d
 }
 
 const handleRdStationPopup = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    if (window.RdstationPopup && typeof window.RdstationPopup.open === 'function') {
-      window.RdstationPopup.open();
+  e.preventDefault()
+  if (window.RdstationPopup && typeof window.RdstationPopup.open === "function") {
+    window.RdstationPopup.open()
+  } else {
+    console.error("Popup do RD Station não disponível ou não inicializado.")
+    // Fallback: Simulate click on RD Station floating button
+    const rdFloatingButton = document.getElementById("rd-floating_button-lfvfzlpr")
+    if (rdFloatingButton) {
+      rdFloatingButton.click()
     } else {
-      console.error('Popup do RD Station não disponível ou não inicializado.');
-      // Fallback: Simulate click on RD Station floating button
-      const rdFloatingButton = document.getElementById('rd-floating_button-lfvfzlpr');
-      if (rdFloatingButton) {
-        rdFloatingButton.click();
-      } else {
-        console.error('Botão flutuante do RD Station (rd-floating_button-lfvfzlpr) não encontrado.');
-      }
+      console.error("Botão flutuante do RD Station (rd-floating_button-lfvfzlpr) não encontrado.")
     }
-  };
+  }
+}
 
 export default function MotinFilms() {
   const [activeSection, setActiveSection] = useState("inicio")
@@ -123,48 +120,53 @@ export default function MotinFilms() {
 
   const portfolioItems = [
     {
-    title: "Unifateb",
-    category: "Institucional",
-    description: "Filme institucional produzido para a Unifateb e o Colégio Dom Bosco, instituições que há mais de duas décadas impulsionam o desenvolvimento educacional de Telêmaco Borba e região.",
-    image: "https://i.ytimg.com/vi/Wyg3UPuf5Ec/maxresdefault.jpg",
-    videoId: "Wyg3UPuf5Ec",
-  },
+      title: "Unifateb",
+      category: "Institucional",
+      description:
+        "Filme institucional produzido para a Unifateb e o Colégio Dom Bosco, instituições que há mais de duas décadas impulsionam o desenvolvimento educacional de Telêmaco Borba e região.",
+      image: "https://i.ytimg.com/vi/Wyg3UPuf5Ec/maxresdefault.jpg",
+      videoId: "Wyg3UPuf5Ec",
+    },
     {
-    title: "LJ Santos | Linha de Cromagem",
-    category: "Produto",
-    description: "Filme produzido para a LJ Santos, destacando sua linha de cromagem, projetada para garantir o acabamento impecável de peças plásticas para o setor automobilístico.",
-    image: "https://i.ytimg.com/vi/hELpTXBl798/maxresdefault.jpg",
-    videoId: "hELpTXBl798",
-  },
+      title: "LJ Santos | Linha de Cromagem",
+      category: "Produto",
+      description:
+        "Filme produzido para a LJ Santos, destacando sua linha de cromagem, projetada para garantir o acabamento impecável de peças plásticas para o setor automobilístico.",
+      image: "https://i.ytimg.com/vi/hELpTXBl798/maxresdefault.jpg",
+      videoId: "hELpTXBl798",
+    },
     {
       title: "BioBio Cosméticos - Only One | Filme Produto",
       category: "Produto",
-      description: "Lançamento do produto Only One da BioBio Cosméticos, destacando sua fórmula inovadora e benefícios para a pele.",
+      description:
+        "Lançamento do produto Only One da BioBio Cosméticos, destacando sua fórmula inovadora e benefícios para a pele.",
       image: "https://i.ytimg.com/vi/RuZy13ZDmeQ/maxresdefault.jpg",
       videoId: "RuZy13ZDmeQ",
     },
-{
-    title: "Ditrator",
-    category: "Institucional",
-    description: "Filme institucional produzido para a Ditrator, distribuidora de peças para tratores agrícolas e motores a diesel com mais de 30 anos de história.",
-    image: "https://i.ytimg.com/vi/AO4UycrhPMM/maxresdefault.jpg",
-    videoId: "AO4UycrhPMM",
-  },
-{
-    title: "AWA Comercial",
-    category: "Institucional",
-    description: "Filme institucional para a AWA Comercial, referência nacional na fabricação e distribuição de produtos em aço para o setor da construção civil.",
-    image: "https://i.ytimg.com/vi/6bseD2wgI6A/maxresdefault.jpg",
-    videoId: "6bseD2wgI6A",
-  },
-  {
-    title: "E.Mix",
-    category: "Case",
-    description: "Filme case com depoimentos do Grupo Positivo sobre a implementação dos softwares de automação para comércio exterior e logística da e.Mix.",
-    image: "https://i.ytimg.com/vi/VBOcex5L9-Y/maxresdefault.jpg",
-    videoId: "VBOcex5L9-Y",
-  },
-
+    {
+      title: "Ditrator",
+      category: "Institucional",
+      description:
+        "Filme institucional produzido para a Ditrator, distribuidora de peças para tratores agrícolas e motores a diesel com mais de 30 anos de história.",
+      image: "https://i.ytimg.com/vi/AO4UycrhPMM/maxresdefault.jpg",
+      videoId: "AO4UycrhPMM",
+    },
+    {
+      title: "AWA Comercial",
+      category: "Institucional",
+      description:
+        "Filme institucional para a AWA Comercial, referência nacional na fabricação e distribuição de produtos em aço para o setor da construção civil.",
+      image: "https://i.ytimg.com/vi/6bseD2wgI6A/maxresdefault.jpg",
+      videoId: "6bseD2wgI6A",
+    },
+    {
+      title: "E.Mix",
+      category: "Case",
+      description:
+        "Filme case com depoimentos do Grupo Positivo sobre a implementação dos softwares de automação para comércio exterior e logística da e.Mix.",
+      image: "https://i.ytimg.com/vi/VBOcex5L9-Y/maxresdefault.jpg",
+      videoId: "VBOcex5L9-Y",
+    },
   ]
 
   const services = [
@@ -538,7 +540,10 @@ export default function MotinFilms() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.4 }}
               >
-                <Button asChild className="modern-button text-white px-8 py-4 text-lg font-medium flex items-center gap-3 mx-auto mb-4">
+                <Button
+                  asChild
+                  className="modern-button text-white px-8 py-4 text-lg font-medium flex items-center gap-3 mx-auto mb-4"
+                >
                   <a href="#portfolio">
                     Conheça nossas soluções
                     <ArrowRight size={20} />
@@ -548,15 +553,17 @@ export default function MotinFilms() {
             </div>
           </div>
 
+          {/* Improved scroll indicator - moved up and made more visible */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1, duration: 0.3 }}
-            className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center"
+            className="absolute bottom-12 md:bottom-16 left-1/2 transform -translate-x-1/2 text-center z-30"
           >
-            <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
-              <div className="w-1 h-3 bg-white/50 rounded-full mt-2 animate-bounce"></div>
+            <div className="w-6 h-10 border-2 border-white/60 rounded-full flex justify-center bg-black/20 backdrop-blur-sm">
+              <div className="w-1 h-3 bg-white/80 rounded-full mt-2 animate-bounce"></div>
             </div>
+            <p className="text-white/60 text-xs mt-2 font-light">Role para baixo</p>
           </motion.div>
         </motion.section>
 
@@ -612,8 +619,8 @@ export default function MotinFilms() {
                   Crie seu filme com a produtora
                   <br />
                   <span className="font-semibold bg-gradient-to-r from-[#00b2b2] to-[#008080] bg-clip-text text-transparent">
-                
-                das grandes marcas</span>
+                    das grandes marcas
+                  </span>
                 </h2>
                 <ul className="mb-10 space-y-4">
                   {[
@@ -621,20 +628,22 @@ export default function MotinFilms() {
                     "Crie conexão com sua audiência",
                     "Exponha seu produto de maneira única no mercado",
                     "Reforce a lembrança da sua marca",
-                  ].map((item, index) => ( 
+                  ].map((item, index) => (
                     <li key={index} className="flex items-center gap-4">
-                      <span className="bg-gradient-to-r from-[#00b2b2] to-[#008080] bg-clip-text text-transparent text-xl">✓</span>
+                      <span className="bg-gradient-to-r from-[#00b2b2] to-[#008080] bg-clip-text text-transparent text-xl">
+                        ✓
+                      </span>
                       <span className="text-gray-300">{item}</span>
                     </li>
                   ))}
                 </ul>
                 <Button
-  className="modern-button text-white px-8 py-4 flex items-center gap-3"
-  onClick={handleRdStationPopup}
->
-  Fale com um consultor
-  <ArrowRight size={20} />
-</Button>
+                  className="modern-button text-white px-8 py-4 flex items-center gap-3"
+                  onClick={handleRdStationPopup}
+                >
+                  Fale com um consultor
+                  <ArrowRight size={20} />
+                </Button>
               </motion.div>
 
               <motion.div
@@ -674,17 +683,13 @@ export default function MotinFilms() {
                 <span className="text-[#00b2b2] text-sm font-medium">Portfólio</span>
               </div>
               <h2 className="text-4xl md:text-5xl font-light mb-6 leading-tight">
-                Nossos {" "}
-                
+                Nossos{" "}
                 <span className="font-semibold bg-gradient-to-r from-[#00b2b2] to-[#008080] bg-clip-text text-transparent">
-                 Trabalhos
+                  Trabalhos
                 </span>
               </h2>
-              <p className="text-gray-400 text-lg font-light max-w-2xl mx-auto">
-               Confira alguns dos nossos projetos
-              </p>
+              <p className="text-gray-400 text-lg font-light max-w-2xl mx-auto">Confira alguns dos nossos projetos</p>
             </motion.div>
-
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -724,11 +729,11 @@ export default function MotinFilms() {
                 Nossos
                 <br />
                 <span className="font-semibold bg-gradient-to-r from-[#00b2b2] to-[#008080] bg-clip-text text-transparent">
-                 Serviços
+                  Serviços
                 </span>
               </h2>
               <p className="text-gray-400 text-lg font-light max-w-2xl mx-auto">
-               Soluções completas em produção audiovisual 
+                Soluções completas em produção audiovisual
               </p>
             </motion.div>
 
@@ -767,7 +772,7 @@ export default function MotinFilms() {
           </div>
         </section>
 
-        {/* Why Choose Us Section - Simplified */}
+        {/* Why Choose Us Section - Updated title */}
         <section className="section-slide-up bg-black py-24 border-t border-white/10 relative overflow-hidden">
           {/* Background Elements */}
           <div className="absolute inset-0 opacity-5">
@@ -788,10 +793,10 @@ export default function MotinFilms() {
                 <span className="text-[#00b2b2] text-sm font-medium">Por que nos escolher</span>
               </div>
               <h2 className="text-4xl md:text-5xl font-light mb-6 leading-tight">
-                Diferenciais que fazem
+                Diferenciais que nos tornam
                 <br />
                 <span className="font-semibold bg-gradient-to-r from-[#00b2b2] to-[#008080] bg-clip-text text-transparent">
-                  toda a diferença
+                  únicos
                 </span>
               </h2>
               <p className="text-gray-400 text-lg font-light max-w-2xl mx-auto">
@@ -842,7 +847,10 @@ export default function MotinFilms() {
               viewport={{ once: true }}
               className="text-center mt-16"
             >
-              <Button onClick={handleRdStationPopup} className="modern-button text-white px-8 py-4 text-lg font-medium flex items-center gap-3 mx-auto">
+              <Button
+                onClick={handleRdStationPopup}
+                className="modern-button text-white px-8 py-4 text-lg font-medium flex items-center gap-3 mx-auto"
+              >
                 <CheckCircle2 className="w-5 h-5" />
                 Comece seu projeto agora
                 <ArrowRight size={20} />
@@ -850,53 +858,6 @@ export default function MotinFilms() {
             </motion.div>
           </div>
         </section>
-
-        {/* Stats Section - Enhanced */}
-        {/* <section className="section-slide-up bg-black py-24 border-t border-white/10">
-          <div className="container mx-auto px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-3xl md:text-4xl font-light mb-6">Nossos números falam por si</h2>
-              <p className="text-gray-400 text-lg font-light">Resultados que comprovam nossa excelência</p>
-            </motion.div>
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, scale: 0.8, y: 30 }}
-                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.15, type: "spring", stiffness: 100 }}
-                  viewport={{ once: true }}
-                  className="group"
-                >
-                  <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900/50 to-black border border-white/10 p-8 text-center transition-all duration-300 hover:border-[#00b2b2]/30 hover:shadow-xl hover:shadow-[#00b2b2]/10 hover:-translate-y-2">
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      whileInView={{ scale: 1 }}
-                      transition={{ duration: 0.5, delay: index * 0.15 + 0.3, type: "spring", stiffness: 200 }}
-                      viewport={{ once: true }}
-                      className={`w-12 h-12 ${stat.color} mx-auto mb-6 group-hover:scale-110 transition-transform duration-300`}
-                    >
-                      <stat.icon className="w-full h-full" />
-                    </motion.div>
-
-                    <div className="mb-4">
-                      <AnimatedCounter end={stat.number} suffix={stat.suffix} duration={2500} />
-                    </div>
-
-                    <p className="text-gray-400 text-sm font-medium uppercase tracking-wider">{stat.label}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section> */}
 
         {/* Methodology Section */}
         <section className="section-slide-up bg-black py-20 border-t border-white/10">
@@ -1030,7 +991,10 @@ export default function MotinFilms() {
                   Através de técnicas de storytelling, contamos histórias que inspiram e agregam valor à sua marca e
                   seus produtos.
                 </p>
-                <Button onClick={handleRdStationPopup} className="modern-button text-white px-8 py-4 flex items-center gap-3">
+                <Button
+                  onClick={handleRdStationPopup}
+                  className="modern-button text-white px-8 py-4 flex items-center gap-3"
+                >
                   Fale conosco agora!
                   <ArrowRight size={20} />
                 </Button>

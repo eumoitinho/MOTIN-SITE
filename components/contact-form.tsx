@@ -14,6 +14,13 @@ interface ContactFormProps {
   dictionary?: any
 }
 
+declare global {
+  interface Window {
+    dataLayer: any[]
+    gtag: (...args: any[]) => void
+  }
+}
+
 export function ContactForm({ dictionary }: ContactFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
@@ -65,6 +72,16 @@ export function ContactForm({ dictionary }: ContactFormProps) {
         throw new Error("Falha ao enviar formulário")
       }
 
+      // Disparar evento para GTM após sucesso
+      if (typeof window !== "undefined" && window.dataLayer) {
+        window.dataLayer.push({
+          event: "sendEvent",
+          category: "contato",
+          eventGA4: "generate_lead",
+          content_type: "formulario",
+        })
+      }
+
       // Reset form
       setFormData({
         name: "",
@@ -73,6 +90,9 @@ export function ContactForm({ dictionary }: ContactFormProps) {
         company: "",
         message: "",
       })
+
+      // Redirecionar para página de obrigado
+      window.location.href = "/obrigado"
 
       toast({
         title: "Mensagem enviada!",

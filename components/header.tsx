@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
@@ -26,6 +28,28 @@ export function Header({ dictionary, locale }: HeaderProps) {
     const section = document.getElementById(sectionId)
     if (section) {
       section.scrollIntoView({ behavior: "smooth" })
+    }
+  }
+
+  // Function to handle contact button click - opens WhatsApp popup
+  const handleContactClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    setIsMenuOpen(false)
+
+    // Try to open RD Station popup first
+    if (typeof window !== "undefined") {
+      if (window.RdstationPopup && typeof window.RdstationPopup.open === "function") {
+        window.RdstationPopup.open()
+      } else {
+        // Fallback: Click on RD Station floating button
+        const rdFloatingButton = document.getElementById("rd-floating_button-lfvfzlpr")
+        if (rdFloatingButton) {
+          rdFloatingButton.click()
+        } else {
+          // Final fallback: redirect to contact page
+          window.location.href = `/${locale}/contato`
+        }
+      }
     }
   }
 
@@ -109,9 +133,12 @@ export function Header({ dictionary, locale }: HeaderProps) {
           {getNavLink("portfolio", "portfolio")}
           {getNavLink("services", "servicos")}
           {getNavLink("about", "sobre")}
-          <Link href={`/${locale}/contato`} className="text-sm font-medium hover:text-[#00B2B2] transition-colors">
+          <button
+            onClick={handleContactClick}
+            className="text-sm font-medium hover:text-[#00B2B2] transition-colors cursor-pointer"
+          >
             {dictionary.navigation.contact}
-          </Link>
+          </button>
           <Link
             href={`/${locale}/trabalhe-conosco`}
             className="text-sm font-medium hover:text-[#00B2B2] transition-colors"
@@ -172,7 +199,7 @@ export function Header({ dictionary, locale }: HeaderProps) {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <motion.div
-          className="md:hidden bg-black shadow-lg absolute w-full border-b border-gray-800"
+          className="md:hidden bg-black/95 backdrop-blur-md shadow-lg absolute w-full border-b border-gray-800"
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: "auto" }}
           exit={{ opacity: 0, height: 0 }}
@@ -207,13 +234,12 @@ export function Header({ dictionary, locale }: HeaderProps) {
             >
               {dictionary.navigation.about}
             </Link>
-            <Link
-              href={`/${locale}/contato`}
-              className="text-sm font-medium hover:text-[#00B2B2] transition-colors"
-              onClick={() => setIsMenuOpen(false)}
+            <button
+              onClick={handleContactClick}
+              className="text-sm font-medium hover:text-[#00B2B2] transition-colors text-left"
             >
               {dictionary.navigation.contact}
-            </Link>
+            </button>
             <Link
               href={`/${locale}/trabalhe-conosco`}
               className="text-sm font-medium hover:text-[#00B2B2] transition-colors"

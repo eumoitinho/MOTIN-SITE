@@ -1,5 +1,7 @@
 "use client"
 
+import type React from "react"
+
 import { useState, useEffect } from "react"
 import { MessageCircle, X, Send } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -16,6 +18,12 @@ interface WhatsAppData {
   message: string
 }
 
+declare global {
+  interface Window {
+    dataLayer: any[]
+  }
+}
+
 export function CustomWhatsAppButton() {
   const [isOpen, setIsOpen] = useState(false)
   const [formData, setFormData] = useState<WhatsAppData>({
@@ -23,21 +31,29 @@ export function CustomWhatsAppButton() {
     email: "",
     phone: "",
     company: "",
-    message: ""
+    message: "",
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errors, setErrors] = useState<Partial<WhatsAppData>>({})
 
   // Validação de email corporativo (similar ao RD Station)
   const validateCorporateEmail = (email: string): boolean => {
-    const personalDomains = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'live.com', 'icloud.com', 'aol.com']
-    const domain = email.split('@')[1]?.toLowerCase()
+    const personalDomains = [
+      "gmail.com",
+      "yahoo.com",
+      "hotmail.com",
+      "outlook.com",
+      "live.com",
+      "icloud.com",
+      "aol.com",
+    ]
+    const domain = email.split("@")[1]?.toLowerCase()
     return domain ? !personalDomains.includes(domain) : false
   }
 
   // Validação de telefone brasileiro
   const validateBrazilianPhone = (phone: string): boolean => {
-    const cleanPhone = phone.replace(/\D/g, '')
+    const cleanPhone = phone.replace(/\D/g, "")
     return cleanPhone.length >= 10 && cleanPhone.length <= 11
   }
 
@@ -77,16 +93,28 @@ export function CustomWhatsAppButton() {
 
   // Formatação de telefone brasileiro
   const formatPhone = (value: string): string => {
-    const numbers = value.replace(/\D/g, '')
+    const numbers = value.replace(/\D/g, "")
     if (numbers.length <= 2) return numbers
     if (numbers.length <= 6) return `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`
     if (numbers.length <= 10) return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 6)}-${numbers.slice(6)}`
     return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7, 11)}`
   }
 
+  // Disparar evento de inicialização do WhatsApp
+  const handleOpenWhatsApp = () => {
+    setIsOpen(true)
+
+    // Disparar evento GTM para abertura do WhatsApp
+    if (typeof window !== "undefined" && window.dataLayer) {
+      window.dataLayer.push({
+        event: "initiatewhatsapp",
+      })
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
+
     if (!validateForm()) {
       return
     }
@@ -99,14 +127,14 @@ export function CustomWhatsAppButton() {
       const pageData = {
         url: window.location.href,
         title: document.title,
-        referrer: document.referrer
+        referrer: document.referrer,
       }
 
       // Enviar dados para RD Station
       await RDStationAPI.sendConversion({
         email: formData.email,
         name: formData.name,
-        mobile_phone: formData.phone.replace(/\D/g, ''), // Apenas números
+        mobile_phone: formData.phone.replace(/\D/g, ""), // Apenas números
         company: formData.company,
         custom_fields: {
           message: formData.message,
@@ -118,9 +146,16 @@ export function CustomWhatsAppButton() {
           page_url: pageData.url,
           page_title: pageData.title,
           referrer: pageData.referrer,
-          source: 'WhatsApp Personalizado'
-        }
+          source: "WhatsApp Personalizado",
+        },
       })
+
+      // Disparar evento GTM para conclusão do WhatsApp
+      if (typeof window !== "undefined" && window.dataLayer) {
+        window.dataLayer.push({
+          event: "completewhatsapp",
+        })
+      }
 
       // Criar mensagem para WhatsApp
       const whatsappMessage = `Olá! Meu nome é ${formData.name}.
@@ -138,20 +173,20 @@ Gostaria de saber mais sobre os serviços da Motin Films!`
       const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`
 
       // Abrir WhatsApp
-      window.open(whatsappURL, '_blank')
+      window.open(whatsappURL, "_blank")
 
       // Limpar formulário e fechar modal
       setFormData({ name: "", email: "", phone: "", company: "", message: "" })
       setErrors({})
       setIsOpen(false)
     } catch (error) {
-      console.error('Erro ao processar envio:', error)
+      console.error("Erro ao processar envio:", error)
       // Mesmo com erro no RD Station, ainda abre o WhatsApp
       const whatsappMessage = `Olá! Meu nome é ${formData.name}. Gostaria de saber mais sobre os serviços da Motin Films!`
       const whatsappNumber = "554191425126"
       const whatsappURL = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`
-      window.open(whatsappURL, '_blank')
-      
+      window.open(whatsappURL, "_blank")
+
       setFormData({ name: "", email: "", phone: "", company: "", message: "" })
       setErrors({})
       setIsOpen(false)
@@ -164,15 +199,15 @@ Gostaria de saber mais sobre os serviços da Motin Films!`
     let formattedValue = value
 
     // Formatação especial para telefone
-    if (field === 'phone') {
+    if (field === "phone") {
       formattedValue = formatPhone(value)
     }
 
-    setFormData(prev => ({ ...prev, [field]: formattedValue }))
-    
+    setFormData((prev) => ({ ...prev, [field]: formattedValue }))
+
     // Limpar erro do campo quando usuário começar a digitar
     if (errors[field]) {
-      setErrors(prev => ({ ...prev, [field]: undefined }))
+      setErrors((prev) => ({ ...prev, [field]: undefined }))
     }
   }
 
@@ -197,23 +232,23 @@ Gostaria de saber mais sobre os serviços da Motin Films!`
         [class*="popup"],
         [id*="popup"]
       `)
-      
-      rdElements.forEach(element => {
+
+      rdElements.forEach((element) => {
         if (element instanceof HTMLElement) {
-          element.style.display = 'none !important'
-          element.style.visibility = 'hidden !important'
-          element.style.opacity = '0 !important'
-          element.style.zIndex = '-9999 !important'
-          element.style.position = 'absolute !important'
-          element.style.left = '-9999px !important'
-          element.style.top = '-9999px !important'
+          element.style.display = "none !important"
+          element.style.visibility = "hidden !important"
+          element.style.opacity = "0 !important"
+          element.style.zIndex = "-9999 !important"
+          element.style.position = "absolute !important"
+          element.style.left = "-9999px !important"
+          element.style.top = "-9999px !important"
         }
       })
 
       // Adicionar CSS para esconder elementos do RD Station
-      if (!document.getElementById('hide-rd-station-style')) {
-        const style = document.createElement('style')
-        style.id = 'hide-rd-station-style'
+      if (!document.getElementById("hide-rd-station-style")) {
+        const style = document.createElement("style")
+        style.id = "hide-rd-station-style"
         style.textContent = `
           [data-rd-button],
           .rd-button,
@@ -244,12 +279,10 @@ Gostaria de saber mais sobre os serviços da Motin Films!`
 
     // Executar imediatamente
     hideRDStation()
-    
+
     // Executar após delays para garantir que elementos dinâmicos sejam escondidos
-    const timers = [500, 1000, 2000, 5000].map(delay => 
-      setTimeout(hideRDStation, delay)
-    )
-    
+    const timers = [500, 1000, 2000, 5000].map((delay) => setTimeout(hideRDStation, delay))
+
     // Executar periodicamente
     const interval = setInterval(hideRDStation, 3000)
 
@@ -257,12 +290,12 @@ Gostaria de saber mais sobre os serviços da Motin Films!`
     const observer = new MutationObserver(() => {
       hideRDStation()
     })
-    
+
     observer.observe(document.body, {
       childList: true,
       subtree: true,
       attributes: true,
-      attributeFilter: ['class', 'id', 'style']
+      attributeFilter: ["class", "id", "style"],
     })
 
     return () => {
@@ -277,7 +310,7 @@ Gostaria de saber mais sobre os serviços da Motin Films!`
       {/* Botão Flutuante do WhatsApp */}
       <div className="fixed bottom-6 right-6 z-[9999]">
         <motion.button
-          onClick={() => setIsOpen(true)}
+          onClick={handleOpenWhatsApp}
           className="bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl transition-all duration-300 group relative cursor-pointer"
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.95 }}
@@ -285,12 +318,13 @@ Gostaria de saber mais sobre os serviços da Motin Films!`
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 1, duration: 0.3 }}
           aria-label="Abrir WhatsApp"
+          id="rd-floating_button-lfvfzlpr"
         >
           <MessageCircle size={28} className="group-hover:scale-110 transition-transform" />
-          
+
           {/* Pulse animation */}
           <div className="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-20"></div>
-          
+
           {/* Tooltip */}
           <div className="absolute bottom-full right-0 mb-2 px-3 py-1 bg-gray-900 text-white text-sm rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
             Fale conosco via WhatsApp
@@ -335,16 +369,17 @@ Gostaria de saber mais sobre os serviços da Motin Films!`
               </div>
 
               {/* Formulário */}
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <form onSubmit={handleSubmit} className="space-y-4 rdstation-popup-js-form-identifier">
                 <div>
                   <Input
                     type="text"
                     placeholder="Seu nome completo"
                     value={formData.name}
-                    onChange={(e) => handleInputChange('name', e.target.value)}
+                    onChange={(e) => handleInputChange("name", e.target.value)}
                     required
+                    id="rd-text_field-m41k8k3m"
                     className={`bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-primary focus:ring-1 focus:ring-primary ${
-                      errors.name ? 'border-red-500' : ''
+                      errors.name ? "border-red-500" : ""
                     }`}
                   />
                   {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name}</p>}
@@ -355,10 +390,11 @@ Gostaria de saber mais sobre os serviços da Motin Films!`
                     type="text"
                     placeholder="Sua empresa"
                     value={formData.company}
-                    onChange={(e) => handleInputChange('company', e.target.value)}
+                    onChange={(e) => handleInputChange("company", e.target.value)}
                     required
+                    id="rd-text_field-m41k8k3n"
                     className={`bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-primary focus:ring-1 focus:ring-primary ${
-                      errors.company ? 'border-red-500' : ''
+                      errors.company ? "border-red-500" : ""
                     }`}
                   />
                   {errors.company && <p className="text-red-400 text-xs mt-1">{errors.company}</p>}
@@ -369,10 +405,11 @@ Gostaria de saber mais sobre os serviços da Motin Films!`
                     type="email"
                     placeholder="Seu email corporativo"
                     value={formData.email}
-                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    onChange={(e) => handleInputChange("email", e.target.value)}
                     required
+                    id="rd-email_field-m41k8k3o"
                     className={`bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-primary focus:ring-1 focus:ring-primary ${
-                      errors.email ? 'border-red-500' : ''
+                      errors.email ? "border-red-500" : ""
                     }`}
                   />
                   {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
@@ -383,11 +420,11 @@ Gostaria de saber mais sobre os serviços da Motin Films!`
                     type="tel"
                     placeholder="Seu telefone/WhatsApp"
                     value={formData.phone}
-                    onChange={(e) => handleInputChange('phone', e.target.value)}
+                    onChange={(e) => handleInputChange("phone", e.target.value)}
                     required
                     maxLength={15}
-                    className={`bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-primary focus:ring-1 focus:ring-primary ${
-                      errors.phone ? 'border-red-500' : ''
+                    className={`js-phone bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-primary focus:ring-1 focus:ring-primary ${
+                      errors.phone ? "border-red-500" : ""
                     }`}
                   />
                   {errors.phone && <p className="text-red-400 text-xs mt-1">{errors.phone}</p>}
@@ -397,11 +434,11 @@ Gostaria de saber mais sobre os serviços da Motin Films!`
                   <Textarea
                     placeholder="Como podemos ajudar você?"
                     value={formData.message}
-                    onChange={(e) => handleInputChange('message', e.target.value)}
+                    onChange={(e) => handleInputChange("message", e.target.value)}
                     required
                     rows={3}
                     className={`bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-primary focus:ring-1 focus:ring-primary resize-none ${
-                      errors.message ? 'border-red-500' : ''
+                      errors.message ? "border-red-500" : ""
                     }`}
                   />
                   {errors.message && <p className="text-red-400 text-xs mt-1">{errors.message}</p>}
@@ -425,9 +462,7 @@ Gostaria de saber mais sobre os serviços da Motin Films!`
 
               {/* Footer */}
               <div className="mt-4 text-center">
-                <p className="text-xs text-gray-500">
-                  Seus dados são protegidos e não serão compartilhados.
-                </p>
+                <p className="text-xs text-gray-500">Seus dados são protegidos e não serão compartilhados.</p>
               </div>
             </motion.div>
           </motion.div>
@@ -436,4 +471,3 @@ Gostaria de saber mais sobre os serviços da Motin Films!`
     </>
   )
 }
-

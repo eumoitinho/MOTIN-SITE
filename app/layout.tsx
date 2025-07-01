@@ -4,8 +4,10 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { ScrollToTop } from "@/components/scroll-to-top"
 import { UtmCapture } from "@/components/utm-capture"
 import { CustomWhatsAppButton } from "@/components/custom-whatsapp-button"
-import { GoogleTagManager } from '@next/third-parties/google'
+import { GTMEvents } from "@/components/gtm-events"
+import { GoogleTagManager } from "@next/third-parties/google"
 import { Analytics } from "@vercel/analytics/next"
+import { Suspense } from "react"
 
 export const metadata = {
   title: "Motin Films - Produção Audiovisual de Alta Qualidade",
@@ -22,20 +24,18 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" suppressHydrationWarning>
       <head>
-         <GoogleTagManager gtmId="GTM-MMXG7WK" /> 
-         <script
-          type="text/javascript"
-          async
-          src="https://d335luupugsy2.cloudfront.net/js/loader-scripts/11c7dc74-1a5c-4f2e-a40a-b5824fed51b0-loader.js"
-        />
-         </head>
+        <GoogleTagManager gtmId="GTM-MMXG7WK" />
+      </head>
       <body>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-        
-          <UtmCapture />
-          <Analytics />
-          {children}
-          <ScrollToTop />
+          <GTMEvents />
+          <Suspense fallback={null}>
+            <UtmCapture />
+            <Analytics />
+            {children}
+            <ScrollToTop />
+            <CustomWhatsAppButton />
+          </Suspense>
         </ThemeProvider>
       </body>
     </html>

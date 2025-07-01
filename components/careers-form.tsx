@@ -15,6 +15,12 @@ interface CareersFormProps {
   dictionary: any
 }
 
+declare global {
+  interface Window {
+    dataLayer: any[]
+  }
+}
+
 export function CareersForm({ dictionary }: CareersFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
@@ -73,6 +79,13 @@ export function CareersForm({ dictionary }: CareersFormProps) {
         throw new Error("Falha ao enviar formulário")
       }
 
+      // Disparar evento para GTM após sucesso
+      if (typeof window !== "undefined" && window.dataLayer) {
+        window.dataLayer.push({
+          event: "join_our_team",
+        })
+      }
+
       // Resetar o formulário
       setFormData({
         name: "",
@@ -83,6 +96,9 @@ export function CareersForm({ dictionary }: CareersFormProps) {
         message: "",
       })
       setResumeFile(null)
+
+      // Redirecionar para página de obrigado
+      window.location.href = "/obrigado-trabalhe-conosco"
 
       toast({
         title: "Currículo enviado!",

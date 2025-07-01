@@ -1,6 +1,4 @@
 "use client"
-
-import { Video } from "lucide-react"
 import { useEffect, useState } from "react"
 
 interface VideoBackgroundProps {
@@ -11,6 +9,7 @@ interface VideoBackgroundProps {
 const VideoBackground = ({ videoId, fallbackImage }: VideoBackgroundProps) => {
   const [isClient, setIsClient] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [videoLoaded, setVideoLoaded] = useState(false)
 
   useEffect(() => {
     setIsClient(true)
@@ -26,8 +25,8 @@ const VideoBackground = ({ videoId, fallbackImage }: VideoBackgroundProps) => {
     return () => window.removeEventListener("resize", checkMobile)
   }, [])
 
-  // Always use the fallback on mobile
-  if (!isClient || isMobile) {
+  // Show video on mobile too, but with better loading
+  if (!isClient) {
     return (
       <div className="absolute inset-0 w-full h-full overflow-hidden">
         <div className={`absolute inset-0 ${fallbackImage}`}></div>
@@ -38,19 +37,23 @@ const VideoBackground = ({ videoId, fallbackImage }: VideoBackgroundProps) => {
 
   return (
     <div className="absolute inset-0 w-full h-full overflow-hidden">
+      {/* Fallback background */}
       <div className={`absolute inset-0 ${fallbackImage}`}></div>
 
-      {/* Use a static image with a play button overlay instead of auto-playing video */}
+      {/* Video element - now works on mobile too */}
       <div className="absolute inset-0 w-full h-full">
         <video
-          className="absolute inset-0 object-cover w-full h-full"
+          className={`absolute inset-0 object-cover w-full h-full transition-opacity duration-1000 ${
+            videoLoaded ? "opacity-100" : "opacity-0"
+          }`}
           src="./Showreel.mp4"
           autoPlay
           loop
           muted
           playsInline
-          poster={fallbackImage}
-          preload="auto"
+          preload="metadata"
+          onLoadedData={() => setVideoLoaded(true)}
+          onError={() => console.log("Video failed to load")}
         />
       </div>
 
