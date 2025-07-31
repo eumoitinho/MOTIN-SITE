@@ -91,7 +91,7 @@ export function BrandCarousel({ brands, whiteFilter = true }: BrandCarouselProps
                 alt={brand.alt}
                 width={ 160}
                 height={128}
-                className={`h-auto w-auto max-h-48 max-w-[160px] object-contain ${imageFilterClass}`}
+                className={`h-auto w-auto max-h-64 max-w-[160px] object-contain ${imageFilterClass}`}
                 loading="lazy"
               />
             </div>
@@ -107,7 +107,7 @@ export function BrandCarousel({ brands, whiteFilter = true }: BrandCarouselProps
                 alt={brand.alt}
                 width={ 160}
                 height={128}
-                className={`h-auto w-auto max-h-48 max-w-[160px] object-contain ${imageFilterClass}`}
+                className={`h-auto w-auto max-h-64 max-w-[160px] object-contain ${imageFilterClass}`}
                 loading="lazy"
               />
             </div>
