@@ -89,8 +89,8 @@ export function BrandCarousel({ brands, whiteFilter = true }: BrandCarouselProps
               <Image
                 src={brand.src || "/placeholder.svg"}
                 alt={brand.alt}
-                width={160}
-                height={64}
+                width={ 160}
+                height={128}
                 className={`h-auto w-auto max-h-16 max-w-[160px] object-contain ${imageFilterClass}`}
                 loading="lazy"
               />
@@ -105,8 +105,8 @@ export function BrandCarousel({ brands, whiteFilter = true }: BrandCarouselProps
               <Image
                 src={brand.src || "/placeholder.svg"}
                 alt={brand.alt}
-                width={160}
-                height={64}
+                width={ 160}
+                height={128}
                 className={`h-auto w-auto max-h-16 max-w-[160px] object-contain ${imageFilterClass}`}
                 loading="lazy"
               />
