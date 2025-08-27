@@ -27,7 +27,7 @@ export default function RootLayout({
               __html: `
     (function() {
       const TRACKING_API = 'https://api.tracking.ninetwo.com.br';
-      const CLIENT_ID = 'Motin Films'; // ID único do cliente
+      const CLIENT_ID = '92motin'; // ID único do cliente
   
       // Função para enviar eventos
       function track(eventName, eventData = {}) {
