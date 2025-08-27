@@ -22,6 +22,7 @@ export default function RootLayout({
   return (
       <html lang="pt-BR" suppressHydrationWarning>
         <head>
+          <script src="https://api.tracking.ninetwo.com.br/client-script.js"></script>
           <script
             dangerouslySetInnerHTML={{
               __html: `
