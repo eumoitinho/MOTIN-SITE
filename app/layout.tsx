@@ -23,6 +23,19 @@ export default function RootLayout({
   return (
       <html lang="pt-BR" suppressHydrationWarning>
         <head>
+            {/* NineTwo Tracking - Versão Avançada com Heatmap */}
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  (function() {
+                    var script = document.createElement('script');
+                    script.src = 'https://api.tracking.ninetwo.com.br/script/motinfilms/tracking-advanced.js';
+                    script.async = true;
+                    document.head.appendChild(script);
+                  })();
+                `
+              }}
+            />
           {/* 
             NineTwo Secure Tracking Script
             - Automatically captures pageviews
