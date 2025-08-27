@@ -11,7 +11,7 @@ export const metadata = {
   title: "Motin Films - Produção Audiovisual de Alta Qualidade",
   description:
     "Produtora audiovisual especializada em vídeos institucionais, motion graphics, cobertura de eventos e edição de vídeo.",
-  generator: "v0.dev",
+  generator: "M2Z",
 }
 
 export default function RootLayout({
