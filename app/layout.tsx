@@ -43,6 +43,19 @@ export default function RootLayout({
             - Generates secure session and user IDs
             - Provides conversion tracking functions
           */}
+          {/* Umami - Analytics Básico */}
+          <script
+            src="https://umami.ninetwo.com.br/script.js"
+            data-website-id="8e53dc96-26d2-4b1b-81f4-bd10cc122a3b"
+            data-domains="motinfilms.com.br"
+            async
+          ></script>
+
+          {/* NineTwo - Tracking Detalhado */}
+          <script
+            src="https://api.tracking.ninetwo.com.br/script/motin-films"
+            async
+          ></script>
           <script
             dangerouslySetInnerHTML={{
               __html: `
