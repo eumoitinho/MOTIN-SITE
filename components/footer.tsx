@@ -23,28 +23,22 @@ export default function Footer() {
             </p>
             <div className="flex space-x-4">
               <Link
-                href="#"
+                href="https://www.facebook.com/motinfilms"
                 className="h-10 w-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-primary/10 transition-colors"
                 aria-label="Facebook"
               >
                 <Facebook className="h-5 w-5 text-gray-400 hover:text-primary" />
               </Link>
               <Link
-                href="#"
+                href="https://www.instagram.com/motinfilms/"
                 className="h-10 w-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-primary/10 transition-colors"
                 aria-label="Instagram"
               >
                 <Instagram className="h-5 w-5 text-gray-400 hover:text-primary" />
               </Link>
+            
               <Link
-                href="#"
-                className="h-10 w-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-primary/10 transition-colors"
-                aria-label="Twitter"
-              >
-                <Twitter className="h-5 w-5 text-gray-400 hover:text-primary" />
-              </Link>
-              <Link
-                href="#"
+                href="https://www.linkedin.com/company/motin-films"
                 className="h-10 w-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-primary/10 transition-colors"
                 aria-label="Linkedin"
               >
