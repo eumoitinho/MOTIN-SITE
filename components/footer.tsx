@@ -127,11 +127,7 @@ export default function Footer() {
                   contato@motinfilms.com.br
                 </Link>
               </li>
-              <li>
-                <Link href="tel:+554191425126" className="hover:text-primary transition-colors">
-                  +55 41 9142-5126
-                </Link>
-              </li>
+              
             </ul>
           </div>
         </div>
