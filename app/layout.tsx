@@ -24,12 +24,12 @@ export default function RootLayout({
   return (
       <html lang="pt-BR" suppressHydrationWarning>
         <head>
-           <Script id="gtm" strategy="afterInteractive">
+           {/* <Script id="gtm" strategy="afterInteractive">
           {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
           j=d.createElement(s);j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i;
           f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-MMXG7WK');`}
-        </Script>
+        </Script> */}
         <Script
           src="https://d335luupugsy2.cloudfront.net/js/loader-scripts/11c7dc74-1a5c-4f2e-a40a-b5824fed51b0-loader.js"
           strategy="afterInteractive"
