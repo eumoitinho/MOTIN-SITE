@@ -90,7 +90,7 @@ export function RDStationButton() {
         throw new Error("Falha ao enviar o formulário")
       }
 
-      trackWithAliases('whatsapp_lead_submit', ['Complete WhatsApp'], {
+      trackWithAliases('whatsapp_lead_submit', ['Complete WhatsApp', 'complete_whatsapp'], {
         source: 'floating_whatsapp_form',
         status: 'success'
       })

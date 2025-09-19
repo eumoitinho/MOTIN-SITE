@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect } from "react"
-import { trackWithAliases } from "@/lib/tracking"
+import { trackWithAliases, track } from "@/lib/tracking"
 
 /**
  * Observa o botão flutuante padrão do RD Station (injetado pelo script) e adiciona tracking.
@@ -32,11 +32,28 @@ export function RDStationPopupTracker() {
       })
     }
 
+    // Detectar submissão do formulário do popup RD Station
+    const bindFormSubmit = () => {
+      const forms = Array.from(document.querySelectorAll('form')) as HTMLFormElement[]
+      forms.forEach(f => {
+        if (f.getAttribute('data-motin-rd-form')) return
+        // Heurística: formularios RD tem inputs ocultos com nomes padronizados ou atributos data-rd
+        const isRD = !!f.querySelector('input[name*="rdstation"]') || !!f.querySelector('[name="conversion_identifier"]') || !!f.querySelector('[id*="rdstation"]')
+        if (!isRD) return
+        f.setAttribute('data-motin-rd-form', 'true')
+        f.addEventListener('submit', () => {
+          // Disparamos imediatamente (o script do RD lida com XHR depois)
+          track('whatsapp_lead_submit', { source: 'rdstation_popup_form', status: 'submitted' })
+          trackWithAliases('whatsapp_lead_submit', ['Complete WhatsApp', 'complete_whatsapp'], { source: 'rdstation_popup_form', status: 'success' })
+        })
+      })
+    }
+
     // Primeira tentativa imediata e várias tentativas posteriores (script pode carregar async)
     const timeouts = [0, 500, 1000, 2000, 4000, 8000].map(delay => setTimeout(identifyAndBind, delay))
 
     // Observer para capturar reinserções
-    const observer = new MutationObserver(() => identifyAndBind())
+  const observer = new MutationObserver(() => { identifyAndBind(); bindFormSubmit() })
     observer.observe(document.body, { childList: true, subtree: true })
 
     return () => {

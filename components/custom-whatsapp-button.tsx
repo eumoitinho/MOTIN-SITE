@@ -123,10 +123,16 @@ export function CustomWhatsAppButton() {
         }
       })
 
+      // Sucesso: evento principal + aliases para GTM/GA4
       track('whatsapp_lead_submit', {
         source: 'custom_whatsapp_modal',
         status: 'success'
       })
+      // Alias separado para compatibilidade (caso triggers escutem somente ao nome)
+      if (typeof window !== 'undefined' && (window as any).dataLayer) {
+        ;(window as any).dataLayer.push({ event: 'Complete WhatsApp', source: 'custom_whatsapp_modal', status: 'success' })
+        ;(window as any).dataLayer.push({ event: 'complete_whatsapp', source: 'custom_whatsapp_modal', status: 'success' })
+      }
 
       // Criar mensagem para WhatsApp
       const whatsappMessage = `Olá! Meu nome é ${formData.name}.
