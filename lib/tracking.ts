@@ -93,5 +93,6 @@ if (typeof window !== 'undefined') {
 // Dispara o evento principal e uma lista de aliases (nomes extras) para compatibilidade com triggers antigos do GTM
 export function trackWithAliases(event: string, aliases: string[], params: TrackParams = {}) {
   track(event, params)
+  if (DISABLE_LEGACY) return
   aliases.forEach(a => track(a, params))
 }

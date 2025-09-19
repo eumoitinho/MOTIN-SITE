@@ -1,0 +1,172 @@
+{
+  "exportFormatVersion": 2,
+  "exportTime": "2025-09-19T00:00:00Z",
+  "containerVersion": {
+    "path": "accounts/9999999999/containers/9999999/versions/1",
+    "accountId": "9999999999",
+    "containerId": "9999999",
+    "container": {
+      "path": "accounts/9999999999/containers/9999999",
+      "accountId": "9999999999",
+      "containerId": "9999999",
+      "name": "MOTIN-SITE (UPDATED CANONICAL WHATSAPP)",
+      "publicId": "GTM-XXXXXXX",
+      "usageContext": ["web"],
+      "fingerprint": "0",
+      "tagManagerUrl": "https://tagmanager.google.com/#/container/accounts/9999999999/containers/9999999/workspaces?apiLink=1"
+    },
+    "variable": [
+      {
+        "accountId": "9999999999",
+        "containerId": "9999999",
+        "variableId": "1",
+        "name": "Event",
+        "type": "aev",   
+        "parameter": [
+          { "type": "TEMPLATE", "key": "name", "value": "event" }
+        ],
+        "fingerprint": "0"
+      },
+      {
+        "accountId": "9999999999",
+        "containerId": "9999999",
+        "variableId": "2",
+        "name": "DL - eventGA4",
+        "type": "v",      
+        "parameter": [
+          { "type": "TEMPLATE", "key": "name", "value": "eventGA4" }
+        ],
+        "fingerprint": "0"
+      },
+      {
+        "accountId": "9999999999",
+        "containerId": "9999999",
+        "variableId": "3",
+        "name": "DL - content_type",
+        "type": "v",
+        "parameter": [
+          { "type": "TEMPLATE", "key": "name", "value": "content_type" }
+        ],
+        "fingerprint": "0"
+      }
+    ],
+    "trigger": [
+      {
+        "accountId": "9999999999",
+        "containerId": "9999999",
+        "triggerId": "10",
+        "name": "EV - Complete WhatsApp (Canonical)",
+        "type": "CUSTOM_EVENT",
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{Event}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "complete_whatsapp"}
+            ]
+          }
+        ],
+        "fingerprint": "0"
+      },
+      {
+        "accountId": "9999999999",
+        "containerId": "9999999",
+        "triggerId": "11",
+        "name": "EV - Complete WhatsApp (Legacy No Underscore)",
+        "type": "CUSTOM_EVENT",
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{Event}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "completewhatsapp"}
+            ]
+          }
+        ],
+        "fingerprint": "0"
+      },
+      {
+        "accountId": "9999999999",
+        "containerId": "9999999",
+        "triggerId": "12",
+        "name": "EV - sendEvent (GA4 Wrapper)",
+        "type": "CUSTOM_EVENT",
+        "customEventFilter": [
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{Event}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "sendEvent"}
+            ]
+          },
+          {
+            "type": "EQUALS",
+            "parameter": [
+              {"type": "TEMPLATE", "key": "arg0", "value": "{{DL - eventGA4}}"},
+              {"type": "TEMPLATE", "key": "arg1", "value": "complete_whatsapp"}
+            ]
+          }
+        ],
+        "fingerprint": "0"
+      }
+    ],
+    "tag": [
+      {
+        "accountId": "9999999999",
+        "containerId": "9999999",
+        "tagId": "100",
+        "name": "GA4 - Event - Complete WhatsApp (Canonical)",
+        "type": "gaawe",
+        "parameter": [
+          {"type": "TEMPLATE", "key": "eventName", "value": "complete_whatsapp"},
+          {"type": "BOOLEAN", "key": "sendEcommerceData", "value": "false"}
+        ],
+        "triggerId": ["10"],
+        "fingerprint": "0"
+      },
+      {
+        "accountId": "9999999999",
+        "containerId": "9999999",
+        "tagId": "101",
+        "name": "Google Ads - Contato - WhatsApp (Canonical)",
+        "type": "awct",
+        "parameter": [
+          {"type": "TEMPLATE", "key": "conversionId", "value": "AW-REPLACE_ID"},
+          {"type": "TEMPLATE", "key": "conversionLabel", "value": "REPLACE_LABEL"}
+        ],
+        "triggerId": ["10"],
+        "fingerprint": "0"
+      },
+      {
+        "accountId": "9999999999",
+        "containerId": "9999999",
+        "tagId": "102",
+        "name": "Facebook Pixel - WhatsApp (Canonical)",
+        "type": "html",
+        "parameter": [
+          {"type": "TEMPLATE", "key": "html", "value": "<script>if(window.fbq){fbq('trackCustom','CompleteWhatsApp',{content_type:'whatsapp'});}</script>"},
+          {"type": "BOOLEAN", "key": "supportDocumentWrite", "value": "false"}
+        ],
+        "triggerId": ["10"],
+        "fingerprint": "0"
+      },
+      {
+        "accountId": "9999999999",
+        "containerId": "9999999",
+        "tagId": "103",
+        "name": "GA4 - Event - Complete WhatsApp (Legacy Aggregator)",
+        "type": "gaawe",
+        "parameter": [
+          {"type": "TEMPLATE", "key": "eventName", "value": "complete_whatsapp"}
+        ],
+        "triggerId": ["11", "12"],
+        "fingerprint": "0"
+      }
+    ],
+    "builtInVariable": [
+      {"accountId": "9999999999", "containerId": "9999999", "type": "EVENT"}
+    ],
+    "fingerprint": "0",
+    "tagManagerUrl": "https://tagmanager.google.com/#/versions/accounts/9999999999/containers/9999999/versions/1?apiLink=1"
+  }
+}

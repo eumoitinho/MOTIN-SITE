@@ -18,15 +18,25 @@ export function RDPopupConversionListener() {
 
     const log = (...args: any[]) => { if (DEBUG) console.debug('[rd-popup-listener]', ...args) }
 
+    const LEGACY_DISABLED = process.env.NEXT_PUBLIC_DISABLE_LEGACY_TRACKING === 'true'
+
     function pushAllVariants(base: Record<string, any>) {
       if (typeof window === 'undefined') return
       const dl = (window as any).dataLayer = (window as any).dataLayer || []
 
-      // 1. Novo evento canônico (usado pelo nosso código)
+      // Sempre empurra o evento canônico (underscore)
       dl.push({ event: 'complete_whatsapp', ...base })
-      // 2. Evento legado sem underscore (GTM trigger "Complete WhatsApp" -> event: completewhatsapp)
+      // Também empurra variante com espaço e capitalização (gatilho existente no container: "Complete WhatsApp")
+      dl.push({ event: 'Complete WhatsApp', ...base })
+
+      if (LEGACY_DISABLED) {
+        log('Legacy variants disabled (NEXT_PUBLIC_DISABLE_LEGACY_TRACKING=true)')
+        return
+      }
+
+  // 1. Evento legado sem underscore (GTM trigger antigo -> event: completewhatsapp)
       dl.push({ event: 'completewhatsapp', ...base })
-      // 3. Estrutura antiga sendEvent + eventGA4 (mantém Tag "GA4 - Event - 00. Send Event")
+      // 2. Estrutura antiga sendEvent + eventGA4 (mantém Tag "GA4 - Event - 00. Send Event")
       dl.push({
         event: 'sendEvent',
         category: 'contato',
