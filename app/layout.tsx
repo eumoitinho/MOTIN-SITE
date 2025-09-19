@@ -4,8 +4,7 @@ import type React from "react"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { ScrollToTop } from "@/components/scroll-to-top"
-import { CustomWhatsAppButton } from "@/components/custom-whatsapp-button"
-import { RDStationPopupTracker } from "@/components/rd-station-popup-tracker"
+import { RDPopupConversionListener } from "@/components/rd-popup-conversion-listener"
 import { GoogleTagManager } from '@next/third-parties/google'
 import { Analytics } from "@vercel/analytics/next"
 import Script from "next/script"
@@ -48,8 +47,7 @@ export default function RootLayout({
           </noscript>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
             <Analytics />
-            {/* Tracker para o botão padrão do RD Station (popup script) */}
-            <RDStationPopupTracker />
+            <RDPopupConversionListener />
             {children}
             <ScrollToTop />
           </ThemeProvider>
