@@ -5,6 +5,7 @@ import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { ScrollToTop } from "@/components/scroll-to-top"
 import { CustomWhatsAppButton } from "@/components/custom-whatsapp-button"
+import { RDStationPopupTracker } from "@/components/rd-station-popup-tracker"
 import { GoogleTagManager } from '@next/third-parties/google'
 import { Analytics } from "@vercel/analytics/next"
 import Script from "next/script"
@@ -37,8 +38,18 @@ export default function RootLayout({
         />
         </head>
         <body>
+          <noscript>
+            <iframe
+              src="https://www.googletagmanager.com/ns.html?id=GTM-MMXG7WK"
+              height="0"
+              width="0"
+              style={{ display: 'none', visibility: 'hidden' }}
+            ></iframe>
+          </noscript>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
             <Analytics />
+            {/* Tracker para o botão padrão do RD Station (popup script) */}
+            <RDStationPopupTracker />
             {children}
             <ScrollToTop />
           </ThemeProvider>
@@ -47,17 +58,3 @@ export default function RootLayout({
     )
 }
 
-/* 
-  REMOVIDO DO CÓDIGO ANTERIOR:
-  - ❌ UtmCapture component (substituído pelo script NineTwo)
-  - ❌ client-script.js duplicado
-  - ❌ Script inline duplicado
-  
-  NOVO COMPORTAMENTO:
-  - ✅ UTM parameters são automaticamente capturados e criptografados
-  - ✅ URL fica limpa (sem ?utm_source=facebook etc.)
-  - ✅ Dados UTM ficam seguros em hash criptografado
-  - ✅ Tracking automático de pageviews, clicks, forms
-  - ✅ Funções customizadas para vídeos e orçamentos
-  - ✅ Integração com Google Analytics mantida
-*/

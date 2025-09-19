@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Loader2, Upload } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { track, trackWithAliases } from "@/lib/tracking"
 
 interface CareersFormProps {
   dictionary: any
@@ -73,6 +74,12 @@ export function CareersForm({ dictionary }: CareersFormProps) {
         throw new Error("Falha ao enviar formulário")
       }
 
+        trackWithAliases('career_application_submit', ['join_our_team'], {
+          status: 'success',
+          area: formData.area || undefined,
+          source: 'careers_page'
+        })
+
       // Resetar o formulário
       setFormData({
         name: "",
@@ -90,6 +97,11 @@ export function CareersForm({ dictionary }: CareersFormProps) {
       })
     } catch (error) {
       console.error("Erro ao enviar formulário:", error)
+      track('career_application_submit', {
+        status: 'error',
+        area: formData.area || undefined,
+        source: 'careers_page'
+      })
       toast({
         title: "Erro ao enviar currículo",
         description: "Por favor, tente novamente mais tarde.",

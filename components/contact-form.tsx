@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Loader2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
+import { track } from "@/lib/tracking"
 
 interface ContactFormProps {
   dictionary?: any
@@ -65,6 +66,13 @@ export function ContactForm({ dictionary }: ContactFormProps) {
         throw new Error("Falha ao enviar formulário")
       }
 
+      track('lead_submit', {
+        form_id: 'contato_pagina',
+        status: 'success',
+        channel: 'site',
+        submission_type: 'rdstation_api'
+      })
+
       // Reset form
       setFormData({
         name: "",
@@ -80,6 +88,11 @@ export function ContactForm({ dictionary }: ContactFormProps) {
       })
     } catch (error) {
       console.error("Erro ao enviar formulário:", error)
+      track('lead_submit', {
+        form_id: 'contato_pagina',
+        status: 'error',
+        channel: 'site'
+      })
       toast({
         title: "Erro ao enviar mensagem",
         description: "Por favor, tente novamente mais tarde.",

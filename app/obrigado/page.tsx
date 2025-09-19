@@ -1,23 +1,18 @@
 "use client"
 
 import { useEffect } from "react"
+import { trackWithAliases } from "@/lib/tracking"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
 import { CheckCircle, ArrowLeft } from "lucide-react"
 
 export default function ThankYouPage() {
-  // Track conversion
+  // Track conversion (padronizado + alias caso existisse no GTM anterior)
   useEffect(() => {
-    // Send conversion event to Google Analytics
-    if (typeof window !== "undefined" && window.gtag) {
-      window.gtag("event", "conversion", {
-        send_to: "G-62E37T448N",
-        event_category: "form",
-        event_action: "submit",
-        event_label: "contact_form",
-      })
-    }
+    trackWithAliases('lead_submit_thank_you', ['contact_form_conversion'], {
+      source: 'thank_you_page'
+    })
   }, [])
 
   return (

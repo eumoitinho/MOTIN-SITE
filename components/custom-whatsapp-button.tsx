@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { motion, AnimatePresence } from "framer-motion"
 import { RDStationAPI } from "@/lib/rd-station"
+import { track } from "@/lib/tracking"
 
 interface WhatsAppData {
   name: string
@@ -122,6 +123,11 @@ export function CustomWhatsAppButton() {
         }
       })
 
+      track('whatsapp_lead_submit', {
+        source: 'custom_whatsapp_modal',
+        status: 'success'
+      })
+
       // Criar mensagem para WhatsApp
       const whatsappMessage = `Olá! Meu nome é ${formData.name}.
 
@@ -146,6 +152,10 @@ Gostaria de saber mais sobre os serviços da Motin Films!`
       setIsOpen(false)
     } catch (error) {
       console.error('Erro ao processar envio:', error)
+      track('whatsapp_lead_submit', {
+        source: 'custom_whatsapp_modal',
+        status: 'error'
+      })
       // Mesmo com erro no RD Station, ainda abre o WhatsApp
       const whatsappMessage = `Olá! Meu nome é ${formData.name}. Gostaria de saber mais sobre os serviços da Motin Films!`
       const whatsappNumber = "554191425126"
