@@ -35,6 +35,20 @@ export default function RootLayout({
           strategy="afterInteractive"
           async
         />
+        <Script id="gtag-conversion" strategy="afterInteractive">
+          {`function gtag_report_conversion(url) {
+  var callback = function () {
+    if (typeof(url) != 'undefined') {
+      window.location = url;
+    }
+  };
+  gtag('event', 'conversion', {
+      'send_to': 'AW-11108590871/UBRwCM32spUYEJfK_rAp',
+      'event_callback': callback
+  });
+  return false;
+}`}
+        </Script>
         </head>
         <body>
           <noscript>

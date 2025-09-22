@@ -120,3 +120,7 @@ Rollback: basta reverter build sem flag ou remover a env var do deploy para reat
 
 ---
 Atualizado em: 2025-09-19
+
+---
+### 12. Persona de Governança
+Documento complementar: `PERSONA_TRACKING.md` descreve a persona "Sentinela" (guardião da integridade de conversões) com princípios, KPIs e playbook completo. Usar esse material para onboarding e revisões de processo.
