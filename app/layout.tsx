@@ -47,6 +47,8 @@ export default function RootLayout({
             ></iframe>
           </noscript>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
+            {/* Listener de conversão RD Popup: estava importado mas não montado */}
+            <RDPopupConversionListener />
             <Analytics />
             {children}
             <ScrollToTop />
