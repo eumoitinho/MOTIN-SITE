@@ -2,134 +2,47 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react"
+import { Instagram, Linkedin, Facebook } from "lucide-react"
 
-export default function Footer() {
-  const currentYear = new Date().getFullYear()
-
+export function Footer() {
   return (
-    <footer className="bg-black border-t border-gray-800">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid md:grid-cols-4 gap-8">
-          <div className="space-y-4">
-            <Link href="/" className="inline-block">
-              <div className="relative h-10 w-40">
-                <Image src="/motin-logo-white.webp" alt="Motin Films" fill className="object-contain" />
-              </div>
-            </Link>
-            <p className="text-gray-400">
-              Produtora audiovisual especializada em vídeos institucionais, motion graphics, cobertura de eventos e
-              edição de vídeo.
-            </p>
-            <div className="flex space-x-4">
-              <Link
-                href="https://www.facebook.com/motinfilms"
-                className="h-10 w-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-primary/10 transition-colors"
-                aria-label="Facebook"
-              >
-                <Facebook className="h-5 w-5 text-gray-400 hover:text-primary" />
-              </Link>
-              <Link
-                href="https://www.instagram.com/motinfilms/"
-                className="h-10 w-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-primary/10 transition-colors"
-                aria-label="Instagram"
-              >
-                <Instagram className="h-5 w-5 text-gray-400 hover:text-primary" />
-              </Link>
-            
-              <Link
-                href="https://www.linkedin.com/company/motin-films"
-                className="h-10 w-10 rounded-full bg-gray-900 flex items-center justify-center hover:bg-primary/10 transition-colors"
-                aria-label="Linkedin"
-              >
-                <Linkedin className="h-5 w-5 text-gray-400 hover:text-primary" />
-              </Link>
+    <footer className="py-12 px-6 md:px-12 lg:px-24 border-t border-border/20 bg-secondary/30">
+      <div className="container mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+        
+        {/* Logo & Copyright */}
+        <div className="flex flex-col gap-4">
+            <div className="relative w-32 h-10">
+                <Image
+                    src="/motin-logo-white.webp"
+                    alt="Motin Films"
+                    fill
+                    className="object-contain object-left"
+                />
             </div>
-          </div>
-
-          <div>
-            <h3 className="font-bold text-lg mb-4">Serviços</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link href="#" className="text-gray-400 hover:text-primary transition-colors">
-                  Vídeos Institucionais
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-400 hover:text-primary transition-colors">
-                  Motion Graphics
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-400 hover:text-primary transition-colors">
-                  Cobertura de Eventos
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-400 hover:text-primary transition-colors">
-                  Edição de Vídeo
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-400 hover:text-primary transition-colors">
-                  Produção Audiovisual
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="font-bold text-lg mb-4">Empresa</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link href="#" className="text-gray-400 hover:text-primary transition-colors">
-                  Sobre nós
-                </Link>
-              </li>
-              <li>
-                <Link href="/portfolio" className="text-gray-400 hover:text-primary transition-colors">
-                  Portfólio
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-400 hover:text-primary transition-colors">
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-400 hover:text-primary transition-colors">
-                  Carreiras
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-400 hover:text-primary transition-colors">
-                  Contato
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="font-bold text-lg mb-4">Endereço</h3>
-            <ul className="space-y-2 text-gray-400">
-              <li>Rua Coronel Joaquim Ignácio Taborda Ribas - 212</li>
-              <li>Bigorrilho, Curitiba - PR</li>
-              <li>CEP 80730-320</li>
-              <li>Brasil</li>
-              <li>
-                <Link href="mailto:contato@motinfilms.com.br" className="hover:text-primary transition-colors">
-                  contato@motinfilms.com.br
-                </Link>
-              </li>
-              
-            </ul>
-          </div>
+            <p className="text-xs text-muted-foreground uppercase tracking-widest">
+                © {new Date().getFullYear()} Motin Films. Todos os direitos reservados.
+            </p>
         </div>
 
-        <div className="border-t border-gray-800 mt-12 pt-6 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-400 text-sm">&copy; {currentYear} Motin Films. Todos os direitos reservados.</p>
-          <p className="text-gray-400 text-sm mt-2 md:mt-0">Desenvolvido com ❤️ no Brasil</p>
+        {/* Contact Info */}
+        <div className="flex flex-col gap-2 text-sm text-muted-foreground font-light">
+            <p>Rua Coronel Joaquim Ignácio Taborda Ribas - 212, Bigorrilho, Curitiba - PR</p>
+            <p>CEP 80730-320, Brasil</p>
+            <p>contato@motinfilms.com.br</p>
+            <p>+55 41 9142-5126</p>
         </div>
+
+        {/* Socials */}
+        <div className="flex gap-4">
+            <Link href="https://www.instagram.com/motinfilms" target="_blank" className="text-muted-foreground hover:text-primary transition-colors"><Instagram size={20} /></Link>
+            <Link href="https://www.linkedin.com/company/93245114/admin/dashboard" target="_blank" className="text-muted-foreground hover:text-primary transition-colors"><Linkedin size={20} /></Link>
+            <Link href="https://www.facebook.com/motinfilms" target="_blank" className="text-muted-foreground hover:text-primary transition-colors"><Facebook size={20} /></Link>
+            <Link href="https://www.tiktok.com/@motinfilms" target="_blank" className="text-muted-foreground hover:text-primary transition-colors">
+                {/* Simple TikTok Icon SVG since it might not be in lucide-react version used */}
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-music-2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+            </Link>
+        </div>
+
       </div>
     </footer>
   )

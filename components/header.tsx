@@ -1,236 +1,106 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import Image from "next/image"
 import Link from "next/link"
-import { motion } from "framer-motion"
-import { LanguageSwitcher } from "@/components/language-switcher"
-import type { Locale } from "@/i18n/config"
+import Image from "next/image"
+import { motion, AnimatePresence } from "framer-motion"
+import { Menu, X } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 interface HeaderProps {
-  dictionary: any
-  locale: Locale
+  dictionary?: any
+  locale?: string
 }
 
-export function Header({ dictionary, locale }: HeaderProps) {
-  const [activeSection, setActiveSection] = useState("inicio")
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+const navItems = [
+  { name: "Home", href: "/" },
+  { name: "Portfólio", href: "/portfolio" },
+  { name: "Serviços", href: "/#servicos" },
+  { name: "Contato", href: "/#contato" },
+]
+
+export function Header({ dictionary = {}, locale = "pt" }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false)
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
-
-  const scrollToSection = (sectionId: string) => {
-    setIsMenuOpen(false)
-    const section = document.getElementById(sectionId)
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" })
-    }
-  }
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10)
-
-      const scrollPosition = window.scrollY + 100
-      const sections = ["inicio", "portfolio", "servicos", "sobre", "contato"]
-
-      for (const sectionId of sections) {
-        const section = document.getElementById(sectionId)
-        if (section) {
-          const sectionTop = section.offsetTop
-          const sectionBottom = sectionTop + section.offsetHeight
-
-          if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-            setActiveSection(sectionId)
-            break
-          }
-        }
-      }
+      setIsScrolled(window.scrollY > 50)
     }
-
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  const getNavLink = (key: string, href: string) => {
-    // Se estamos na página inicial, usamos links de âncora
-    if (
-      (typeof window !== "undefined" && window.location.pathname === `/${locale}`) ||
-      window.location.pathname === "/"
-    ) {
-      return (
-        <Link
-          href={`#${href}`}
-          className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${
-            activeSection === href ? "text-[#00B2B2]" : ""
-          }`}
-          onClick={(e) => {
-            e.preventDefault()
-            scrollToSection(href)
-          }}
-        >
-          {dictionary.navigation[key]}
-        </Link>
-      )
-    }
-
-    // Caso contrário, usamos links normais
-    return (
-      <Link
-        href={`/${locale}${href === "inicio" ? "" : `/#${href}`}`}
-        className="text-sm font-medium hover:text-[#00B2B2] transition-colors"
-      >
-        {dictionary.navigation[key]}
-      </Link>
-    )
-  }
-
   return (
-    <header
-      className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? "bg-black/90 border-b border-gray-800 backdrop-blur-sm" : "bg-transparent"}`}
-    >
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }}>
-          <Link href={`/${locale}`} className="text-2xl font-bold">
-            <Image src="/motin-logo-white.webp" alt="Motin Films" width={120} height={36} />
+    <>
+      <header
+        className={cn(
+          "fixed w-full z-50 transition-all duration-300 border-b border-transparent",
+          isScrolled ? "bg-background/80 backdrop-blur-md border-border/10 py-4" : "bg-transparent py-6"
+        )}
+      >
+        <div className="container mx-auto px-6 md:px-12 lg:px-24 flex justify-between items-center">
+          {/* Logo */}
+          <Link href="/" className="relative w-32 h-10 block z-50">
+            <Image
+              src="/motin-logo-white.webp"
+              alt="Motin Films"
+              fill
+              className="object-contain object-left"
+              priority
+            />
           </Link>
-        </motion.div>
 
-        {/* Desktop Menu */}
-        <motion.nav
-          className="hidden md:flex space-x-6 items-center"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-        >
-          {getNavLink("home", "inicio")}
-          {getNavLink("portfolio", "portfolio")}
-          {getNavLink("services", "servicos")}
-          {getNavLink("about", "sobre")}
-          <Link href={`/${locale}/contato`} className="text-sm font-medium hover:text-[#00B2B2] transition-colors">
-            {dictionary.navigation.contact}
-          </Link>
-          <Link
-            href={`/${locale}/trabalhe-conosco`}
-            className="text-sm font-medium hover:text-[#00B2B2] transition-colors"
-          >
-            {dictionary.navigation.careers}
-          </Link>
-          <LanguageSwitcher currentLocale={locale} />
-        </motion.nav>
-
-        {/* Mobile Menu Button */}
-        <div className="md:hidden flex items-center gap-4">
-          <LanguageSwitcher currentLocale={locale} />
-
-          <motion.button
-            className="text-white"
-            onClick={toggleMenu}
-            aria-label={isMenuOpen ? "Fechar menu" : "Abrir menu"}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            {isMenuOpen ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex items-center gap-8 ml-auto">
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="text-sm font-heading uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors"
               >
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <line x1="3" y1="12" x2="21" y2="12"></line>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <line x1="3" y1="18" x2="21" y2="18"></line>
-              </svg>
-            )}
-          </motion.button>
-        </div>
-      </div>
-
-      {/* Mobile Menu */}
-      {isMenuOpen && (
-        <motion.div
-          className="md:hidden bg-black shadow-lg absolute w-full border-b border-gray-800"
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          exit={{ opacity: 0, height: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <nav className="container mx-auto px-4 py-4 flex flex-col space-y-4">
-            <Link
-              href={`/${locale}`}
-              className="text-sm font-medium hover:text-[#00B2B2] transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              {dictionary.navigation.home}
-            </Link>
-            <Link
-              href={`/${locale}/#portfolio`}
-              className="text-sm font-medium hover:text-[#00B2B2] transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              {dictionary.navigation.portfolio}
-            </Link>
-            <Link
-              href={`/${locale}/#servicos`}
-              className="text-sm font-medium hover:text-[#00B2B2] transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              {dictionary.navigation.services}
-            </Link>
-            <Link
-              href={`/${locale}/#sobre`}
-              className="text-sm font-medium hover:text-[#00B2B2] transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              {dictionary.navigation.about}
-            </Link>
-            <Link
-              href={`/${locale}/contato`}
-              className="text-sm font-medium hover:text-[#00B2B2] transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              {dictionary.navigation.contact}
-            </Link>
-            <Link
-              href={`/${locale}/trabalhe-conosco`}
-              className="text-sm font-medium hover:text-[#00B2B2] transition-colors"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              {dictionary.navigation.careers}
-            </Link>
-            <Link
-              href="/portfolio"
-              className={`text-sm font-medium hover:text-[#00B2B2] transition-colors ${activeSection === "portfolio" ? "text-[#00B2B2]" : ""}`}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Portfólio
-            </Link>
+                {item.name}
+              </Link>
+            ))}
           </nav>
-        </motion.div>
-      )}
-    </header>
+
+          {/* Socials & Mobile Toggle */}
+          <div className="flex items-center gap-6">
+            
+            
+            <button 
+                className="md:hidden text-white z-50"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed inset-0 z-40 bg-background/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 md:hidden"
+          >
+            {navItems.map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="text-2xl font-heading uppercase tracking-widest text-white hover:text-primary transition-colors"
+              >
+                {item.name}
+              </Link>
+            ))}
+            
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   )
 }

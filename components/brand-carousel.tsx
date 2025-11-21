@@ -9,10 +9,10 @@ interface BrandCarouselProps {
     alt: string
     width?: number
   }[]
-  whiteFilter?: boolean // Novo prop para controlar se aplicamos o filtro branco
+  className?: string
 }
 
-export function BrandCarousel({ brands, whiteFilter = true }: BrandCarouselProps) {
+export function BrandCarousel({ brands, className }: BrandCarouselProps) {
   const carouselRef = useRef<HTMLDivElement>(null)
   const [isClient, setIsClient] = useState(false)
 
@@ -46,7 +46,7 @@ export function BrandCarousel({ brands, whiteFilter = true }: BrandCarouselProps
     if (scrollWidth <= clientWidth) return
 
     let scrollPosition = 0
-    const scrollSpeed = 0.1 // Reduced speed
+    const scrollSpeed = 0.5 
     let animationId: number | null = null
 
     const scroll = () => {
@@ -66,7 +66,7 @@ export function BrandCarousel({ brands, whiteFilter = true }: BrandCarouselProps
     // Start animation after a delay to reduce initial load
     const timeoutId = setTimeout(() => {
       animationId = requestAnimationFrame(scroll)
-    }, 2000)
+    }, 1000)
 
     return () => {
       if (animationId) cancelAnimationFrame(animationId)
@@ -74,12 +74,8 @@ export function BrandCarousel({ brands, whiteFilter = true }: BrandCarouselProps
     }
   }, [brandsToShow, isClient])
 
- const imageFilterClass = whiteFilter
-    ? "brightness-[1.20] contrast-[1.25] saturate-[0.01] opacity-90 hover:opacity-100 transition-all duration-300" 
-    : "opacity-90 hover:opacity-100 transition-opacity filter brightness-100"
-
   return (
-    <div className="w-full overflow-hidden relative">
+    <div className={`w-full overflow-hidden relative ${className}`}>
       <div
         ref={carouselRef}
         className="flex items-center gap-16 py-8 overflow-x-auto scrollbar-hide"
@@ -92,9 +88,9 @@ export function BrandCarousel({ brands, whiteFilter = true }: BrandCarouselProps
               <Image
                 src={brand.src || "/placeholder.svg"}
                 alt={brand.alt}
-                width={ 160}
+                width={160}
                 height={64}
-                className={`h-auto w-auto max-h-16 max-w-[160px] object-contain ${imageFilterClass}`}
+                className="h-auto w-auto max-h-24 max-w-[200px] object-contain opacity-50 hover:opacity-100 transition-all duration-500 grayscale hover:grayscale-0 dark:brightness-0 dark:invert dark:hover:brightness-100 dark:hover:invert-0"
                 loading="lazy"
               />
             </div>
@@ -108,9 +104,9 @@ export function BrandCarousel({ brands, whiteFilter = true }: BrandCarouselProps
               <Image
                 src={brand.src || "/placeholder.svg"}
                 alt={brand.alt}
-                width={ 160}
+                width={160}
                 height={64}
-                className={`h-auto w-auto max-h-16 max-w-[160px] object-contain ${imageFilterClass}`}
+                className="h-auto w-auto max-h-24 max-w-[200px] object-contain opacity-50 hover:opacity-100 transition-all duration-500 grayscale hover:grayscale-0 dark:brightness-0 dark:invert dark:hover:brightness-100 dark:hover:invert-0"
                 loading="lazy"
               />
             </div>
@@ -118,9 +114,6 @@ export function BrandCarousel({ brands, whiteFilter = true }: BrandCarouselProps
         ))}
       </div>
 
-      {/* Gradient overlays for smooth fade effect */}
-      <div className="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-black to-transparent z-10"></div>
-      <div className="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-black to-transparent z-10"></div>
     </div>
   )
 }

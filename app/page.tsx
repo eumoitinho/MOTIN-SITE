@@ -1,1111 +1,540 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { motion, useScroll, useTransform } from "framer-motion"
+import { ArrowDown, Play, ArrowRight, CheckCircle, Users, Video, Zap, Globe, Award, Target, Lightbulb, Camera, Edit, Monitor, Smartphone, Film, BarChart, Clock, AlertTriangle, DollarSign, EyeOff, MessageSquare, Frown, FileText } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import {
-  Play,
-  X,
-  ArrowRight,
-  Users,
-  Video,
-  Globe,
-  Target,
-  Lightbulb,
-  Camera,
-  Edit,
-  Film,
-  Briefcase,
-  BookOpen,
-  Shield,
-  Clock,
-  TrendingUp,
-  Star,
-  Rocket,
-  Heart,
-  Eye,
-  CheckCircle2,
-  Sparkles,
-  Newspaper,
-} from "lucide-react"
-import { motion, useScroll, useTransform, useInView } from "framer-motion"
-import { Badge } from "@/components/ui/badge"
 import { BrandCarousel } from "@/components/brand-carousel"
-import { VideoBackground } from "@/components/video-background"
-import { CustomVideoPlayer } from "@/components/custom-video-player"
-import { RDStationButton } from "@/components/rd-station-button"
-import { portfolioVideos } from "@/lib/portfolio-data"
-import Footer from "@/components/footer"
-
-// Counter component for animated numbers
-function AnimatedCounter({ end, duration = 2000, suffix = "" }: { end: number; duration?: number; suffix?: string }) {
-  const [count, setCount] = useState(0)
-  const countRef = useRef<HTMLDivElement>(null)
-  const isInView = useInView(countRef, { once: true, margin: "-100px" })
-
-  useEffect(() => {
-    if (!isInView) return
-
-    let startTime: number
-    let animationFrame: number
-
-    const animate = (timestamp: number) => {
-      if (!startTime) startTime = timestamp
-      const progress = Math.min((timestamp - startTime) / duration, 1)
-
-      const easeOutQuart = 1 - Math.pow(1 - progress, 4)
-      setCount(Math.floor(easeOutQuart * end))
-
-      if (progress < 1) {
-        animationFrame = requestAnimationFrame(animate)
-      }
-    }
-
-    animationFrame = requestAnimationFrame(animate)
-    return () => cancelAnimationFrame(animationFrame)
-  }, [isInView, end, duration])
-
-  return (
-    <div ref={countRef} className="text-4xl md:text-5xl font-bold">
-      {count}
-      {suffix}
-    </div>
-  )
-}
-
-const handleRdStationPopup = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    if (window.RdstationPopup && typeof window.RdstationPopup.open === 'function') {
-      window.RdstationPopup.open();
-    } else {
-      console.error('Popup do RD Station não disponível ou não inicializado.');
-      // Fallback: Simulate click on RD Station floating button
-      const rdFloatingButton = document.getElementById('rd-floating_button-lfvfzlpr');
-      if (rdFloatingButton) {
-        rdFloatingButton.click();
-      } else {
-        console.error('Botão flutuante do RD Station (rd-floating_button-lfvfzlpr) não encontrado.');
-      }
-    }
-  };
+import { HorizontalScrollCarousel } from "@/components/horizontal-scroll-carousel"
+import { Badge } from "@/components/ui/badge"
 
 export default function MotinFilms() {
-  const [activeSection, setActiveSection] = useState("inicio")
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isDetailOpen, setIsDetailOpen] = useState(false)
-  const [detailItem, setDetailItem] = useState<null | (typeof portfolioItems)[0]>(null)
-  const [activeCategory, setActiveCategory] = useState("todos")
-
-  const heroRef = useRef<HTMLElement>(null)
-  const { scrollYProgress } = useScroll()
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0])
-  const heroY = useTransform(scrollYProgress, [0, 0.3], [0, -100])
-
-  const testimonials = [
-    {
-      text: "Ficamos super satisfeitos com a produção. Vídeo principal, vídeos de performance bônus, show. Atendimento, suporte, grupo com profissionais pré, durante e pós evento.",
-      author: "ENAF",
-      image: "/testimonials/enaf.webp",
-    },
-    {
-      text: "Excelente experiência, conseguimos terminar nosso projeto com bastante tempo hábil e entregar pros gestores da empresa, antes da nossa feira.",
-      author: "Marco Paulo Jr.",
-      image: "/testimonials/marco.webp",
-    },
-    {
-      text: 'A nossa minisérie "Escolar pelo Brasil" contou a história de 10 papelarias de norte a sul do Brasil e foi inspirador conhecer a jornada empreendedora de cada um.',
-      author: "Escolar Office Brasil",
-      image: "/brands/escolar-office-brasil.jpeg",
-    },
-  ]
+  const containerRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"],
+  })
 
   const portfolioItems = [
     {
-    title: "Unifateb",
-    category: "Institucional",
-    description: "Filme institucional produzido para a Unifateb e o Colégio Dom Bosco, instituições que há mais de duas décadas impulsionam o desenvolvimento educacional de Telêmaco Borba e região.",
-    image: "https://i.ytimg.com/vi/Wyg3UPuf5Ec/maxresdefault.jpg",
-    videoId: "Wyg3UPuf5Ec",
-  },
+      title: "Mercedes Benz",
+      category: "Institucional",
+      description: "Filme institucional para Mercedes Benz.",
+      image: "https://i.ytimg.com/vi/Wyg3UPuf5Ec/maxresdefault.jpg", // Placeholder, update if real ID known
+      videoId: "Wyg3UPuf5Ec",
+    },
     {
-    title: "LJ Santos | Linha de Cromagem",
-    category: "Produto",
-    description: "Filme produzido para a LJ Santos, destacando sua linha de cromagem, projetada para garantir o acabamento impecável de peças plásticas para o setor automobilístico.",
-    image: "https://i.ytimg.com/vi/hELpTXBl798/maxresdefault.jpg",
-    videoId: "hELpTXBl798",
-  },
+      title: "AWA Comercial",
+      category: "Comercial",
+      description: "Filme comercial para AWA.",
+      image: "https://i.ytimg.com/vi/6bseD2wgI6A/maxresdefault.jpg",
+      videoId: "6bseD2wgI6A",
+    },
     {
-      title: "BioBio Cosméticos - Only One | Filme Produto",
+      title: "Unifateb",
+      category: "Institucional",
+      description: "Filme institucional produzido para a Unifateb.",
+      image: "https://i.ytimg.com/vi/Wyg3UPuf5Ec/maxresdefault.jpg",
+      videoId: "Wyg3UPuf5Ec",
+    },
+    {
+      title: "LJ Santos",
       category: "Produto",
-      description: "Lançamento do produto Only One da BioBio Cosméticos, destacando sua fórmula inovadora e benefícios para a pele.",
+      description: "Filme de produto para LJ Santos.",
+      image: "https://i.ytimg.com/vi/hELpTXBl798/maxresdefault.jpg",
+      videoId: "hELpTXBl798",
+    },
+    {
+      title: "BioBio Cosméticos",
+      category: "Produto",
+      description: "Lançamento de produto BioBio Cosméticos.",
       image: "https://i.ytimg.com/vi/RuZy13ZDmeQ/maxresdefault.jpg",
       videoId: "RuZy13ZDmeQ",
     },
-{
-    title: "Ditrator",
-    category: "Institucional",
-    description: "Filme institucional produzido para a Ditrator, distribuidora de peças para tratores agrícolas e motores a diesel com mais de 30 anos de história.",
-    image: "https://i.ytimg.com/vi/AO4UycrhPMM/maxresdefault.jpg",
-    videoId: "AO4UycrhPMM",
-  },
-{
-    title: "AWA Comercial",
-    category: "Institucional",
-    description: "Filme institucional para a AWA Comercial, referência nacional na fabricação e distribuição de produtos em aço para o setor da construção civil.",
-    image: "https://i.ytimg.com/vi/6bseD2wgI6A/maxresdefault.jpg",
-    videoId: "6bseD2wgI6A",
-  },
-  {
-    title: "E.Mix",
-    category: "Case",
-    description: "Filme case com depoimentos do Grupo Positivo sobre a implementação dos softwares de automação para comércio exterior e logística da e.Mix.",
-    image: "https://i.ytimg.com/vi/VBOcex5L9-Y/maxresdefault.jpg",
-    videoId: "VBOcex5L9-Y",
-  },
+    {
+      title: "Ditrator",
+      category: "Institucional",
+      description: "Filme institucional para Ditrator.",
+      image: "https://i.ytimg.com/vi/AO4UycrhPMM/maxresdefault.jpg",
+      videoId: "AO4UycrhPMM",
+    },
+  ]
 
+  const painPoints = [
+    {
+      icon: Film,
+      problem: "Vídeos genéricos?",
+      solution: "Tenha filmes irreverentes, com linguagem moderna e impacto para destacar sua empresa no mercado."
+    },
+    {
+      icon: Clock,
+      problem: "Falta de tempo para planejar?",
+      solution: "Não se preocupe com nada. Cuidamos de todo o processo, do conceito à entrega, para que você foque no seu negócio."
+    },
+    {
+      icon: FileText,
+      problem: "Roteiros confusos?",
+      solution: "Nossos roteiristas especialistas em marketing criam narrativas que simplificam a complexidade do seu negócio."
+    },
+    {
+      icon: Camera,
+      problem: "Falta de equipamentos e recursos?",
+      solution: "Contamos com tecnologia de ponta e equipe especializada para produções cinematográficas."
+    },
+    {
+      icon: DollarSign,
+      problem: "Orçamento limitado?",
+      solution: "Oferecemos soluções personalizadas e formas de pagamento facilitadas que se encaixam na sua necessidade."
+    },
+    {
+      icon: EyeOff,
+      problem: "Baixa percepção de autoridade?",
+      solution: "Elevamos a imagem da sua marca, transmitindo o profissionalismo e a credibilidade que sua marca merece."
+    },
+    {
+      icon: MessageSquare,
+      problem: "Comunicação desatualizada?",
+      solution: "Modernizamos sua marca com vídeos que conversam com a linguagem das redes sociais e aumentam seu alcance."
+    },
+    {
+      icon: Frown,
+      problem: "Vídeos cansativos?",
+      solution: "Unimos criatividade e técnicas avançadas de edição e storytelling para prender a atenção do espectador."
+    }
   ]
 
   const services = [
     {
-      icon: Film,
-      title: "Filmes Institucionais",
-      description: "Conte a história da sua empresa de forma envolvente e profissional",
-      link: "/filmes-institucionais",
-      gradient: "from-[#00b2b2]/20 to-[#008080]/20",
+      title: "Filmes Institucional",
+      description: "Apresente seus produtos, serviços, valores e missão de forma envolvendo e profissional, fortalecendo a identidade da sua marca."
     },
     {
-      icon: Briefcase,
-      title: "Eventos Corporativos",
-      description: "Capture os momentos mais importantes dos seus eventos empresariais",
-      link: "/eventos-corporativos",
-      gradient: "from-[#00b2b2]/20 to-[#008080]/20",
+      title: "Filmes Produto",
+      description: "Destaque seus produtos de maneira única no mercado, expondo seus diferenciais e impulsionando vendas."
     },
     {
-      icon: BookOpen,
-      title: "Filmes de Conteúdo",
-      description: "Crie conteúdo estratégico para suas redes sociais e marketing digital",
-      link: "/filmes-conteudo",
-      gradient: "from-[#00b2b2]/20 to-[#008080]/20",
+      title: "Filme Evento Corporativo",
+      description: "Capture os momentos mais importantes dos seus eventos, transformando-os em materiais de divulgação impactantes."
     },
+    {
+      title: "Filmes Conteúdo",
+      description: "Dê voz à sua marca nas redes sociais com conteúdos estratégicos que informam, conectam e geram autoridade."
+    },
+    {
+      title: "Filmes Case",
+      description: "Demonstre a experiência e o sucesso de clientes reais com seu produto ou serviço, construindo credibilidade e validando sua expertise."
+    },
+    {
+      title: "Filmes Ação de Marketing",
+      description: "Divulgue suas campanhas promocionais e ações com vídeos que geram engajamento e atraem novos clientes."
+    }
   ]
 
-  const whyChooseUs = [
-    {
-      icon: Shield,
-      title: "Processo transparente",
-      description: "Acompanhe cada etapa do projeto com total controle sobre o resultado final",
-      gradient: "from-[#00b2b2]/10 to-[#008080]/5",
-      iconBg: "bg-[#00b2b2]/20",
-      iconColor: "text-[#00b2b2]",
-    },
-    {
-      icon: Users,
-      title: "Equipe especializada",
-      description: "Profissionais especializados em marketing e produções audiovisuais de alta qualidade",
-      gradient: "from-[#00b2b2]/10 to-[#008080]/5",
-      iconBg: "bg-[#00b2b2]/20",
-      iconColor: "text-[#00b2b2]",
-    },
-    {
-      icon: Rocket,
-      title: "Tecnologia de ponta",
-      description: "Equipamentos de última geração para capturas dinâmicas e inovadoras",
-      gradient: "from-[#00b2b2]/10 to-[#008080]/5",
-      iconBg: "bg-[#00b2b2]/20",
-      iconColor: "text-[#00b2b2]",
-    },
-    {
-      icon: Star,
-      title: "Edição profissional",
-      description: "Técnicas avançadas de sonoplastia, color grading e edição cinematográfica",
-      gradient: "from-[#00b2b2]/10 to-[#008080]/5",
-      iconBg: "bg-[#00b2b2]/20",
-      iconColor: "text-[#00b2b2]",
-    },
-    {
-      icon: Globe,
-      title: "Cobertura nacional",
-      description: "Atendemos todo o Brasil com a mesma qualidade e excelência comprovada",
-      gradient: "from-[#00b2b2]/10 to-[#008080]/5",
-      iconBg: "bg-[#00b2b2]/20",
-      iconColor: "text-[#00b2b2]",
-    },
-    {
-      icon: TrendingUp,
-      title: "Resultados comprovados",
-      description: "Mais de 10 anos no mercado com centenas de clientes satisfeitos",
-      gradient: "from-[#00b2b2]/10 to-[#008080]/5",
-      iconBg: "bg-[#00b2b2]/20",
-      iconColor: "text-[#00b2b2]",
-    },
+  const differentials = [
+    { title: "Processo transparente", desc: "Do briefing à entrega final, você estará sempre ciente de cada etapa do projeto e terá total controle sobre o resultado." },
+    { title: "Equipe especializada", desc: "Unimos conhecimento em marketing com a expertise cinematográfica de nossa equipe para criar filmes não apenas contem sua história, mas também vendam sua marca." },
+    { title: "Tecnologia de ponta", desc: "Utilizamos equipamentos de última geração, incluindo drones e câmeras tecnológicas, para capturas dinâmicas e takes cinematográficos." },
+    { title: "Edição avançada", desc: "Empregamos técnicas inovadoras de edição, sonoplastia e color grading para levar ritmo e linguagem para o seu vídeo e prender a atenção da sua audiência." },
+    { title: "Agilidade na entrega", desc: "Com processos otimizados, garantimos a entrega do filme em tempo recorde, sem comprometer a qualidade do projeto." },
+    { title: "Abrangência nacional", desc: "Não importa onde você esteja, nossa equipe percorre todo o Brasil para garantir que sua produção seja realizada com a mais alta qualidade." }
   ]
 
   const methodology = [
-    {
-      icon: Target,
-      title: "Planejamento estratégico",
-      description: "Entendemos suas necessidades e criamos vídeos que atendam aos seus objetivos específicos",
-      step: "01",
-    },
-    {
-      icon: Lightbulb,
-      title: "Roteiro inteligente",
-      description: "Desenvolvemos roteiros que tornam sua mensagem clara, impactante e capaz de gerar conversões",
-      step: "02",
-    },
-    {
-      icon: Camera,
-      title: "Captação profissional",
-      description: "Utilizamos movimentos de câmera inovadores e drones para capturas cinematográficas",
-      step: "03",
-    },
-    {
-      icon: Edit,
-      title: "Edição e finalização",
-      description: "Aplicamos técnicas avançadas que elevam a qualidade e prendem a atenção do público",
-      step: "04",
-    },
+    { step: "01", title: "Planejamento estratégico", desc: "Em uma reunião de briefing, mergulhamos no seu negócio para entender suas necessidades e criar filmes que atendam aos seus objetivos." },
+    { step: "02", title: "Roteiro", desc: "Nosso time especializado em marketing cria roteiros que não apenas contam sua história, mas tornam sua mensagem clara, impactante e capaz de gerar conversões." },
+    { step: "03", title: "Storyboard", desc: "Antes da filmagem, desenvolvemos um storyboard detalhado, planejando meticulosamente cada cena para uma narrativa coerente e envolvente." },
+    { step: "04", title: "Captação", desc: "Durante a captação, utilizamos movimentos de câmera inovadores e drones para capturas aéreas impressionantes." },
+    { step: "05", title: "Edição e finalização", desc: "Nossas técnicas de edição e recursos de pós-produção levam ritmo e linguagem para as produções, elevando a qualidade de cada projeto." }
   ]
-
-  const stats = [
-    { number: 10, label: "Anos de mercado", icon: Clock, color: "text-[#00b2b2]", suffix: "+" },
-    { number: 300, label: "Clientes satisfeitos", icon: Heart, color: "text-[#00b2b2]", suffix: "+" },
-    { number: 500, label: "Filmes realizados", icon: Video, color: "text-[#00b2b2]", suffix: "+" },
-    { number: 2000, label: "Projetos desenvolvidos", icon: Eye, color: "text-[#00b2b2]", suffix: "+" },
-  ]
-
-  const renderGrid = (items: typeof portfolioItems) => (
-    <div className="modern-grid">
-      {items.map((item, i) => (
-        <motion.div
-          key={i}
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: i * 0.05 }}
-          viewport={{ once: true }}
-          whileHover={{ y: -6, scale: 1.02 }}
-          className="group cursor-pointer"
-          onClick={() => openDetail(item)}
-        >
-          <div className="modern-card">
-            <div className="relative overflow-hidden">
-              <Image
-                src={item.image || "/placeholder.svg"}
-                alt={item.title}
-                width={400}
-                height={225}
-                className="w-full aspect-video object-cover transition-transform duration-500 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40">
-                <div className="bg-primary/90 backdrop-blur-sm h-16 w-16 rounded-full flex items-center justify-center shadow-2xl transform scale-90 group-hover:scale-100 transition-transform duration-300">
-                  <Play size={24} fill="white" />
-                </div>
-              </div>
-            </div>
-            <div className="p-6 space-y-3">
-              <Badge className="bg-primary/20 text-primary border-primary/30 text-xs font-medium px-3 py-1">
-                {item.category}
-              </Badge>
-              <h3 className="text-lg font-semibold text-white group-hover:text-primary/30 transition-colors">
-                {item.title}
-              </h3>
-              <p className="text-gray-400 text-sm leading-relaxed line-clamp-2">{item.description}</p>
-            </div>
-          </div>
-        </motion.div>
-      ))}
-    </div>
-  )
-
-  const sectionRefs = {
-    inicio: useRef<HTMLElement>(null),
-    portfolio: useRef<HTMLElement>(null),
-    servicos: useRef<HTMLElement>(null),
-    sobre: useRef<HTMLElement>(null),
-    contato: useRef<HTMLElement>(null),
-    equipe: useRef<HTMLElement>(null),
-  }
-
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
-
-  const scrollToSection = (sectionId: string) => {
-    setIsMenuOpen(false)
-    const section = sectionRefs[sectionId as keyof typeof sectionRefs]?.current
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" })
-    }
-  }
-
-  const openDetail = (item: (typeof portfolioItems)[0]) => {
-    setDetailItem(item)
-    setIsDetailOpen(true)
-  }
-
-  const closeDetail = () => setIsDetailOpen(false)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY
-
-      Object.entries(sectionRefs).forEach(([sectionId, ref]) => {
-        if (ref.current) {
-          const sectionTop = ref.current.offsetTop
-          const sectionBottom = sectionTop + ref.current.offsetHeight
-
-          if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-            setActiveSection(sectionId)
-          }
-        }
-      })
-
-      const sections = document.querySelectorAll(".section-slide-up")
-      sections.forEach((section) => {
-        const rect = section.getBoundingClientRect()
-        if (rect.top < window.innerHeight * 0.8) {
-          section.classList.add("visible")
-        }
-      })
-    }
-
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
-
-  const filteredItems = (() => {
-    switch (activeCategory) {
-      case "todos":
-        return portfolioItems
-      case "institucional":
-        return portfolioItems.filter((item) => item.category === "Institucional")
-      case "evento":
-        return portfolioItems.filter((item) => item.category === "Evento Corporativo")
-      case "produto":
-        return portfolioItems.filter((item) => item.category === "Produto")
-      case "case":
-        return portfolioItems.filter((item) => item.category === "Case")
-      case "conteudo":
-        return portfolioItems.filter((item) => item.category === "Conteúdo")
-      case "marketing":
-        return portfolioItems.filter((item) => item.category === "Ação de Marketing")
-      case "artistas":
-        return portfolioItems.filter((item) => item.category === "Artistas")
-      case "treinamento":
-        return portfolioItems.filter((item) => item.category === "Treinamento")
-      default:
-        return portfolioItems
-    }
-  })()
 
   return (
-    <>
-      <div className="min-h-screen bg-black text-white">
-        {/* Header */}
-        <header className="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
-          <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.3 }}>
-              <Link href="/" className="text-2xl font-bold">
-                <Image src="/motin-logo-white.webp" alt="Motin Films" width={120} height={36} priority />
-              </Link>
-            </motion.div>
-
-            <motion.nav
-              className="hidden md:flex space-x-8"
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.1 }}
+    <div ref={containerRef} className="min-h-screen bg-transparent text-foreground font-sans selection:bg-primary selection:text-white">
+      {/* Bloco 1: Hero Section */}
+      <section className="min-h-screen flex flex-col justify-center px-6 md:px-12 lg:px-24 relative overflow-hidden">
+        {/* Background Video with Overlay */}
+        <div className="absolute inset-0 z-0">
+            <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="object-cover w-full h-full opacity-30 grayscale"
             >
-              <Link
-                href="#inicio"
-                className={`text-sm font-medium hover:text-primary transition-colors ${activeSection === "inicio" ? "text-primary" : "text-gray-300"}`}
-              >
-                Início
-              </Link>
-              <Link
-                href="#portfolio"
-                className={`text-sm font-medium hover:text-primary transition-colors ${activeSection === "portfolio" ? "text-primary" : "text-gray-300"}`}
-              >
-                Portfólio
-              </Link>
-              <Link
-                href="#servicos"
-                className={`text-sm font-medium hover:text-primary transition-colors ${activeSection === "servicos" ? "text-primary" : "text-gray-300"}`}
-              >
-                Serviços
-              </Link>
-              <Link
-                href="#sobre"
-                className={`text-sm font-medium hover:text-primary transition-colors ${activeSection === "sobre" ? "text-primary" : "text-gray-300"}`}
-              >
-                Sobre
-              </Link>
-              <Link
-                href="#contato"
-                className={`text-sm font-medium hover:text-primary transition-colors ${activeSection === "contato" ? "text-primary" : "text-gray-300"}`}
-              >
-                Contato
-              </Link>
-            </motion.nav>
+                <source src="/Showreel.mp4" type="video/mp4" />
+            </video>
+            <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/60 to-background" />
+        </div>
 
-            <motion.button
-              className="md:hidden text-white"
-              onClick={toggleMenu}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              {isMenuOpen ? (
-                <X size={24} />
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <line x1="3" y1="12" x2="21" y2="12"></line>
-                  <line x1="3" y1="6" x2="21" y2="6"></line>
-                  <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg>
-              )}
-            </motion.button>
-          </div>
-
-          {isMenuOpen && (
-            <motion.div
-              className="md:hidden bg-black/95 backdrop-blur-md shadow-lg absolute w-full border-b border-white/10"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2 }}
-            >
-              <nav className="container mx-auto px-6 py-6 flex flex-col space-y-4">
-                {["inicio", "portfolio", "servicos", "sobre", "contato"].map((section) => (
-                  <Link
-                    key={section}
-                    href={`#${section}`}
-                    className={`text-sm font-medium hover:text-primary transition-colors ${activeSection === section ? "text-primary" : "text-gray-300"}`}
-                    onClick={() => scrollToSection(section)}
-                  >
-                    {section.charAt(0).toUpperCase() + section.slice(1)}
-                  </Link>
-                ))}
-              </nav>
-            </motion.div>
-          )}
-        </header>
-
-        {/* Hero Section */}
-        <motion.section
-          ref={heroRef}
-          style={{ opacity: heroOpacity, y: heroY }}
-          className="relative min-h-screen flex items-center justify-center overflow-hidden"
-          id="inicio"
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="max-w-5xl z-10"
         >
-          <VideoBackground videoId="ewm0U5C3nAo" fallbackImage="bg-black" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-black/60"></div>
-
-          <div className="container mx-auto px-6 z-20 relative text-center">
-            <div className="max-w-4xl mx-auto">
-              <motion.h1
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-                className="text-4xl md:text-6xl lg:text-7xl font-light mb-8 leading-tight tracking-tight"
-              >
-                Filmes de alto impacto
-                <br />
-                <span className="font-semibold">com qualidade cinematográfica</span>
-              </motion.h1>
-
-              <motion.p
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="text-xl md:text-2xl mb-12 text-gray-300 font-light leading-relaxed"
-              >
-                Criamos conteúdos que conectam marcas e pessoas através de histórias memoráveis
-              </motion.p>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-              >
-                <Button asChild className="modern-button text-white px-8 py-4 text-lg font-medium flex items-center gap-3 mx-auto mb-4">
-                  <a href="#portfolio">
-                    Conheça nossas soluções
-                    <ArrowRight size={20} />
-                  </a>
-                </Button>
-              </motion.div>
-            </div>
+          <h1 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter mb-4 text-primary leading-[0.9] uppercase">
+            Filmes de alto impacto<br />
+            <span className="text-foreground opacity-90">com qualidade cinematográfica</span>
+          </h1>
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-8 font-light leading-relaxed tracking-wide uppercase">
+            Conectamos marcas e pessoas com soluções audiovisuais únicas.
+          </p>
+          
+          <div className="flex items-center gap-4">
+             <Button className="rounded-none px-10 py-7 text-lg bg-primary text-white hover:bg-primary/90 transition-all font-heading uppercase tracking-widest">
+                CONHEÇA NOSSAS SOLUÇÕES
+             </Button>
           </div>
+        </motion.div>
 
-          <motion.div
+        <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 1, duration: 0.3 }}
-            className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-center"
-          >
-            <div className="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
-              <div className="w-1 h-3 bg-white/50 rounded-full mt-2 animate-bounce"></div>
-            </div>
-          </motion.div>
-        </motion.section>
+            transition={{ delay: 1, duration: 1 }}
+            className="absolute bottom-10 left-6 md:left-12 lg:left-24 flex items-center gap-4 text-muted-foreground z-10"
+        >
+          <span className="text-xs font-heading uppercase tracking-[0.2em]">Scroll</span>
+          <ArrowDown className="animate-bounce text-primary" size={16} />
+        </motion.div>
+      </section>
 
-        {/* Brands Section */}
-        <section className="section-slide-up bg-black py-16 border-t border-white/10">
-          <div className="container mx-auto px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              viewport={{ once: true }}
-            >
-              <h3 className="text-center text-lg font-light mb-12 text-gray-400">Marcas que confiam</h3>
-              <BrandCarousel
-                brands={[
-                  { src: "/brands/electrolux-logo.png", alt: "Electrolux", width: 140 },
-                  { src: "/brands/wb-logo.png", alt: "Warner Bros", width: 120 },
-                  { src: "/brands/lumicenter-logo.png", alt: "Lumicenter", width: 150 },
-                  { src: "/brands/dentaluni-logo.png", alt: "DentalUni", width: 180 },
-                  { src: "/brands/escolar-office-brasil.jpeg", alt: "Escolar Office Brasil", width: 120 },
-                  { src: "/brands/paris-filmes-logo.png", alt: "Paris Filmes", width: 130 },
-                  { src: "/brands/sony-logo.png", alt: "Sony", width: 120 },
-                  { src: "/brands/itaipu-logo.png", alt: "Itaipu Binacional", width: 150 },
-                  { src: "/brands/favretto-logo.png", alt: "Favretto Mídia Exterior", width: 140 },
-                  { src: "/brands/compwire-logo.png", alt: "Compwire", width: 150 },
-                  { src: "/brands/unimed-logo.png", alt: "Unimed", width: 130 },
-                  { src: "/brands/actioncoach-logo.png", alt: "ActionCOACH", width: 140 },
-                  { src: "/brands/naport-logo.png", alt: "Naport", width: 120 },
-                  { src: "/brands/ssc-blueprism-logo.png", alt: "SS&C Blue Prism", width: 160 },
-                  { src: "/brands/santos-logo.png", alt: "Santos", width: 140 },
-                ]}
-              />
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Video Promo Section */}
-        <section className="section-slide-up relative py-20 overflow-hidden">
-          <div className="absolute inset-0 z-0">
-            <Image src="/images/cameraman-bg.webp" alt="Cameraman" fill className="object-cover" priority />
-            <div className="absolute inset-0 bg-gradient-to-r from-black via-black/90 to-black/60"></div>
-          </div>
-
-          <div className="container mx-auto px-6 relative z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      {/* Bloco 2: Stats Section */}
+      <section className="py-20 bg-secondary/10 border-y border-border/40">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center max-w-6xl mx-auto">
+            {[
+              { number: "+10", label: "anos de atuação" },
+              { number: "+300", label: "clientes satisfeitos" },
+              { number: "+500", label: "filmes registrados" },
+              { number: "+2.000", label: "projetos e filmes entregues" },
+            ].map((stat, index) => (
               <motion.div
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
                 viewport={{ once: true }}
+                className="p-4"
               >
-                <h2 className="text-3xl md:text-4xl font-light mb-8 leading-tight">
-                  Crie seu filme com a produtora
-                  <br />
-                  <span className="font-semibold bg-gradient-to-r from-[#00b2b2] to-[#008080] bg-clip-text text-transparent">
-                
-                das grandes marcas</span>
-                </h2>
-                <ul className="mb-10 space-y-4">
-                  {[
-                    "Gere mais contatos interessados e mais vendas",
-                    "Crie conexão com sua audiência",
-                    "Exponha seu produto de maneira única no mercado",
-                    "Reforce a lembrança da sua marca",
-                  ].map((item, index) => ( 
-                    <li key={index} className="flex items-center gap-4">
-                      <span className="bg-gradient-to-r from-[#00b2b2] to-[#008080] bg-clip-text text-transparent text-xl">✓</span>
-                      <span className="text-gray-300">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-                <Button
-  className="modern-button text-white px-8 py-4 flex items-center gap-3"
-  onClick={handleRdStationPopup}
->
-  Fale com um consultor
-  <ArrowRight size={20} />
-</Button>
+                <p className="text-4xl md:text-5xl font-heading font-bold text-primary mb-2">{stat.number}</p>
+                <p className="text-muted-foreground font-light uppercase tracking-wide text-sm">{stat.label}</p>
               </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                viewport={{ once: true }}
-              >
-                <div className="modern-card overflow-hidden shadow-2xl">
-                  <CustomVideoPlayer videoId="1AVEH6OtbeY" className="aspect-video w-full" />
-                </div>
-              </motion.div>
-            </div>
+            ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Produtora Licenciada Section */}
-        <section className="section-slide-up bg-gradient-to-r from-gray-900/50 to-black py-12 border-y border-white/10">
-          <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
-            <h2 className="text-2xl md:text-3xl font-light mb-4 md:mb-0">Produtora Licenciada</h2>
-            <Image src="/brands/ancine.png" alt="Ancine" width={150} height={75} className="opacity-80" />
-          </div>
-        </section>
-
-        {/* Portfolio Section */}
-        <section className="section-slide-up bg-black py-20" id="portfolio">
-          <div className="container mx-auto px-6 max-w-7xl">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="text-center mb-20"
-            >
-              <div className="inline-flex items-center gap-2 bg-[#00b2b2]/10 border border-[#00b2b2]/20 rounded-full px-4 py-2 mb-6">
-                <Newspaper className="w-4 h-4 text-[#00b2b2]" />
-                <span className="text-[#00b2b2] text-sm font-medium">Portfólio</span>
-              </div>
-              <h2 className="text-4xl md:text-5xl font-light mb-6 leading-tight">
-                Nossos {" "}
-                
-                <span className="font-semibold bg-gradient-to-r from-[#00b2b2] to-[#008080] bg-clip-text text-transparent">
-                 Trabalhos
-                </span>
-              </h2>
-              <p className="text-gray-400 text-lg font-light max-w-2xl mx-auto">
-               Confira alguns dos nossos projetos
-              </p>
-            </motion.div>
-
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              viewport={{ once: true }}
-            >
-              {renderGrid(portfolioItems)}
-            </motion.div>
-
-            <div className="flex justify-center mt-16">
-              <Link href="/portfolio">
-                <Button className="modern-button text-white px-8 py-4 flex items-center gap-3">
-                  Ver portfólio completo
-                  <ArrowRight size={20} />
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        {/* Services Section */}
-        <section className="section-slide-up bg-black py-20 border-t border-white/10" id="servicos">
-          <div className="container mx-auto px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="text-center mb-20"
-            >
-              <div className="inline-flex items-center gap-2 bg-[#00b2b2]/10 border border-[#00b2b2]/20 rounded-full px-4 py-2 mb-6">
-                <Camera className="w-4 h-4 text-[#00b2b2]" />
-                <span className="text-[#00b2b2] text-sm font-medium">Audiovisual completo</span>
-              </div>
-              <h2 className="text-4xl md:text-5xl font-light mb-6 leading-tight">
-                Nossos
-                <br />
-                <span className="font-semibold bg-gradient-to-r from-[#00b2b2] to-[#008080] bg-clip-text text-transparent">
-                 Serviços
-                </span>
-              </h2>
-              <p className="text-gray-400 text-lg font-light max-w-2xl mx-auto">
-               Soluções completas em produção audiovisual 
-              </p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {services.map((service, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="group"
-                >
-                  <div
-                    className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${service.gradient} border border-white/10 p-8 h-full transition-all duration-300 hover:border-[#00b2b2]/50 hover:shadow-2xl hover:shadow-[#00b2b2]/10`}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-black/50 to-black/80"></div>
-                    <div className="relative z-10 text-center">
-                      <div className="w-16 h-16 mx-auto mb-6 bg-[#00b2b2]/20 rounded-full flex items-center justify-center group-hover:bg-[#00b2b2]/30 transition-colors">
-                        <service.icon className="w-8 h-8 text-[#00b2b2]" />
-                      </div>
-                      <h3 className="text-xl font-semibold mb-4 group-hover:text-[#00b2b2] transition-colors">
-                        {service.title}
-                      </h3>
-                      <p className="text-gray-400 mb-6 leading-relaxed">{service.description}</p>
-                      <Link href={service.link}>
-                        <Button className="bg-[#00b2b2]/20 text-[#00b2b2] border border-[#00b2b2]/30 hover:bg-[#00b2b2] hover:text-white transition-all duration-300 px-6 py-2 text-sm">
-                          Saiba mais
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Why Choose Us Section - Simplified */}
-        <section className="section-slide-up bg-black py-24 border-t border-white/10 relative overflow-hidden">
-          {/* Background Elements */}
-          <div className="absolute inset-0 opacity-5">
-            <div className="absolute top-20 left-10 w-72 h-72 bg-[#00b2b2] rounded-full filter blur-[120px]"></div>
-            <div className="absolute bottom-20 right-10 w-72 h-72 bg-[#00b2b2] rounded-full filter blur-[120px]"></div>
-          </div>
-
-          <div className="container mx-auto px-6 relative z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-              className="text-center mb-20"
-            >
-              <div className="inline-flex items-center gap-2 bg-[#00b2b2]/10 border border-[#00b2b2]/20 rounded-full px-4 py-2 mb-6">
-                <Sparkles className="w-4 h-4 text-[#00b2b2]" />
-                <span className="text-[#00b2b2] text-sm font-medium">Por que nos escolher</span>
-              </div>
-              <h2 className="text-4xl md:text-5xl font-light mb-6 leading-tight">
-                Diferenciais que fazem
-                <br />
-                <span className="font-semibold bg-gradient-to-r from-[#00b2b2] to-[#008080] bg-clip-text text-transparent">
-                  toda a diferença
-                </span>
-              </h2>
-              <p className="text-gray-400 text-lg font-light max-w-2xl mx-auto">
-                Descubra por que somos a escolha preferida de grandes marcas para suas produções audiovisuais
-              </p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-              {whyChooseUs.map((item, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 40, scale: 0.95 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="group"
-                >
-                  <div
-                    className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${item.gradient} border border-white/10 p-8 h-full transition-all duration-300 hover:border-[#00b2b2]/30 hover:shadow-xl hover:shadow-[#00b2b2]/10 hover:-translate-y-2`}
-                  >
-                    {/* Icon Container */}
-                    <div
-                      className={`w-12 h-12 ${item.iconBg} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}
-                    >
-                      <item.icon className={`w-6 h-6 ${item.iconColor}`} />
-                    </div>
-
-                    {/* Content */}
-                    <div className="space-y-4">
-                      <h3 className="text-xl font-semibold bg-gradient-to-r from-[#00b2b2] to-[#008080] bg-clip-text text-transparent group-hover:from-white group-hover:to-white transition-all duration-300">
-                        {item.title}
-                      </h3>
-                      <p className="text-gray-400 leading-relaxed text-sm">{item.description}</p>
-                    </div>
-
-                    {/* Bottom Accent */}
-                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[#00b2b2]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  </div>
-                </motion.div>
-              ))}
+      {/* Bloco 3: Pain Points Section */}
+      <section className="py-32 px-6 md:px-12 lg:px-24 bg-transparent relative">
+        <div className="container mx-auto">
+            <div className="text-center mb-20">
+                <h2 className="text-xs font-heading font-bold uppercase tracking-[0.3em] text-primary mb-6">Desafios</h2>
+                <h3 className="font-heading text-4xl md:text-5xl font-bold uppercase leading-none">Por que você ainda não<br/>investe em audiovisual?</h3>
             </div>
 
-            {/* Call to Action */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              viewport={{ once: true }}
-              className="text-center mt-16"
-            >
-              <Button onClick={handleRdStationPopup} className="modern-button text-white px-8 py-4 text-lg font-medium flex items-center gap-3 mx-auto">
-                <CheckCircle2 className="w-5 h-5" />
-                Comece seu projeto agora
-                <ArrowRight size={20} />
-              </Button>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Stats Section - Enhanced */}
-        {/* <section className="section-slide-up bg-black py-24 border-t border-white/10">
-          <div className="container mx-auto px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-3xl md:text-4xl font-light mb-6">Nossos números falam por si</h2>
-              <p className="text-gray-400 text-lg font-light">Resultados que comprovam nossa excelência</p>
-            </motion.div>
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, scale: 0.8, y: 30 }}
-                  whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.15, type: "spring", stiffness: 100 }}
-                  viewport={{ once: true }}
-                  className="group"
-                >
-                  <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900/50 to-black border border-white/10 p-8 text-center transition-all duration-300 hover:border-[#00b2b2]/30 hover:shadow-xl hover:shadow-[#00b2b2]/10 hover:-translate-y-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {painPoints.map((item, index) => (
                     <motion.div
-                      initial={{ scale: 0 }}
-                      whileInView={{ scale: 1 }}
-                      transition={{ duration: 0.5, delay: index * 0.15 + 0.3, type: "spring", stiffness: 200 }}
-                      viewport={{ once: true }}
-                      className={`w-12 h-12 ${stat.color} mx-auto mb-6 group-hover:scale-110 transition-transform duration-300`}
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, delay: index * 0.1 }}
+                        viewport={{ once: true }}
+                        className="bg-secondary/10 border border-white/5 p-8 hover:bg-secondary/20 transition-colors group"
                     >
-                      <stat.icon className="w-full h-full" />
+                        <div className="mb-6 text-primary opacity-80 group-hover:opacity-100 transition-opacity">
+                            <item.icon size={40} strokeWidth={1.5} />
+                        </div>
+                        <h4 className="font-heading text-lg font-bold uppercase tracking-wide mb-4 text-white">{item.problem}</h4>
+                        <p className="text-muted-foreground font-light text-sm leading-relaxed">{item.solution}</p>
                     </motion.div>
-
-                    <div className="mb-4">
-                      <AnimatedCounter end={stat.number} suffix={stat.suffix} duration={2500} />
-                    </div>
-
-                    <p className="text-gray-400 text-sm font-medium uppercase tracking-wider">{stat.label}</p>
-                  </div>
-                </motion.div>
-              ))}
+                ))}
             </div>
-          </div>
-        </section> */}
+        </div>
+      </section>
 
-        {/* Methodology Section */}
-        <section className="section-slide-up bg-black py-20 border-t border-white/10">
-          <div className="container mx-auto px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h2 className="text-3xl md:text-4xl font-light mb-6">Nossa Metodologia</h2>
-              <p className="text-gray-400 text-lg font-light">Processo estruturado para resultados excepcionais</p>
-            </motion.div>
+      {/* Bloco 4: Impact & Clients Section */}
+      <section className="py-32 px-6 md:px-12 lg:px-24 bg-secondary/30 relative border-y border-border/40">
+        <div className="container mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-24">
+                <div>
+                    <h3 className="font-heading text-4xl md:text-5xl font-bold uppercase leading-none mb-8">Impacto em cada cena,<br/>essência em cada frame</h3>
+                    <p className="text-muted-foreground text-lg font-light leading-relaxed mb-6">
+                        Mais de 80% do tráfego online é gerado por vídeos. O futuro é audiovisual e sua marca precisa de uma produtora de vídeo experiente para causar impacto no mercado. Com a Motin Films, você pode se comunicar com a mesma qualidade cinematográfica de grandes marcas e contar sua história de forma memorável.
+                    </p>
+                    <p className="text-muted-foreground text-lg font-light leading-relaxed mb-8">
+                        Com mais de 10 anos de experiência e certificação Ancine, transformamos a complexidade de seus produtos e serviços em narrativas poderosas e irresistíveis.
+                    </p>
+                    <Button className="rounded-none px-10 py-7 text-lg bg-primary text-white hover:bg-primary/90 transition-all font-heading uppercase tracking-widest">
+                        VEJA NOSSO PORTFÓLIO!
+                    </Button>
+                </div>
+                <div className="relative h-[400px] w-full overflow-hidden rounded-none border border-white/5">
+                     {/* Placeholder for an impactful image or showreel snippet */}
+                     <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+                        <Play className="text-primary w-20 h-20 opacity-80" />
+                     </div>
+                     <Image src="/images/impact-bg.jpg" alt="Impacto" fill className="object-cover -z-10 opacity-50" />
+                </div>
+            </div>
 
-            <div className="max-w-6xl mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {methodology.map((step, index) => (
+            <div className="text-center">
+                 <h2 className="text-xs font-heading font-bold uppercase tracking-[0.3em] text-muted-foreground mb-4">NOSSOS CLIENTES</h2>
+                 <h3 className="font-heading text-2xl md:text-3xl font-bold uppercase mb-12">O padrão de qualidade escolhido pelas grandes marcas</h3>
+                 
+                 <BrandCarousel
+                    brands={[
+                      { src: "/brands/lumicenter-logo.png", alt: "Lumicenter", width: 150 },
+                      { src: "/brands/unimed-logo.png", alt: "Unimed", width: 130 },
+                      { src: "/brands/electrolux-logo.png", alt: "Electrolux", width: 140 },
+                      { src: "/brands/actioncoach-logo.png", alt: "ActionCOACH", width: 140 },
+                      // Add more logos here as per the list provided if files exist
+                      { src: "/brands/wb-logo.png", alt: "Warner Pictures", width: 120 },
+                      { src: "/brands/dentaluni-logo.png", alt: "DentalUni", width: 180 },
+                      { src: "/brands/paris-filmes-logo.png", alt: "Paris Filmes", width: 130 },
+                      { src: "/brands/sony-logo.png", alt: "Sony", width: 120 },
+                      { src: "/brands/itaipu-logo.png", alt: "Itaipu Binacional", width: 150 },
+                      { src: "/brands/favretto-logo.png", alt: "Favretto Mídia Exterior", width: 140 },
+                      { src: "/brands/compwire-logo.png", alt: "Compwire", width: 150 },
+                    ]}
+                  />
+            </div>
+        </div>
+      </section>
+
+      {/* Bloco 5: Portfolio Section - Horizontal Scroll */}
+      <section id="portfolio">
+        <div className="container mx-auto px-6 md:px-12 lg:px-24 pt-32 pb-10">
+            <h2 className="text-xs font-heading font-bold uppercase tracking-[0.3em] text-primary mb-4">Portfólio</h2>
+            <h3 className="font-heading text-4xl md:text-5xl font-bold uppercase mb-4">Veja o que fazemos na prática!</h3>
+        </div>
+        <HorizontalScrollCarousel items={portfolioItems} />
+        <div className="container mx-auto px-6 md:px-12 lg:px-24 pb-32 text-center">
+             <Link href="/portfolio">
+                <Button className="rounded-none px-10 py-7 text-lg bg-primary text-white hover:bg-primary/90 transition-all font-heading uppercase tracking-widest mt-12">
+                    VER PORTFÓLIO COMPLETO!
+                </Button>
+             </Link>
+        </div>
+      </section>
+
+      {/* Bloco 6: Services Section */}
+      <section className="py-32 px-6 md:px-12 lg:px-24 bg-secondary/10 relative border-t border-border/40" id="servicos">
+        <div className="container mx-auto">
+            <div className="text-center mb-20">
+                <h2 className="text-xs font-heading font-bold uppercase tracking-[0.3em] text-primary mb-6">Soluções</h2>
+                <h3 className="font-heading text-4xl md:text-5xl font-bold uppercase leading-none mb-6">Soluções audiovisuais<br/>para empresas</h3>
+                <p className="text-muted-foreground text-lg font-light max-w-2xl mx-auto">Oferecemos um leque completo de soluções audiovisuais para impulsionar sua marca.</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {services.map((service, index) => (
+                    <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4, delay: index * 0.1 }}
+                        viewport={{ once: true }}
+                        className="bg-black/40 border border-white/5 p-8 hover:border-primary/30 transition-colors group"
+                    >
+                        <h4 className="font-heading text-xl font-bold uppercase tracking-wide mb-4 text-white group-hover:text-primary transition-colors">{service.title}</h4>
+                        <p className="text-muted-foreground font-light text-sm leading-relaxed mb-8">{service.description}</p>
+                        <Button variant="link" className="text-primary p-0 h-auto font-heading uppercase tracking-widest text-xs group-hover:translate-x-2 transition-transform">
+                            SAIBA MAIS! <ArrowRight size={14} className="ml-2" />
+                        </Button>
+                    </motion.div>
+                ))}
+            </div>
+        </div>
+      </section>
+
+      {/* Bloco 7: Produtora Licenciada */}
+      <section className="py-16 border-y border-border/40 bg-secondary/30 relative">
+        <div className="container mx-auto px-6 flex flex-col md:flex-row justify-center items-center gap-8">
+          <h2 className="text-xs font-heading font-bold uppercase tracking-[0.3em] text-muted-foreground">Produtora Licenciada</h2>
+          <Image src="/brands/ancine.png" alt="Ancine" width={150} height={75} className="opacity-60 hover:opacity-100 transition-opacity grayscale hover:grayscale-0" />
+        </div>
+      </section>
+
+      {/* Bloco 8: Differentials Section */}
+      <section className="py-32 px-6 md:px-12 lg:px-24 bg-transparent relative">
+        <div className="container mx-auto">
+            <div className="mb-20">
+                <h2 className="text-xs font-heading font-bold uppercase tracking-[0.3em] text-primary mb-6">Diferenciais</h2>
+                <h3 className="font-heading text-4xl md:text-5xl font-bold uppercase leading-none">Por que escolher a<br/>Motin Films?</h3>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16">
+                {differentials.map((item, i) => (
+                    <div key={i} className="group">
+                        <div className="w-12 h-1 bg-primary mb-6 group-hover:w-20 transition-all duration-500" />
+                        <h4 className="font-heading text-xl font-bold uppercase tracking-wide mb-4">{item.title}</h4>
+                        <p className="text-muted-foreground font-light leading-relaxed">{item.desc}</p>
+                    </div>
+                ))}
+            </div>
+        </div>
+      </section>
+
+      {/* Bloco 9: Compact Versions */}
+      <section className="py-32 px-6 md:px-12 lg:px-24 bg-secondary/10 border-y border-border/40">
+        <div className="container mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h3 className="font-heading text-3xl md:text-4xl font-bold uppercase leading-none mb-6">Amplie o alcance da sua mensagem com versões compactas</h3>
+                    <p className="text-muted-foreground text-lg font-light leading-relaxed mb-8">
+                        A Motin Films é a única produtora de vídeos a fornecer versões compactas dos filmes principais contratados, atendendo perfeitamente todas as suas necessidades de comunicação.
+                    </p>
+                    <div className="space-y-8">
+                        <div className="bg-black/20 p-6 border-l-2 border-primary">
+                            <h4 className="font-heading text-xl font-bold uppercase tracking-wide mb-2 text-white">Filme comercial</h4>
+                            <p className="text-muted-foreground font-light text-sm mb-4">Versão compacta do filme principal para uso em apresentações, feiras, eventos e exibições na televisão. Com apelo comercial, o formato destaca os pontos-chave do seu negócio de forma clara e direta.</p>
+                            <div className="flex gap-4 text-xs font-bold uppercase tracking-wider text-primary">
+                                <span>Duração: 30 segundos</span>
+                                <span>Formatos: 16:9 e 9:16</span>
+                            </div>
+                        </div>
+                        <div className="bg-black/20 p-6 border-l-2 border-primary">
+                            <h4 className="font-heading text-xl font-bold uppercase tracking-wide mb-2 text-white">Filme de performance</h4>
+                            <p className="text-muted-foreground font-light text-sm mb-4">Compactos e altamente eficazes, a versão é ideal para anúncios e campanhas pagas. Com mensagens diretas e chamadas comerciais, o formato é projetado para capturar a atenção de potenciais clientes.</p>
+                            <div className="flex gap-4 text-xs font-bold uppercase tracking-wider text-primary">
+                                <span>Duração: 15 segundos</span>
+                                <span>Formatos: 16:9 e 9:16</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="relative h-[600px] w-full bg-black/50 border border-white/5 flex items-center justify-center">
+                    <div className="text-center">
+                        <Smartphone className="w-24 h-24 text-primary mx-auto mb-4 opacity-50" />
+                        <p className="font-heading uppercase tracking-widest text-muted-foreground">Formatos Verticais & Horizontais</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </section>
+
+      {/* Bloco 10: Methodology Section */}
+      <section className="py-32 px-6 md:px-12 lg:px-24 bg-transparent relative">
+        <div className="container mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+                <div className="sticky top-32">
+                    <h2 className="text-xs font-heading font-bold uppercase tracking-[0.3em] text-primary mb-6">Nossa Metodologia</h2>
+                    <h3 className="font-heading text-4xl md:text-5xl font-bold uppercase leading-none mb-8">Você traz a ideia<br/>e nós executamos</h3>
+                    <p className="text-muted-foreground text-lg font-light leading-relaxed mb-8">
+                        Na Motin Films, você não precisa se preocupar com nada. Nós cuidamos de cada detalhe para que você se concentre no que realmente importa: o crescimento do seu negócio.
+                    </p>
+                    <Button variant="outline" className="rounded-none px-8 py-6 text-base gap-2 hover:bg-secondary border-primary/20 font-heading uppercase tracking-widest">
+                        INICIAR PROJETO <ArrowRight size={16} />
+                    </Button>
+                </div>
+                <div className="grid grid-cols-1 gap-8">
+                    {methodology.map((item, i) => (
+                        <div key={i} className="flex gap-6 items-start group bg-secondary/5 p-8 border border-white/5 hover:border-primary/20 transition-colors">
+                            <span className="text-4xl font-heading font-bold text-primary/20 group-hover:text-primary transition-colors">{item.step}</span>
+                            <div>
+                                <h4 className="font-heading text-xl font-bold uppercase tracking-wide mb-2">{item.title}</h4>
+                                <p className="text-muted-foreground font-light text-sm">{item.desc}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+      </section>
+
+      {/* Bloco 11: Team Section */}
+      <section className="py-20 bg-secondary/10 border-y border-border/40">
+        <div className="container mx-auto px-6 text-center">
+            <h3 className="font-heading text-2xl md:text-3xl font-bold uppercase mb-12">Conheça a equipe por trás do seu sucesso</h3>
+            <div className="flex flex-wrap justify-center gap-4 md:gap-8">
+                {["Gerente de projetos", "Diretor geral", "Roteiristas", "Cinegrafistas", "Motion designers", "Editores"].map((role, i) => (
+                    <Badge key={i} variant="outline" className="px-6 py-3 text-sm font-heading uppercase tracking-widest border-primary/30 bg-primary/5 text-foreground hover:bg-primary/10 transition-colors">
+                        {role}
+                    </Badge>
+                ))}
+            </div>
+        </div>
+      </section>
+
+      {/* Bloco 12: Testimonials Section */}
+      <section className="py-32 px-6 md:px-12 lg:px-24 bg-transparent">
+        <div className="container mx-auto">
+            <div className="text-center mb-20">
+                <h2 className="text-xs font-heading font-bold uppercase tracking-[0.3em] text-primary mb-6">Depoimentos</h2>
+                <h3 className="font-heading text-4xl md:text-5xl font-bold uppercase leading-none">Resultados comprovados<br/>por quem mais entende</h3>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {[
+                  {
+                    text: "Ficamos super satisfeitos com a produção. Vídeo principal, vídeos de performance bônus, show. Atendimento, suporte, grupo com profissionais pré, durante e pós evento. Já os temos como prioridade para continuar com nossa parceria de cobertura.",
+                    author: "ENAF",
+                    image: "/testimonials/enaf.webp",
+                  },
+                  {
+                    text: "A nossa minisérie \"Escolar pelo Brasil\" contou a história de 10 papelarias de norte a sul do Brasil e foi inspirador conhecer a jornada empreendedora de cada um. Agradecemos imensamente ao excelente trabalho da Motin Films e todo o cuidado que tiveram com esse projeto tão especial.",
+                    author: "Escolar Office Brasil",
+                    image: "/brands/escolar-office-brasil.jpeg",
+                  },
+                  {
+                    text: "Ficamos bem contentes com o resultado e com o trabalho de toda a equipe. Conseguiram pegar ótimos takes e prestaram suporte, sempre que necessário. Todos estão de parabéns.",
+                    author: "Liquexpress",
+                    image: "/placeholder.svg", // Update if real image exists
+                  },
+                ].map((testimonial, index) => (
                   <motion.div
                     key={index}
-                    initial={{ opacity: 0, x: index % 2 === 0 ? -30 : 30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
                     viewport={{ once: true }}
-                    className="group"
+                    className="bg-secondary/10 border border-white/5 p-8 flex flex-col"
                   >
-                    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900/50 to-black border border-white/10 p-8 h-full transition-all duration-300 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/10">
-                      <div className="flex items-start gap-4 mb-6">
-                        <div className="bg-primary/20 w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 group-hover:bg-primary/30 transition-colors">
-                          <span className="text-primary font-bold text-lg">{step.step}</span>
-                        </div>
-                        <step.icon className="w-8 h-8 text-primary mt-2 group-hover:scale-110 transition-transform duration-300" />
+                    <div className="mb-6 text-primary opacity-50">
+                        <MessageSquare size={32} />
+                    </div>
+                    <p className="italic text-muted-foreground mb-8 leading-relaxed font-light flex-grow">"{testimonial.text}"</p>
+                    <div className="flex items-center mt-auto">
+                      <div className="w-12 h-12 rounded-full overflow-hidden mr-4 border border-primary/20 bg-black">
+                         {/* Fallback for image */}
+                         <Image
+                           src={testimonial.image}
+                           alt={testimonial.author}
+                           width={48}
+                           height={48}
+                           className="w-full h-full object-cover"
+                         />
                       </div>
-                      <h3 className="text-xl font-semibold mb-4 group-hover:text-primary transition-colors">
-                        {step.title}
-                      </h3>
-                      <p className="text-gray-400 leading-relaxed">{step.description}</p>
+                      <div>
+                        <p className="font-heading font-bold uppercase tracking-wide text-sm text-foreground">- {testimonial.author}</p>
+                      </div>
                     </div>
                   </motion.div>
                 ))}
-              </div>
             </div>
-          </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Testimonials Section */}
-        <section className="section-slide-up bg-black py-20 border-t border-white/10">
-          <div className="container mx-auto px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              viewport={{ once: true }}
-              className="text-center mb-16"
-            >
-              <h6 className="text-sm uppercase tracking-wider mb-4 text-primary font-medium">DEPOIMENTOS</h6>
-              <h2 className="text-2xl md:text-3xl font-light">Resultados comprovados por quem mais entende</h2>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-              {testimonials.map((testimonial, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  className="group"
-                >
-                  <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900/50 to-black border border-white/10 p-8 h-full transition-all duration-300 hover:border-primary/30 hover:shadow-xl hover:shadow-primary/10 hover:-translate-y-2">
-                    <p className="italic text-gray-300 mb-6 leading-relaxed">"{testimonial.text}"</p>
-                    <div className="flex items-center">
-                      <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
-                        <Image
-                          src={testimonial.image || "/placeholder.svg"}
-                          alt={testimonial.author}
-                          width={48}
-                          height={48}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div>
-                        <p className="font-medium text-white">- {testimonial.author}</p>
-                      </div>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* About Section */}
-        <section
-          ref={sectionRefs.sobre}
-          className="section-slide-up bg-black py-20 border-t border-white/10"
-          id="sobre"
-        >
-          <div className="container mx-auto px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              viewport={{ once: true }}
-              className="mb-16"
-            >
-              <h6 className="text-sm uppercase tracking-wider mb-4 text-primary font-medium">QUEM SOMOS?</h6>
-              <h2 className="text-2xl md:text-3xl font-light">Conheça a Motin Films</h2>
-            </motion.div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 items-center">
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
-                viewport={{ once: true }}
-                className="md:col-span-2 space-y-6"
-              >
-                <p className="text-gray-300 leading-relaxed">
-                  Somos a Motin Films, uma produtora especializada em produções audiovisuais de alto impacto e
-                  certificada pela Ancine. Com mais de 10 anos de atuação no mercado, produzimos filmes com a missão de
-                  criar conexões entre marcas e consumidores.
-                </p>
-                <p className="text-gray-300 leading-relaxed">
-                  Com técnicas inovadoras de edição e captação dinâmica, nossos projetos são personalizados e planejados
-                  de acordo com as necessidades específicas de cada cliente. Com qualidade excepcional de imagem e som,
-                  produzimos filmes para produtos, eventos corporativos, institucionais, promocionais, entre outros.
-                </p>
-                <p className="text-gray-300 leading-relaxed">
-                  Acreditamos que o audiovisual é uma ferramenta poderosa para a construção de imagem da sua empresa.
-                  Através de técnicas de storytelling, contamos histórias que inspiram e agregam valor à sua marca e
-                  seus produtos.
-                </p>
-                <Button onClick={handleRdStationPopup} className="modern-button text-white px-8 py-4 flex items-center gap-3">
-                  Fale conosco agora!
-                  <ArrowRight size={20} />
-                </Button>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                viewport={{ once: true }}
-                className="flex flex-col items-center"
-              >
-                <div className="modern-card p-8 text-center">
-                  <Image
-                    src="/about/catalisti-grupo.png"
-                    alt="Grupo Catalisti"
-                    width={300}
-                    height={150}
-                    className="mb-4"
-                  />
-                  <p className="text-gray-400 text-sm font-light">Uma empresa Catalisti Holding</p>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-
-        {/* Modal de Detalhes */}
-        {isDetailOpen && detailItem && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-6"
-          >
-            <motion.div
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
-              transition={{ type: "spring", damping: 15, stiffness: 100 }}
-              className="modern-card overflow-hidden max-w-6xl w-full shadow-2xl"
-            >
-              <button
-                onClick={closeDetail}
-                className="absolute top-6 right-6 text-white hover:text-primary transition-colors z-10 bg-black/50 backdrop-blur-md rounded-full p-3"
-              >
-                <X size={24} />
-              </button>
-
-              <div className="grid grid-cols-1 gap-8 p-8">
-                <div className="relative">
-                  <div className="modern-card overflow-hidden">
-                    <iframe
-                      src={`https://www.youtube.com/embed/${detailItem.videoId}?autoplay=1&rel=0&modestbranding=1&controls=1`}
-                      title="YouTube video player"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                      className="w-full h-[60vh] rounded-2xl"
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-6">
-                  <h3 className="text-2xl font-semibold text-white">{detailItem.title}</h3>
-                  <Badge className="bg-primary/20 text-primary border-primary/30 text-xs font-medium px-3 py-1">
-                    {detailItem.category}
-                  </Badge>
-                  <p className="text-gray-300 text-base leading-relaxed">{detailItem.description}</p>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </div>
-      <Footer />
-    </>
+      {/* Bloco 13: Holding Section */}
+      <section className="py-20 bg-secondary/30 border-t border-border/40">
+        <div className="container mx-auto px-6">
+             <div className="max-w-4xl mx-auto text-center bg-black/40 border border-white/5 p-12 backdrop-blur-sm">
+                 <h3 className="font-heading text-2xl font-bold uppercase tracking-wide mb-2 text-primary">Uma empresa Catalisti Holding</h3>
+                 <div className="w-24 h-1 bg-primary mx-auto mb-8" />
+                 <p className="text-muted-foreground leading-relaxed font-light mb-6">
+                    A Motin Films integra a Catalisti Holding, ecossistema de aceleração que potencializa empresas através do Martech - união de marketing digital e tecnologia.
+                 </p>
+                 <p className="text-muted-foreground leading-relaxed font-light mb-6">
+                    A Catalisti é composta por três empresas especializadas, que atuam de forma integrada nas áreas de desenvolvimento web, gestão de redes sociais, produção audiovisual, análise de dados e marketing de performance.
+                 </p>
+                 <p className="text-white font-medium uppercase tracking-wide">
+                    Já investimos mais de R$ 50 milhões em mídias digitais e sabemos exatamente o que o seu cliente precisa para crescer online e gerar resultados.
+                 </p>
+             </div>
+        </div>
+      </section>
+    </div>
   )
 }

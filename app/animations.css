@@ -25,7 +25,7 @@ html {
 
 /* Animated gradient background */
 .animated-gradient {
-  background: linear-gradient(-45deg, #000000, #001a1a, #003333, #00b2b2);
+  background: linear-gradient(-45deg, #000000, #001a1a, #003333, hsl(var(--primary)));
   background-size: 400% 400%;
   animation: gradient 15s ease infinite;
 }
@@ -44,12 +44,12 @@ html {
 
 /* Glow effect */
 .glow {
-  box-shadow: 0 0 10px rgba(0, 178, 178, 0.5);
+  box-shadow: 0 0 10px hsl(var(--primary) / 0.5);
   transition: box-shadow 0.2s ease;
 }
 
 .glow:hover {
-  box-shadow: 0 0 20px rgba(0, 178, 178, 0.8);
+  box-shadow: 0 0 20px hsl(var(--primary) / 0.8);
 }
 
 /* Hero scroll animations - faster */
@@ -87,16 +87,16 @@ html {
 
 .modern-card:hover {
   background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(0, 178, 178, 0.4);
+  border-color: hsl(var(--primary) / 0.4);
   transform: translateY(-6px);
   box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
 }
 
 /* Premium card design for Why Choose Us */
 .premium-card {
-  background: linear-gradient(135deg, rgba(0, 178, 178, 0.05), rgba(0, 212, 212, 0.02));
+  background: linear-gradient(135deg, hsl(var(--primary) / 0.05), rgba(0, 212, 212, 0.02));
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 178, 178, 0.1);
+  border: 1px solid hsl(var(--primary) / 0.1);
   border-radius: 24px;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -110,7 +110,7 @@ html {
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(0, 178, 178, 0.5), transparent);
+  background: linear-gradient(90deg, transparent, hsl(var(--primary) / 0.5), transparent);
   transform: translateX(-100%);
   transition: transform 0.6s ease;
 }
@@ -120,17 +120,17 @@ html {
 }
 
 .premium-card:hover {
-  background: linear-gradient(135deg, rgba(0, 178, 178, 0.08), rgba(0, 212, 212, 0.04));
-  border-color: rgba(0, 178, 178, 0.3);
+  background: linear-gradient(135deg, hsl(var(--primary) / 0.08), rgba(0, 212, 212, 0.04));
+  border-color: hsl(var(--primary) / 0.3);
   transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 20px 40px rgba(0, 178, 178, 0.15);
+  box-shadow: 0 20px 40px hsl(var(--primary) / 0.15);
 }
 
 /* Enhanced stats card */
 .stats-card {
-  background: linear-gradient(135deg, rgba(0, 178, 178, 0.05), rgba(0, 178, 178, 0.02));
+  background: linear-gradient(135deg, hsl(var(--primary) / 0.05), hsl(var(--primary) / 0.02));
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 178, 178, 0.2);
+  border: 1px solid hsl(var(--primary) / 0.2);
   border-radius: 24px;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -144,7 +144,7 @@ html {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at center, rgba(0, 178, 178, 0.1), transparent 70%);
+  background: radial-gradient(circle at center, hsl(var(--primary) / 0.1), transparent 70%);
   opacity: 0;
   transition: opacity 0.4s ease;
 }
@@ -154,14 +154,14 @@ html {
 }
 
 .stats-card:hover {
-  border-color: rgba(0, 178, 178, 0.4);
+  border-color: hsl(var(--primary) / 0.4);
   transform: translateY(-6px);
-  box-shadow: 0 16px 32px rgba(0, 178, 178, 0.2);
+  box-shadow: 0 16px 32px hsl(var(--primary) / 0.2);
 }
 
 /* Animated number counter */
 .animated-number {
-  background: linear-gradient(135deg, #00b2b2, #00d4d4, #00f0f0);
+  background: linear-gradient(135deg, hsl(var(--primary)), #00d4d4, #00f0f0);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -208,9 +208,9 @@ html {
 
 /* Modern button */
 .modern-button {
-  background: linear-gradient(135deg, rgba(2, 136, 136, 0.8), rgba(2, 94, 94, 0.6));
+  background: linear-gradient(135deg, hsl(var(--primary) / 0.8), hsl(var(--primary) / 0.6));
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 178, 178, 0.3);
+  border: 1px solid hsl(var(--primary) / 0.3);
   border-radius: 14px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
@@ -233,10 +233,10 @@ html {
 }
 
 .modern-button:hover {
-  background: linear-gradient(135deg, rgba(0, 178, 178, 1), rgba(0, 178, 178, 0.8));
-  border-color: rgba(0, 178, 178, 0.6);
+  background: linear-gradient(135deg, hsl(var(--primary) / 1), hsl(var(--primary) / 0.8));
+  border-color: hsl(var(--primary) / 0.6);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 178, 178, 0.3);
+  box-shadow: 0 8px 24px hsl(var(--primary) / 0.3);
 }
 
 /* Icon container */
@@ -258,7 +258,7 @@ html {
   inset: 0;
   border-radius: 16px;
   padding: 1px;
-  background: linear-gradient(135deg, rgba(0, 178, 178, 0.3), transparent, rgba(0, 178, 178, 0.3));
+  background: linear-gradient(135deg, hsl(var(--primary) / 0.3), transparent, hsl(var(--primary) / 0.3));
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   opacity: 0;
@@ -294,9 +294,9 @@ html {
 
 /* Service card */
 .service-card {
-  background: linear-gradient(135deg, rgba(0, 178, 178, 0.05), rgba(0, 178, 178, 0.02));
+  background: linear-gradient(135deg, hsl(var(--primary) / 0.05), hsl(var(--primary) / 0.02));
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 178, 178, 0.2);
+  border: 1px solid hsl(var(--primary) / 0.2);
   border-radius: 20px;
   transition: all 0.3s ease;
   position: relative;
@@ -310,7 +310,7 @@ html {
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #00b2b2, transparent);
+  background: linear-gradient(90deg, transparent, hsl(var(--primary)), transparent);
   transform: translateX(-100%);
   transition: transform 0.6s ease;
 }
@@ -321,8 +321,8 @@ html {
 
 .service-card:hover {
   transform: translateY(-6px);
-  border-color: rgba(0, 178, 178, 0.4);
-  box-shadow: 0 16px 32px rgba(0, 178, 178, 0.15);
+  border-color: hsl(var(--primary) / 0.4);
+  box-shadow: 0 16px 32px hsl(var(--primary) / 0.15);
 }
 
 /* Testimonial card */
@@ -336,5 +336,5 @@ html {
 
 .testimonial-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 178, 178, 0.1);
+  box-shadow: 0 20px 40px hsl(var(--primary) / 0.1);
 }
