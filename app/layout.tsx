@@ -10,7 +10,7 @@ import { Analytics } from "@vercel/analytics/next"
 import Script from "next/script"
 
 export const metadata = {
-  title: "Motin Films - Produção Audiovisual de Alta Qualidade",
+  title: "Motin Films - Filmes de alto impacto",
   description:
     "Produtora audiovisual especializada em vídeos institucionais, motion graphics, cobertura de eventos e edição de vídeo.",
   generator: "M2Z",
