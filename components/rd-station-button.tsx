@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
-import { track, trackWithAliases } from "@/lib/tracking"
+import { pushRdLeadConversionOnce } from "@/lib/rd-lead-tracking"
 
 export function RDStationButton() {
   const [isVisible, setIsVisible] = useState(false)
@@ -90,11 +90,6 @@ export function RDStationButton() {
         throw new Error("Falha ao enviar o formulário")
       }
 
-      trackWithAliases('whatsapp_lead_submit', ['Complete WhatsApp', 'complete_whatsapp'], {
-        source: 'floating_whatsapp_form',
-        status: 'success'
-      })
-
       // Show success message
       toast({
         title: "Mensagem enviada!",
@@ -110,21 +105,13 @@ export function RDStationButton() {
       })
       setIsFormOpen(false)
 
-      // Track conversion with Google Analytics
-      if (typeof window !== "undefined" && window.gtag) {
-        window.gtag("event", "conversion", {
-          send_to: "AW-CONVERSION_ID/CONVERSION_LABEL",
-          event_category: "form",
-          event_label: "whatsapp_contact",
-          value: 1,
-        })
-      }
+      pushRdLeadConversionOnce({
+        email: rdData.email,
+        name: rdData.name,
+        source: "floating_whatsapp_form",
+      })
     } catch (error) {
       console.error("Error submitting form:", error)
-      track('whatsapp_lead_submit', {
-        source: 'floating_whatsapp_form',
-        status: 'error'
-      })
       toast({
         title: "Erro ao enviar",
         description: "Ocorreu um erro ao enviar sua mensagem. Tente novamente.",
@@ -180,11 +167,9 @@ export function RDStationButton() {
         {isVisible && !isFormOpen && (
           <motion.button
             className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full bg-[#00B2B2] shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-[#009999]"
-            onClick={() => {
-              setIsFormOpen(true)
-              // Evento principal + alias para compatibilidade com gatilhos antigos
-              trackWithAliases('whatsapp_floating_button_open', ['Initiate WhatsApp'], { source: 'floating_whatsapp_form' })
-            }}
+          onClick={() => {
+            setIsFormOpen(true)
+          }}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             initial={{ opacity: 0, scale: 0.8 }}

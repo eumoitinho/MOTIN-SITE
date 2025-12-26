@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { motion, AnimatePresence } from "framer-motion"
 import { RDStationAPI } from "@/lib/rd-station"
-import { track } from "@/lib/tracking"
+import { pushRdLeadConversionOnce } from "@/lib/rd-lead-tracking"
 
 interface WhatsAppData {
   name: string
@@ -123,16 +123,11 @@ export function CustomWhatsAppButton() {
         }
       })
 
-      // Sucesso: evento principal + aliases para GTM/GA4
-      track('whatsapp_lead_submit', {
-        source: 'custom_whatsapp_modal',
-        status: 'success'
+      pushRdLeadConversionOnce({
+        email: formData.email,
+        name: formData.name,
+        source: 'custom_whatsapp_modal'
       })
-      // Alias separado para compatibilidade (caso triggers escutem somente ao nome)
-      if (typeof window !== 'undefined' && (window as any).dataLayer) {
-        ;(window as any).dataLayer.push({ event: 'Complete WhatsApp', source: 'custom_whatsapp_modal', status: 'success' })
-        ;(window as any).dataLayer.push({ event: 'complete_whatsapp', source: 'custom_whatsapp_modal', status: 'success' })
-      }
 
       // Criar mensagem para WhatsApp
       const whatsappMessage = `Olá! Meu nome é ${formData.name}.
@@ -158,10 +153,6 @@ Gostaria de saber mais sobre os serviços da Motin Films!`
       setIsOpen(false)
     } catch (error) {
       console.error('Erro ao processar envio:', error)
-      track('whatsapp_lead_submit', {
-        source: 'custom_whatsapp_modal',
-        status: 'error'
-      })
       // Mesmo com erro no RD Station, ainda abre o WhatsApp
       const whatsappMessage = `Olá! Meu nome é ${formData.name}. Gostaria de saber mais sobre os serviços da Motin Films!`
       const whatsappNumber = "554191425126"
@@ -452,4 +443,3 @@ Gostaria de saber mais sobre os serviços da Motin Films!`
     </>
   )
 }
-

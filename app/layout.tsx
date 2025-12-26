@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
       <html lang="pt-BR" suppressHydrationWarning>
         <head>
-           <Script id="gtm" strategy="afterInteractive">
+           <Script id="gtm" strategy="beforeInteractive">
           {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
           new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
           j=d.createElement(s);j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i;
@@ -57,4 +57,3 @@ export default function RootLayout({
       </html>
     )
 }
-

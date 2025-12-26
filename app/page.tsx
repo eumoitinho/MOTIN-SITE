@@ -38,6 +38,7 @@ import { CustomVideoPlayer } from "@/components/custom-video-player"
 import { RDStationButton } from "@/components/rd-station-button"
 import { portfolioVideos } from "@/lib/portfolio-data"
 import Footer from "@/components/footer"
+import { openRdStationPopup } from "@/lib/rd-lead-tracking"
 
 // Counter component for animated numbers
 function AnimatedCounter({ end, duration = 2000, suffix = "" }: { end: number; duration?: number; suffix?: string }) {
@@ -76,20 +77,8 @@ function AnimatedCounter({ end, duration = 2000, suffix = "" }: { end: number; d
 }
 
 const handleRdStationPopup = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    if (window.RdstationPopup && typeof window.RdstationPopup.open === 'function') {
-      window.RdstationPopup.open();
-    } else {
-      console.error('Popup do RD Station não disponível ou não inicializado.');
-      // Fallback: Simulate click on RD Station floating button
-      const rdFloatingButton = document.getElementById('rd-floating_button-lfvfzlpr');
-      if (rdFloatingButton) {
-        rdFloatingButton.click();
-      } else {
-        console.error('Botão flutuante do RD Station (rd-floating_button-lfvfzlpr) não encontrado.');
-      }
-    }
-  };
+  openRdStationPopup(e, "rdstation_popup")
+}
 
 export default function MotinFilms() {
   const [activeSection, setActiveSection] = useState("inicio")

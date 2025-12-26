@@ -8,6 +8,7 @@ interface TrackParams {
 
 const CONSENT_KEY = 'cookie-consent'
 const ADS_IDS_KEY = 'ads-click-ids'
+const DISABLE_LEGACY = process.env.NEXT_PUBLIC_DISABLE_LEGACY_TRACKING === 'true'
 
 function hasConsent(): boolean {
   if (typeof window === 'undefined') return false

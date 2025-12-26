@@ -22,6 +22,7 @@ import {
 } from "lucide-react"
 import { motion } from "framer-motion"
 import Footer from "@/components/footer"
+import { openRdStationPopup } from "@/lib/rd-lead-tracking"
 
 export default function EventosCorporativos() {
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false)
@@ -101,21 +102,9 @@ export default function EventosCorporativos() {
     },
   ]
 
-const handleRdStationPopup = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    if (window.RdstationPopup && typeof window.RdstationPopup.open === 'function') {
-      window.RdstationPopup.open();
-    } else {
-      console.error('Popup do RD Station não disponível ou não inicializado.');
-      // Fallback: Simulate click on RD Station floating button
-      const rdFloatingButton = document.getElementById('rd-floating_button-lfvfzlpr');
-      if (rdFloatingButton) {
-        rdFloatingButton.click();
-      } else {
-        console.error('Botão flutuante do RD Station (rd-floating_button-lfvfzlpr) não encontrado.');
-      }
-    }
-  };
+  const handleRdStationPopup = (e: { preventDefault: () => void }) => {
+    openRdStationPopup(e, "rdstation_popup")
+  }
 
   const methodology = [
     {
