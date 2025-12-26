@@ -8,6 +8,8 @@ type LeadPayload = {
 
 const SESSION_KEY = "rdLeadConversion:fired"
 const DEFAULT_SOURCE = "rdstation_popup"
+const CATEGORY = "contato"
+const CONTENT_TYPE = "formulario"
 
 function ensureDataLayer() {
   if (typeof window === "undefined") return
@@ -24,6 +26,11 @@ function getLeadSource(explicitSource?: string) {
     return (window as any).__rdLeadLastSource as string
   }
   return DEFAULT_SOURCE
+}
+
+function toSnake(input?: string) {
+  if (!input) return ""
+  return input.trim().toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "")
 }
 
 function rememberLead(key: string) {
@@ -56,6 +63,7 @@ export function pushRdLeadConversionOnce(payload: LeadPayload) {
   const email = normalizeEmail(payload.email)
   const name = (payload.name || "").trim()
   const source = getLeadSource(payload.source)
+  const label = toSnake(source)
   if (!email) {
     if (localStorage.getItem("debug:tracking")) {
       console.debug("[rdLeadConversion] ignorado sem email", { source })
@@ -72,7 +80,11 @@ export function pushRdLeadConversionOnce(payload: LeadPayload) {
   ensureDataLayer()
 
   const dlPayload = {
-    event: "rdLeadConversion",
+    event: "sendEvent",
+    eventGA4: "generate_lead",
+    category: CATEGORY,
+    content_type: CONTENT_TYPE,
+    label,
     rdLeadEmail: email,
     rdLeadName: name,
     rdLeadSource: source,

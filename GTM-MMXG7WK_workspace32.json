@@ -1,6 +1,6 @@
 {
     "exportFormatVersion": 2,
-    "exportTime": "2025-09-22 21:24:24",
+    "exportTime": "2025-12-26 14:59:20",
     "containerVersion": {
         "path": "accounts/6079312010/containers/106094223/versions/0",
         "accountId": "6079312010",
@@ -48,7 +48,7 @@
                     {
                         "type": "BOOLEAN",
                         "key": "enableCrossDomain",
-                        "value": "false"
+                        "value": "true"
                     },
                     {
                         "type": "BOOLEAN",
@@ -57,11 +57,31 @@
                     },
                     {
                         "type": "BOOLEAN",
+                        "key": "acceptIncoming",
+                        "value": "true"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "linkerDomains",
+                        "value": "motin-site-cj5pgj0ix-catalisti-clientes-projects.vercel.app, motinfilms.com.br"
+                    },
+                    {
+                        "type": "BOOLEAN",
                         "key": "enableCookieOverrides",
                         "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "formDecoration",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "urlPosition",
+                        "value": "query"
                     }
                 ],
-                "fingerprint": "1757013905493",
+                "fingerprint": "1766759955256",
                 "firingTriggerId": [
                     "2147479553"
                 ],
@@ -508,261 +528,6 @@
             {
                 "accountId": "6079312010",
                 "containerId": "106094223",
-                "tagId": "31",
-                "name": "DL - Complete WhatsApp",
-                "type": "html",
-                "parameter": [
-                    {
-                        "type": "TEMPLATE",
-                        "key": "html",
-                        "value": "<script>\n\nvar nome = document.querySelector(\"#rd-text_field-m41k8k3m\").value;\nvar empresa = document.querySelector(\"#rd-text_field-m41k8k3n\").value;\nvar email = document.querySelector(\"#rd-email_field-m41k8k3o\").value;\nvar telefone = document.querySelector('.js-phone').value\n\n// Testa se o nome não é vazio ou nulo\n  var nome_valido = nome && nome.trim().length > 0;\n\n// Testa se a empresa não é vazio ou nulo\n  var empresa_valido = empresa && empresa.trim().length > 0;\n\n// Testa se o email não é vazio ou nulo\n  var email_valido = email && email.trim().length > 0;\n\n// Cria a expressão regular para validar o telefone\n  var regex = /^(\\+\\d{2}) (\\(\\d{2}\\)) (\\d{4,5})(\\-)(\\d{4})/;\n\n// Testa se o telefone é válido usando a expressão regular\n  var telefone_valido = regex.test(telefone);\n\n// Executa o bloco de código datalayer somente se os dois testes forem verdadeiros\n  if ( nome_valido && empresa_valido && email_valido && telefone_valido){\n      \n      dataLayer.push({\n        'event':'completewhatsapp'\n      })\n  }\n\n</script>"
-                    },
-                    {
-                        "type": "BOOLEAN",
-                        "key": "supportDocumentWrite",
-                        "value": "false"
-                    }
-                ],
-                "fingerprint": "1758575198293",
-                "firingTriggerId": [
-                    "30"
-                ],
-                "tagFiringOption": "ONCE_PER_EVENT",
-                "monitoringMetadata": {
-                    "type": "MAP"
-                },
-                "consentSettings": {
-                    "consentStatus": "NOT_SET"
-                }
-            },
-            {
-                "accountId": "6079312010",
-                "containerId": "106094223",
-                "tagId": "33",
-                "name": "GA4 - Event - 03. Clique no botão enviar do WhatsApp",
-                "type": "html",
-                "parameter": [
-                    {
-                        "type": "TEMPLATE",
-                        "key": "html",
-                        "value": "<script>\n  var pagina = {{Page Path}}\n   \n  if( pagina === \"/\" ){\n    pagina = \"home\"  \n  }\n   \n  dataLayer.push({\n      event: \"sendEvent\",\n      category: \"contato\",\n      eventGA4: \"complete_whatsapp\",\n      content_type: \"whatsapp\"\n    })\n    \n</script>"
-                    },
-                    {
-                        "type": "BOOLEAN",
-                        "key": "supportDocumentWrite",
-                        "value": "false"
-                    }
-                ],
-                "fingerprint": "1685739108760",
-                "firingTriggerId": [
-                    "32"
-                ],
-                "tagFiringOption": "ONCE_PER_LOAD",
-                "monitoringMetadata": {
-                    "type": "MAP"
-                },
-                "consentSettings": {
-                    "consentStatus": "NOT_SET"
-                }
-            },
-            {
-                "accountId": "6079312010",
-                "containerId": "106094223",
-                "tagId": "34",
-                "name": "Google Ads - 03. Contato - WhatsApp",
-                "type": "awct",
-                "parameter": [
-                    {
-                        "type": "BOOLEAN",
-                        "key": "enableNewCustomerReporting",
-                        "value": "false"
-                    },
-                    {
-                        "type": "BOOLEAN",
-                        "key": "enableConversionLinker",
-                        "value": "true"
-                    },
-                    {
-                        "type": "BOOLEAN",
-                        "key": "enableProductReporting",
-                        "value": "false"
-                    },
-                    {
-                        "type": "BOOLEAN",
-                        "key": "enableEnhancedConversion",
-                        "value": "false"
-                    },
-                    {
-                        "type": "TEMPLATE",
-                        "key": "conversionCookiePrefix",
-                        "value": "_gcl"
-                    },
-                    {
-                        "type": "BOOLEAN",
-                        "key": "enableShippingData",
-                        "value": "false"
-                    },
-                    {
-                        "type": "TEMPLATE",
-                        "key": "conversionId",
-                        "value": "11108590871"
-                    },
-                    {
-                        "type": "TEMPLATE",
-                        "key": "conversionLabel",
-                        "value": "UBRwCM32spUYEJfK_rAp"
-                    },
-                    {
-                        "type": "BOOLEAN",
-                        "key": "rdp",
-                        "value": "false"
-                    }
-                ],
-                "fingerprint": "1737423791916",
-                "firingTriggerId": [
-                    "32"
-                ],
-                "tagFiringOption": "ONCE_PER_EVENT",
-                "monitoringMetadata": {
-                    "type": "MAP"
-                },
-                "consentSettings": {
-                    "consentStatus": "NOT_SET"
-                }
-            },
-            {
-                "accountId": "6079312010",
-                "containerId": "106094223",
-                "tagId": "35",
-                "name": "Pixel Facebook - 03. Contato (WhatsApp)",
-                "type": "cvt_106094223_102",
-                "parameter": [
-                    {
-                        "type": "BOOLEAN",
-                        "key": "disablePushState",
-                        "value": "false"
-                    },
-                    {
-                        "type": "TEMPLATE",
-                        "key": "pixelId",
-                        "value": "{{FBID}}"
-                    },
-                    {
-                        "type": "TEMPLATE",
-                        "key": "standardEventName",
-                        "value": "Contact"
-                    },
-                    {
-                        "type": "BOOLEAN",
-                        "key": "disableAutoConfig",
-                        "value": "false"
-                    },
-                    {
-                        "type": "BOOLEAN",
-                        "key": "enhancedEcommerce",
-                        "value": "false"
-                    },
-                    {
-                        "type": "BOOLEAN",
-                        "key": "dpoLDU",
-                        "value": "false"
-                    },
-                    {
-                        "type": "TEMPLATE",
-                        "key": "eventName",
-                        "value": "standard"
-                    },
-                    {
-                        "type": "BOOLEAN",
-                        "key": "objectPropertiesFromVariable",
-                        "value": "false"
-                    },
-                    {
-                        "type": "BOOLEAN",
-                        "key": "consent",
-                        "value": "true"
-                    },
-                    {
-                        "type": "BOOLEAN",
-                        "key": "advancedMatching",
-                        "value": "false"
-                    }
-                ],
-                "fingerprint": "1739236374398",
-                "firingTriggerId": [
-                    "32"
-                ],
-                "tagFiringOption": "ONCE_PER_LOAD",
-                "monitoringMetadata": {
-                    "type": "MAP"
-                },
-                "consentSettings": {
-                    "consentStatus": "NOT_SET"
-                }
-            },
-            {
-                "accountId": "6079312010",
-                "containerId": "106094223",
-                "tagId": "36",
-                "name": "DL - Initiate WhatsApp",
-                "type": "html",
-                "parameter": [
-                    {
-                        "type": "TEMPLATE",
-                        "key": "html",
-                        "value": "<script>\n\n  dataLayer.push({\n        'event':'initiatewhatsapp'\n      })\n\n</script>"
-                    },
-                    {
-                        "type": "BOOLEAN",
-                        "key": "supportDocumentWrite",
-                        "value": "false"
-                    }
-                ],
-                "fingerprint": "1680287151075",
-                "firingTriggerId": [
-                    "39"
-                ],
-                "tagFiringOption": "ONCE_PER_EVENT",
-                "monitoringMetadata": {
-                    "type": "MAP"
-                },
-                "consentSettings": {
-                    "consentStatus": "NOT_SET"
-                }
-            },
-            {
-                "accountId": "6079312010",
-                "containerId": "106094223",
-                "tagId": "37",
-                "name": "GA4 - Event - 02. Clique no botão flutuante do WhatsApp",
-                "type": "html",
-                "parameter": [
-                    {
-                        "type": "TEMPLATE",
-                        "key": "html",
-                        "value": "<script>\n  var pagina = {{Page Path}}\n   \n  if( pagina === \"/\" ){\n    pagina = \"home\"  \n  }\n   \n  dataLayer.push({\n      event: \"sendEvent\",\n      category: \"contato\",\n      eventGA4: \"initiate_whatsapp\",\n      content_type: \"whatsapp\"\n    })\n    \n</script>"
-                    },
-                    {
-                        "type": "BOOLEAN",
-                        "key": "supportDocumentWrite",
-                        "value": "false"
-                    }
-                ],
-                "fingerprint": "1685739097982",
-                "firingTriggerId": [
-                    "41"
-                ],
-                "tagFiringOption": "ONCE_PER_LOAD",
-                "monitoringMetadata": {
-                    "type": "MAP"
-                },
-                "consentSettings": {
-                    "consentStatus": "NOT_SET"
-                }
-            },
-            {
-                "accountId": "6079312010",
-                "containerId": "106094223",
                 "tagId": "45",
                 "name": "DL - Formulario - Join our Team (Trabalhe Conosco)",
                 "type": "html",
@@ -974,11 +739,12 @@
                         "value": "false"
                     }
                 ],
-                "fingerprint": "1722385793351",
+                "fingerprint": "1758579641713",
                 "firingTriggerId": [
                     "52"
                 ],
                 "tagFiringOption": "ONCE_PER_LOAD",
+                "paused": true,
                 "monitoringMetadata": {
                     "type": "MAP"
                 },
@@ -1216,37 +982,6 @@
             {
                 "accountId": "6079312010",
                 "containerId": "106094223",
-                "tagId": "105",
-                "name": "[OLD] Pixel Facebook - 03. Contato (WhatsApp)",
-                "type": "html",
-                "parameter": [
-                    {
-                        "type": "TEMPLATE",
-                        "key": "html",
-                        "value": "<!-- Facebook Pixel Code -->\n<script>\nfbq('track', 'Contact');\n</script>\n<!-- End Facebook Pixel Code -->"
-                    },
-                    {
-                        "type": "BOOLEAN",
-                        "key": "supportDocumentWrite",
-                        "value": "false"
-                    }
-                ],
-                "fingerprint": "1739236484863",
-                "firingTriggerId": [
-                    "32"
-                ],
-                "tagFiringOption": "ONCE_PER_LOAD",
-                "paused": true,
-                "monitoringMetadata": {
-                    "type": "MAP"
-                },
-                "consentSettings": {
-                    "consentStatus": "NOT_SET"
-                }
-            },
-            {
-                "accountId": "6079312010",
-                "containerId": "106094223",
                 "tagId": "106",
                 "name": "[OLD] Pixel Facebook - 04. Trabalhe Conosco",
                 "type": "html",
@@ -1283,7 +1018,288 @@
             {
                 "accountId": "6079312010",
                 "containerId": "106094223",
-                "tagId": "107",
+                "tagId": "111",
+                "name": "Google Ads - 03. Contato - WhatsApp",
+                "type": "awct",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "enableNewCustomerReporting",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "enableConversionLinker",
+                        "value": "true"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "enableProductReporting",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "conversionCookiePrefix",
+                        "value": "_gcl"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "enableShippingData",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "conversionId",
+                        "value": "11108590871"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "conversionLabel",
+                        "value": "UBRwCM32spUYEJfK_rAp"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "rdp",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1766759861075",
+                "firingTriggerId": [
+                    "110"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "monitoringMetadata": {
+                    "type": "MAP"
+                },
+                "consentSettings": {
+                    "consentStatus": "NOT_SET"
+                }
+            },
+            {
+                "accountId": "6079312010",
+                "containerId": "106094223",
+                "tagId": "113",
+                "name": "DL - Initiate WhatsApp",
+                "type": "html",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "html",
+                        "value": "<script>\n\n  dataLayer.push({\n        'event':'initiate_whatsapp'\n      })\n\n</script>"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "supportDocumentWrite",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1765469263631",
+                "firingTriggerId": [
+                    "39"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "monitoringMetadata": {
+                    "type": "MAP"
+                },
+                "consentSettings": {
+                    "consentStatus": "NOT_SET"
+                }
+            },
+            {
+                "accountId": "6079312010",
+                "containerId": "106094223",
+                "tagId": "114",
+                "name": "GA4 - Event - 03. Clique no botão enviar do WhatsApp",
+                "type": "html",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "html",
+                        "value": "<script>\n\n  dataLayer.push({\n      event: \"sendEvent\",\n      category: \"contato\",\n      eventGA4: \"complete_whatsapp\",\n      content_type: \"whatsapp\"\n    })\n    \n</script>"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "supportDocumentWrite",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1765469263631",
+                "firingTriggerId": [
+                    "110"
+                ],
+                "tagFiringOption": "ONCE_PER_LOAD",
+                "monitoringMetadata": {
+                    "type": "MAP"
+                },
+                "consentSettings": {
+                    "consentStatus": "NOT_SET"
+                }
+            },
+            {
+                "accountId": "6079312010",
+                "containerId": "106094223",
+                "tagId": "115",
+                "name": "GA4 - Event - 02. Clique no botão flutuante do WhatsApp",
+                "type": "html",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "html",
+                        "value": "<script>\n  var pagina = {{Page Path}}\n   \n  if( pagina === \"/\" ){\n    pagina = \"home\"  \n  }\n   \n  dataLayer.push({\n      event: \"sendEvent\",\n      category: \"contato\",\n      eventGA4: \"initiate_whatsapp\",\n      content_type: \"whatsapp\"\n    })\n    \n</script>"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "supportDocumentWrite",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1765469263631",
+                "firingTriggerId": [
+                    "112"
+                ],
+                "tagFiringOption": "ONCE_PER_LOAD",
+                "monitoringMetadata": {
+                    "type": "MAP"
+                },
+                "consentSettings": {
+                    "consentStatus": "NOT_SET"
+                }
+            },
+            {
+                "accountId": "6079312010",
+                "containerId": "106094223",
+                "tagId": "116",
+                "name": "Pixel Facebook - 03. Contato (WhatsApp)",
+                "type": "cvt_106094223_102",
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "disablePushState",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "pixelId",
+                        "value": "{{FBID}}"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "standardEventName",
+                        "value": "Contact"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "disableAutoConfig",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "enhancedEcommerce",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "dpoLDU",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "eventName",
+                        "value": "standard"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "objectPropertiesFromVariable",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "consent",
+                        "value": "true"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "advancedMatching",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1765469263631",
+                "firingTriggerId": [
+                    "110"
+                ],
+                "tagFiringOption": "ONCE_PER_LOAD",
+                "monitoringMetadata": {
+                    "type": "MAP"
+                },
+                "consentSettings": {
+                    "consentStatus": "NOT_SET"
+                }
+            },
+            {
+                "accountId": "6079312010",
+                "containerId": "106094223",
+                "tagId": "117",
+                "name": "[OLD] Pixel Facebook - 03. Contato (WhatsApp)",
+                "type": "html",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "html",
+                        "value": "<!-- Facebook Pixel Code -->\n<script>\nfbq('track', 'Contact');\n</script>\n<!-- End Facebook Pixel Code -->"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "supportDocumentWrite",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1765469263631",
+                "firingTriggerId": [
+                    "110"
+                ],
+                "tagFiringOption": "ONCE_PER_LOAD",
+                "paused": true,
+                "monitoringMetadata": {
+                    "type": "MAP"
+                },
+                "consentSettings": {
+                    "consentStatus": "NOT_SET"
+                }
+            },
+            {
+                "accountId": "6079312010",
+                "containerId": "106094223",
+                "tagId": "118",
+                "name": "DL - Complete WhatsApp",
+                "type": "html",
+                "parameter": [
+                    {
+                        "type": "TEMPLATE",
+                        "key": "html",
+                        "value": "<script>\n\nvar nome = document.querySelector(\"#rd-text_field-m41k8k3m\").value;\nvar empresa = document.querySelector(\"#rd-text_field-m41k8k3n\").value;\nvar email = document.querySelector(\"#rd-email_field-m41k8k3o\").value;\nvar telefone = document.querySelector('.js-phone').value\n\n// Testa se o nome não é vazio ou nulo\n  var nome_valido = nome && nome.trim().length > 0;\n\n// Testa se a empresa não é vazio ou nulo\n  var empresa_valido = empresa && empresa.trim().length > 0;\n\n// Testa se o email não é vazio ou nulo\n  var email_valido = email && email.trim().length > 0;\n\n// Cria a expressão regular para validar o telefone\n  var regex = /^(\\+\\d{2}) (\\(\\d{2}\\)) (\\d{4,5})(\\-)(\\d{4})/;\n\n// Testa se o telefone é válido usando a expressão regular\n  var telefone_valido = regex.test(telefone);\n\n// Executa o bloco de código datalayer somente se os dois testes forem verdadeiros\n  if ( nome_valido && empresa_valido && email_valido && telefone_valido){\n      \n      dataLayer.push({\n        'event':'complete_whatsapp'\n      })\n      dataLayer.push({\n        'event':'completewhatsapp'\n      })\n  }\n\n</script>"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "supportDocumentWrite",
+                        "value": "false"
+                    }
+                ],
+                "fingerprint": "1765469263632",
+                "firingTriggerId": [
+                    "30"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "monitoringMetadata": {
+                    "type": "MAP"
+                },
+                "consentSettings": {
+                    "consentStatus": "NOT_SET"
+                }
+            },
+            {
+                "accountId": "6079312010",
+                "containerId": "106094223",
+                "tagId": "119",
                 "name": "Tag do Google AW-11108590871",
                 "type": "googtag",
                 "parameter": [
@@ -1293,10 +1309,14 @@
                         "value": "AW-11108590871"
                     }
                 ],
-                "fingerprint": "1745531481395",
+                "fingerprint": "1766759684557",
                 "firingTriggerId": [
                     "2147479573"
                 ],
+                "tagFiringOption": "ONCE_PER_EVENT",
+                "monitoringMetadata": {
+                    "type": "MAP"
+                },
                 "consentSettings": {
                     "consentStatus": "NOT_SET"
                 }
@@ -1531,31 +1551,6 @@
             {
                 "accountId": "6079312010",
                 "containerId": "106094223",
-                "triggerId": "32",
-                "name": "Complete WhatsApp",
-                "type": "CUSTOM_EVENT",
-                "customEventFilter": [
-                    {
-                        "type": "MATCH_REGEX",
-                        "parameter": [
-                            {
-                                "type": "TEMPLATE",
-                                "key": "arg0",
-                                "value": "{{_event}}"
-                            },
-                            {
-                                "type": "TEMPLATE",
-                                "key": "arg1",
-                                "value": "completewhatsapp"
-                            }
-                        ]
-                    }
-                ],
-                "fingerprint": "1758575606428"
-            },
-            {
-                "accountId": "6079312010",
-                "containerId": "106094223",
                 "triggerId": "38",
                 "name": "popup - clicked - 4072315",
                 "type": "CUSTOM_EVENT",
@@ -1602,31 +1597,6 @@
                     }
                 ],
                 "fingerprint": "1680287165011"
-            },
-            {
-                "accountId": "6079312010",
-                "containerId": "106094223",
-                "triggerId": "41",
-                "name": "Initiate WhatsApp",
-                "type": "CUSTOM_EVENT",
-                "customEventFilter": [
-                    {
-                        "type": "EQUALS",
-                        "parameter": [
-                            {
-                                "type": "TEMPLATE",
-                                "key": "arg0",
-                                "value": "{{_event}}"
-                            },
-                            {
-                                "type": "TEMPLATE",
-                                "key": "arg1",
-                                "value": "initiatewhatsapp"
-                            }
-                        ]
-                    }
-                ],
-                "fingerprint": "1680286876721"
             },
             {
                 "accountId": "6079312010",
@@ -1945,6 +1915,56 @@
                 "name": "DOM Pronto",
                 "type": "DOM_READY",
                 "fingerprint": "1737590306488"
+            },
+            {
+                "accountId": "6079312010",
+                "containerId": "106094223",
+                "triggerId": "110",
+                "name": "Complete WhatsApp",
+                "type": "CUSTOM_EVENT",
+                "customEventFilter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{_event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "complete_whatsapp"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1765469263630"
+            },
+            {
+                "accountId": "6079312010",
+                "containerId": "106094223",
+                "triggerId": "112",
+                "name": "Initiate WhatsApp",
+                "type": "CUSTOM_EVENT",
+                "customEventFilter": [
+                    {
+                        "type": "EQUALS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{_event}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "initiate_whatsapp"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1765469263631"
             }
         ],
         "variable": [
@@ -2725,7 +2745,7 @@
                 "name": "Form ID"
             }
         ],
-        "fingerprint": "1758576264060",
+        "fingerprint": "1766761160058",
         "tagManagerUrl": "https://tagmanager.google.com/#/versions/accounts/6079312010/containers/106094223/versions/0?apiLink=version",
         "customTemplate": [
             {
