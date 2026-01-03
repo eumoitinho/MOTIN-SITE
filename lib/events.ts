@@ -37,10 +37,22 @@ export enum Ga4Event {
 /**
  * Aliases de eventos para compatibilidade com GTM legado
  * Mapeamento: evento principal -> aliases
+ * IMPORTANTE: O GTM dispara tags baseado no campo `event`, entao incluimos
+ * os nomes exatos que o GTM espera.
  */
 export const EVENT_ALIASES: Partial<Record<Ga4Event, string[]>> = {
-  [Ga4Event.WhatsappFloatingButtonOpen]: ['Initiate WhatsApp'],
+  // WhatsApp - clique no botao
+  [Ga4Event.WhatsappFloatingButtonOpen]: ['Initiate WhatsApp', 'initiate_whatsapp'],
+  [Ga4Event.InitiateWhatsapp]: ['Initiate WhatsApp', 'whatsapp_floating_button_open'],
+
+  // WhatsApp - envio do formulario
   [Ga4Event.WhatsappLeadSubmit]: ['Complete WhatsApp', 'complete_whatsapp'],
+  [Ga4Event.CompleteWhatsapp]: ['Complete WhatsApp', 'whatsapp_lead_submit'],
+
+  // Lead generation
+  [Ga4Event.GenerateLead]: ['generate_lead'],
+
+  // Carreiras
   [Ga4Event.CareerApplicationSubmit]: ['join_our_team'],
 }
 

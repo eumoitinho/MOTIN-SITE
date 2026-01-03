@@ -32,8 +32,9 @@ export function RDStationPopupTracker() {
             if (now - lastClickTs < 500) return
             lastClickTs = now
 
+            // Usa InitiateWhatsapp para compatibilidade com GTM
             pushEvent({
-              eventGA4: Ga4Event.WhatsappFloatingButtonOpen,
+              eventGA4: Ga4Event.InitiateWhatsapp,
               source: LeadSource.RdstationPopupButton,
             })
           })
@@ -57,8 +58,9 @@ export function RDStationPopupTracker() {
 
         f.setAttribute("data-motin-rd-form", "true")
         f.addEventListener("submit", () => {
+          // Usa CompleteWhatsapp para compatibilidade com GTM/GAds
           pushEvent({
-            eventGA4: Ga4Event.WhatsappLeadSubmit,
+            eventGA4: Ga4Event.CompleteWhatsapp,
             source: LeadSource.RdstationPopupForm,
             status: SubmissionStatus.Success,
           })

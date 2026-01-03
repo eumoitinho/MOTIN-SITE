@@ -50,7 +50,7 @@ export function RDStationIntegration() {
           }
 
           // Set value
-          input.value = value
+          input.value = String(value)
         })
       })
     }

@@ -166,7 +166,7 @@ export function pushEvent(payload: PushEventPayload): void {
   const { eventGA4: _, ...restPayload } = payload
 
   const dlPayload: TrackingPayload = {
-    event: Ga4Event.SendEvent,
+    event: eventName, // Evento principal = eventGA4 para GTM disparar tags corretamente
     eventGA4: eventName,
     ...restPayload,
     ...(label && { label }),
@@ -174,8 +174,14 @@ export function pushEvent(payload: PushEventPayload): void {
     timestamp: Date.now(),
   }
 
-  // Push para dataLayer
+  // Push para dataLayer com evento principal (ex: complete_whatsapp, initiate_whatsapp)
   window.dataLayer.push(dlPayload)
+
+  // Tambem dispara sendEvent para triggers que usam esse padrao no GTM
+  window.dataLayer.push({
+    ...dlPayload,
+    event: Ga4Event.SendEvent,
+  })
 
   // Push para gtag se disponivel e consentido
   if (window.gtag && hasUserConsent) {

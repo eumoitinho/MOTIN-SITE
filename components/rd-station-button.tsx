@@ -11,6 +11,8 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { pushRdLeadConversionOnce } from "@/lib/rd-lead-tracking"
+import { pushEvent } from "@/lib/tracking"
+import { Ga4Event, LeadSource, SubmissionStatus } from "@/lib/events"
 
 export function RDStationButton() {
   const [isVisible, setIsVisible] = useState(false)
@@ -105,10 +107,18 @@ export function RDStationButton() {
       })
       setIsFormOpen(false)
 
+      // Dispara complete_whatsapp para GA4 e GAds
+      pushEvent({
+        eventGA4: Ga4Event.CompleteWhatsapp,
+        source: LeadSource.FloatingWhatsappForm,
+        status: SubmissionStatus.Success,
+      })
+
+      // Dispara generate_lead para RD Station tracking
       pushRdLeadConversionOnce({
         email: rdData.email,
         name: rdData.name,
-        source: "floating_whatsapp_form",
+        source: LeadSource.FloatingWhatsappForm,
       })
     } catch (error) {
       console.error("Error submitting form:", error)
@@ -169,6 +179,11 @@ export function RDStationButton() {
             className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full bg-[#00B2B2] shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-[#009999]"
           onClick={() => {
             setIsFormOpen(true)
+            // Dispara initiate_whatsapp para GA4 e GTM
+            pushEvent({
+              eventGA4: Ga4Event.InitiateWhatsapp,
+              source: LeadSource.FloatingWhatsappForm,
+            })
           }}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
