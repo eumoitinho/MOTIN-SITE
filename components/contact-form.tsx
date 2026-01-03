@@ -9,7 +9,8 @@ import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Loader2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
-import { track } from "@/lib/tracking"
+import { pushEvent } from "@/lib/tracking"
+import { Ga4Event, SubmissionStatus, LeadSource } from "@/lib/events"
 
 interface ContactFormProps {
   dictionary?: any
@@ -66,11 +67,13 @@ export function ContactForm({ dictionary }: ContactFormProps) {
         throw new Error("Falha ao enviar formulário")
       }
 
-      track('lead_submit', {
+      pushEvent({
+        eventGA4: Ga4Event.LeadSubmit,
         form_id: 'contato_pagina',
-        status: 'success',
+        status: SubmissionStatus.Success,
         channel: 'site',
-        submission_type: 'rdstation_api'
+        submission_type: 'rdstation_api',
+        source: LeadSource.ContatoPagina,
       })
 
       // Reset form
@@ -88,10 +91,12 @@ export function ContactForm({ dictionary }: ContactFormProps) {
       })
     } catch (error) {
       console.error("Erro ao enviar formulário:", error)
-      track('lead_submit', {
+      pushEvent({
+        eventGA4: Ga4Event.LeadSubmit,
         form_id: 'contato_pagina',
-        status: 'error',
-        channel: 'site'
+        status: SubmissionStatus.Error,
+        channel: 'site',
+        source: LeadSource.ContatoPagina,
       })
       toast({
         title: "Erro ao enviar mensagem",
