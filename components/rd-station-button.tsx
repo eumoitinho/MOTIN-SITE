@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState, useEffect } from "react"
+import { useRef, useState, useEffect } from "react"
 import { MessageCircle, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
@@ -24,6 +24,7 @@ export function RDStationButton() {
     phone: "",
     message: "",
   })
+  const submitTrackingRef = useRef(false)
   const { toast } = useToast()
 
   // Hide RD Station's default button
@@ -64,6 +65,18 @@ export function RDStationButton() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    if (!submitTrackingRef.current) {
+      submitTrackingRef.current = true
+      pushEvent({
+        eventGA4: Ga4Event.InitiateWhatsapp,
+        source: LeadSource.FloatingWhatsappForm,
+      })
+      pushEvent({
+        eventGA4: Ga4Event.CompleteWhatsapp,
+        source: LeadSource.FloatingWhatsappForm,
+        status: SubmissionStatus.Success,
+      })
+    }
 
     try {
       // Get UTM parameters from URL or localStorage
@@ -107,13 +120,6 @@ export function RDStationButton() {
       })
       setIsFormOpen(false)
 
-      // Dispara complete_whatsapp para GA4 e GAds
-      pushEvent({
-        eventGA4: Ga4Event.CompleteWhatsapp,
-        source: LeadSource.FloatingWhatsappForm,
-        status: SubmissionStatus.Success,
-      })
-
       // Dispara generate_lead para RD Station tracking
       pushRdLeadConversionOnce({
         email: rdData.email,
@@ -129,6 +135,7 @@ export function RDStationButton() {
       })
     } finally {
       setIsSubmitting(false)
+      submitTrackingRef.current = false
     }
   }
 
@@ -177,14 +184,10 @@ export function RDStationButton() {
         {isVisible && !isFormOpen && (
           <motion.button
             className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full bg-[#00B2B2] shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-[#009999]"
-          onClick={() => {
-            setIsFormOpen(true)
-            // Dispara initiate_whatsapp para GA4 e GTM
-            pushEvent({
-              eventGA4: Ga4Event.InitiateWhatsapp,
-              source: LeadSource.FloatingWhatsappForm,
-            })
-          }}
+            onClick={() => {
+              setIsFormOpen(true)
+              submitTrackingRef.current = false
+            }}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
             initial={{ opacity: 0, scale: 0.8 }}

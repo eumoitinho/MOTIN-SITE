@@ -10,7 +10,13 @@ import { Label } from "@/components/ui/label"
 import { Loader2 } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { pushEvent } from "@/lib/tracking"
-import { Ga4Event, SubmissionStatus, LeadSource } from "@/lib/events"
+import {
+  ContentType,
+  EventCategory,
+  Ga4Event,
+  LeadSource,
+  SubmissionStatus,
+} from "@/lib/events"
 
 interface ContactFormProps {
   dictionary?: any
@@ -68,11 +74,14 @@ export function ContactForm({ dictionary }: ContactFormProps) {
       }
 
       pushEvent({
-        eventGA4: Ga4Event.LeadSubmit,
-        form_id: 'contato_pagina',
+        eventGA4: Ga4Event.GenerateLead,
+        category: EventCategory.Contato,
+        content_type: ContentType.Formulario,
+        label: LeadSource.ContatoPagina,
+        form_id: "contato_pagina",
         status: SubmissionStatus.Success,
-        channel: 'site',
-        submission_type: 'rdstation_api',
+        channel: "site",
+        submission_type: "rdstation_api",
         source: LeadSource.ContatoPagina,
       })
 
@@ -93,9 +102,12 @@ export function ContactForm({ dictionary }: ContactFormProps) {
       console.error("Erro ao enviar formulário:", error)
       pushEvent({
         eventGA4: Ga4Event.LeadSubmit,
-        form_id: 'contato_pagina',
+        category: EventCategory.Contato,
+        content_type: ContentType.Formulario,
+        label: LeadSource.ContatoPagina,
+        form_id: "contato_pagina",
         status: SubmissionStatus.Error,
-        channel: 'site',
+        channel: "site",
         source: LeadSource.ContatoPagina,
       })
       toast({
