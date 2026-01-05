@@ -43,11 +43,11 @@ export enum Ga4Event {
 export const EVENT_ALIASES: Partial<Record<Ga4Event, string[]>> = {
   // WhatsApp - clique no botao
   [Ga4Event.WhatsappFloatingButtonOpen]: ['Initiate WhatsApp', 'initiate_whatsapp'],
-  [Ga4Event.InitiateWhatsapp]: ['Initiate WhatsApp', 'whatsapp_floating_button_open'],
+  [Ga4Event.InitiateWhatsapp]: ['Initiate WhatsApp', 'whatsapp_floating_button_open', 'whatsapp_click'],
 
   // WhatsApp - envio do formulario
   [Ga4Event.WhatsappLeadSubmit]: ['Complete WhatsApp', 'complete_whatsapp'],
-  [Ga4Event.CompleteWhatsapp]: ['Complete WhatsApp', 'whatsapp_lead_submit'],
+  [Ga4Event.CompleteWhatsapp]: ['Complete WhatsApp', 'whatsapp_lead_submit', 'completewhatsapp'],
 
   // Lead generation
   [Ga4Event.GenerateLead]: ['generate_lead'],

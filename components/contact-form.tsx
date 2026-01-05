@@ -132,7 +132,12 @@ export function ContactForm({ dictionary }: ContactFormProps) {
 
   return (
     <div className="bg-[#001a1a] p-6 rounded-lg">
-      <form onSubmit={handleSubmit} className="space-y-4" data-form-id="contato-pagina">
+      <form
+        id="contato-form"
+        onSubmit={handleSubmit}
+        className="space-y-4"
+        data-form-id="contato-pagina"
+      >
         <div>
           <Label htmlFor="name" className="block text-sm mb-1">
             {labels.name}
@@ -202,6 +207,9 @@ export function ContactForm({ dictionary }: ContactFormProps) {
             className="w-full p-2 bg-black/50 border border-gray-700 rounded-md focus:border-[#00B2B2] focus:outline-none transition-colors"
           />
         </div>
+
+        <input type="hidden" name="empresa" value={formData.company} />
+        <input type="hidden" name="assunto" value="contato_pagina" />
 
         {/* Add hidden UTM fields */}
         {Object.entries(utmParams).map(([key, value]) => (

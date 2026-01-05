@@ -12,7 +12,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { pushRdLeadConversionOnce } from "@/lib/rd-lead-tracking"
 import { pushEvent } from "@/lib/tracking"
-import { Ga4Event, LeadSource, SubmissionStatus } from "@/lib/events"
+import { Ga4Event, LeadSource } from "@/lib/events"
 
 export function RDStationButton() {
   const [isVisible, setIsVisible] = useState(false)
@@ -24,7 +24,8 @@ export function RDStationButton() {
     phone: "",
     message: "",
   })
-  const submitTrackingRef = useRef(false)
+  const defaultCompany = "nao_informado"
+  const initiateTrackingRef = useRef(false)
   const { toast } = useToast()
 
   // Hide RD Station's default button
@@ -56,38 +57,57 @@ export function RDStationButton() {
   }, [])
 
   // Handle form input changes
+  const formatWhatsappPhone = (value: string) => {
+    const digits = value.replace(/\D/g, "")
+    if (!digits) return ""
+    const rest = digits.startsWith("55") ? digits.slice(2) : digits
+    const area = rest.slice(0, 2)
+    const number = rest.slice(2)
+
+    if (!area) return "+55"
+
+    if (!number) return `+55 (${area})`
+
+    if (number.length <= 4) return `+55 (${area}) ${number}`
+
+    const prefix = number.slice(0, number.length - 4)
+    const suffix = number.slice(-4)
+    return `+55 (${area}) ${prefix}-${suffix}`
+  }
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
+    const nextValue = name === "phone" ? formatWhatsappPhone(value) : value
+    setFormData((prev) => ({ ...prev, [name]: nextValue }))
+  }
+
+  const fireInitiateWhatsapp = () => {
+    if (initiateTrackingRef.current) return
+    initiateTrackingRef.current = true
+    pushEvent({
+      eventGA4: Ga4Event.InitiateWhatsapp,
+      source: LeadSource.FloatingWhatsappForm,
+    })
   }
 
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    if (!submitTrackingRef.current) {
-      submitTrackingRef.current = true
-      pushEvent({
-        eventGA4: Ga4Event.InitiateWhatsapp,
-        source: LeadSource.FloatingWhatsappForm,
-      })
-      pushEvent({
-        eventGA4: Ga4Event.CompleteWhatsapp,
-        source: LeadSource.FloatingWhatsappForm,
-        status: SubmissionStatus.Success,
-      })
-    }
+    fireInitiateWhatsapp()
 
     try {
       // Get UTM parameters from URL or localStorage
       const utmParams = getUtmParams()
 
       // Prepare data for RD Station
+      const phoneDigits = formData.phone.replace(/\D/g, "")
       const rdData = {
         name: formData.name,
         email: formData.email,
-        personal_phone: formData.phone,
-        cf_message: formData.message,
+        phone: phoneDigits,
+        message: formData.message,
+        company: defaultCompany,
         identificador: "contato-whatsapp",
         ...utmParams,
       }
@@ -135,7 +155,7 @@ export function RDStationButton() {
       })
     } finally {
       setIsSubmitting(false)
-      submitTrackingRef.current = false
+      initiateTrackingRef.current = false
     }
   }
 
@@ -186,7 +206,7 @@ export function RDStationButton() {
             className="fixed bottom-6 right-6 z-50 flex items-center justify-center w-14 h-14 rounded-full bg-[#00B2B2] shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-[#009999]"
             onClick={() => {
               setIsFormOpen(true)
-              submitTrackingRef.current = false
+              initiateTrackingRef.current = false
             }}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
@@ -226,11 +246,20 @@ export function RDStationButton() {
                 </Button>
               </div>
 
-              <form onSubmit={handleSubmit} className="p-4 space-y-4">
+              <form
+                onSubmit={handleSubmit}
+                className="p-4 space-y-4 rdstation-popup-js-form-identifier"
+              >
+                <input
+                  type="hidden"
+                  id="rd-text_field-m41k8k3n"
+                  name="company"
+                  value={defaultCompany}
+                />
                 <div className="space-y-2">
-                  <Label htmlFor="name">Nome</Label>
+                  <Label htmlFor="rd-text_field-m41k8k3m">Nome</Label>
                   <Input
-                    id="name"
+                    id="rd-text_field-m41k8k3m"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
@@ -240,9 +269,9 @@ export function RDStationButton() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="rd-email_field-m41k8k3o">Email</Label>
                   <Input
-                    id="email"
+                    id="rd-email_field-m41k8k3o"
                     name="email"
                     type="email"
                     value={formData.email}
@@ -261,7 +290,8 @@ export function RDStationButton() {
                     value={formData.phone}
                     onChange={handleChange}
                     required
-                    placeholder="(00) 00000-0000"
+                    placeholder="+55 (00) 00000-0000"
+                    className="js-phone"
                   />
                 </div>
 
