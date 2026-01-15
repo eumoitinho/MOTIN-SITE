@@ -67,47 +67,6 @@
           }
         ],
         "fingerprint": "0"
-      },
-      {
-        "accountId": "9999999999",
-        "containerId": "9999999",
-        "triggerId": "11",
-        "name": "EV - Complete WhatsApp (Legacy No Underscore)",
-        "type": "CUSTOM_EVENT",
-        "customEventFilter": [
-          {
-            "type": "EQUALS",
-            "parameter": [
-              {"type": "TEMPLATE", "key": "arg0", "value": "{{Event}}"},
-              {"type": "TEMPLATE", "key": "arg1", "value": "completewhatsapp"}
-            ]
-          }
-        ],
-        "fingerprint": "0"
-      },
-      {
-        "accountId": "9999999999",
-        "containerId": "9999999",
-        "triggerId": "12",
-        "name": "EV - sendEvent (GA4 Wrapper)",
-        "type": "CUSTOM_EVENT",
-        "customEventFilter": [
-          {
-            "type": "EQUALS",
-            "parameter": [
-              {"type": "TEMPLATE", "key": "arg0", "value": "{{Event}}"},
-              {"type": "TEMPLATE", "key": "arg1", "value": "sendEvent"}
-            ]
-          },
-          {
-            "type": "EQUALS",
-            "parameter": [
-              {"type": "TEMPLATE", "key": "arg0", "value": "{{DL - eventGA4}}"},
-              {"type": "TEMPLATE", "key": "arg1", "value": "complete_whatsapp"}
-            ]
-          }
-        ],
-        "fingerprint": "0"
       }
     ],
     "tag": [
@@ -148,18 +107,6 @@
           {"type": "BOOLEAN", "key": "supportDocumentWrite", "value": "false"}
         ],
         "triggerId": ["10"],
-        "fingerprint": "0"
-      },
-      {
-        "accountId": "9999999999",
-        "containerId": "9999999",
-        "tagId": "103",
-        "name": "GA4 - Event - Complete WhatsApp (Legacy Aggregator)",
-        "type": "gaawe",
-        "parameter": [
-          {"type": "TEMPLATE", "key": "eventName", "value": "complete_whatsapp"}
-        ],
-        "triggerId": ["11", "12"],
         "fingerprint": "0"
       }
     ],

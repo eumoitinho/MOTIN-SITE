@@ -49,6 +49,8 @@ Estrutura `sendEvent` (legado):
 }
 ```
 
+**Importante:** tags de conversão (Ads/Meta) devem ouvir apenas o evento canônico `complete_whatsapp`. Isso evita duplicidade quando aliases legados (`Complete WhatsApp`, `completewhatsapp`, `sendEvent`) também são emitidos durante a migração.
+
 ---
 ## 5. Listener de Conversão RD (`components/rd-popup-conversion-listener.tsx`)
 Detecção híbrida:
